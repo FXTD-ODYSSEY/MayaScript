@@ -12,13 +12,17 @@ import pymel.core as pm
 
 
 def ungroupParent(objType="joint"):
-        
+    
+    curr_sel = pm.ls(sl=1)
+
     for sel in pm.ls(sl=1,dag=1,ni=1,type=objType):
         if type(sel)  == pm.nodetypes.Joint:
             grp = sel.getParent()
         else:
             grp = sel.getParent().getParent()
         pm.ungroup(grp)
-        
+    
+    pm.select(curr_sel)
+
 if __name__ == "__main__":
     ungroupParent("nurbsCurve")
