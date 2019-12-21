@@ -90,6 +90,41 @@ def inflateMesh(mesh,scale=1):
 
     Mesh.setPoints(newMeshPoints, om.MSpace.kWorld)
 
+def inflateCurveOnMesh(crv,mesh,scale=1):
+
+    newCrv = pm.duplicate(crv)[0]
+
+    sel_list = om.MSelectionList()
+    sel_list.add(str(crv))
+    sel_list.add(str(mesh))
+    sel_list.add(str(newCrv))
+
+    DagPath,_ = sel_list.getComponent(0)
+
+    Curve = om.MFnNurbsCurve(DagPath)
+    CurveCVs = Curve.cvPositions(om.MSpace.kWorld)
+    newCurveCVs = om.MPointArray()
+
+    DagPath,_ = sel_list.getComponent(1)
+    Mesh = om.MFnMesh(DagPath)
+    DagPath,_ = sel_list.getComponent(2)
+    newCurve = om.MFnNurbsCurve(DagPath)
+
+    for i in range(len(CurveCVs)):
+        cv = CurveCVs[i]
+
+        normal,_ = Mesh.getClosestNormal(cv)
+        
+        x = cv.x + normal.x * scale
+        y = cv.y + normal.y * scale
+        z = cv.z + normal.z * scale
+        newCurveCV = om.MPoint(x,y,z)
+    
+        newCurveCVs.append(newCurveCV)
+
+    newCurve.setCVPositions(newCurveCVs)
+    return newCrv
+    
 def getActivePanel():
     cur_mp = None
     for mp in pm.getPanel(type="modelPanel"):
@@ -137,32 +172,22 @@ def main():
         # NOTE 生成描边曲线
         base_crv_list = generateProfileCurve(profile_node)
 
-        # NOTE 扩大模型
-        inflateMesh(sel,scale=size)
-        
-        inflate_crv_list = generateProfileCurve(profile_node)
-
-        # NOTE 还原模型
-        inflateMesh(sel,scale=-size)
-
-        # NOTE 曲线放样成描边模型
         mesh_list = []
-        base_grp = pm.group(base_crv_list,n="base_grp")
-        inflate_grp = pm.group(inflate_crv_list,n="inflate_grp")
-        for base,inflate in zip(base_crv_list,inflate_crv_list):
-            # NOTE 相隔太远会导致曲线为空，此时跳过
-            if len(base.cv) != len(inflate.cv) and len(base.cv) == 0 and len(inflate.cv) == 0:
-                continue
-
+        inflate_crv_list = []
+        # NOTE 曲线放样成描边模型
+        for base in base_crv_list:
             pm.rebuildCurve(base,ch=0,rpo=1,rt=0,end=1,kr=1,kcp=0,kep=1,kt=0,s=0,d=3,tol=0.01)
-            pm.rebuildCurve(inflate,ch=0,rpo=1,rt=0,end=1,kr=1,kcp=0,kep=1,kt=0,s=0,d=3,tol=0.01)
-            
+            inflate = inflateCurveOnMesh(base,sel)
+            inflate_crv_list.append(inflate)
 
             mesh = pm.loft(base,inflate,ch=0,u=1,c=0,ar=1,d=3,ss=1,rn=0,po=1,rsn=1)
             mesh_list.append(mesh)
+        
 
-        # if len(mesh_list) > 2:
-        #     pm.polyUnite(mesh_list,n="%s_profile"%sel,ch=0)
+        base_grp = pm.group(base_crv_list,n="base_grp")
+        inflate_grp = pm.group(inflate_crv_list,n="inflate_grp")
+        if len(mesh_list) > 2:
+            pm.polyUnite(mesh_list,n="%s_profile"%sel,ch=0)
         # pm.delete(base_grp,inflate_grp)
 
         pm.delete(profile_node.getParent())
