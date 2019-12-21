@@ -4,6 +4,10 @@ __author__ =  'timmyliang'
 __email__ =  '820472580@qq.com'
 __date__ = '2019-11-24 13:41:31'
 
+""" 
+根据当前的操纵杆 显示隐藏属性
+"""
+
 import pymel.core as pm
 
 def tglAttr():

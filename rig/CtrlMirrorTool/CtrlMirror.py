@@ -12,6 +12,7 @@ import os
 import re
 import json
 import time
+import math
 import itertools
 from functools import partial
 
@@ -52,23 +53,23 @@ class CtrlMirror(QtWidgets.QWidget):
         self.C_matches = {}
         self.N_matches = {}
         self.thersold = 0.05
-        self.axis = "z"
+        self.axis = 2
 
-        self.Test_BTN.clicked.connect(self.TEST)
         CollapsibleWidget.install(self.Get_Match_Toggle,self.Get_Match_Layout)
-        _,anim = CollapsibleWidget.install(self.Match_Toggle,self.Match_Layout)
-        anim.finished.connect(self.TEST)
-
+        CollapsibleWidget.install(self.Match_Toggle,self.Match_Layout)
+        CollapsibleWidget.install(self.Crv_Mirror_Toggle,self.Crv_Mirror_Layout)
         CollapsibleWidget.install(self.Anim_Mirror_Toggle,self.Anim_Mirror_Layout)
         SpliterWidget.install(self.Match_Widget,self.Unmatch_Widget)
 
         self.Anim_Mirror_Layout.setEnabled(False)
+        self.Crv_Mirror_Layout.setEnabled(False)
         
-        self.XY_RB.clicked.connect(partial(self.setAxis,"z"))
-        self.XZ_RB.clicked.connect(partial(self.setAxis,"y"))
-        self.YZ_RB.clicked.connect(partial(self.setAxis,"x"))
+        self.YZ_RB.clicked.connect(partial(self.setAxis,0))
+        self.XZ_RB.clicked.connect(partial(self.setAxis,1))
+        self.XY_RB.clicked.connect(partial(self.setAxis,2))
 
         self.Get_Matched_BTN.clicked.connect(self.getMatches)
+        self.Mirror_BTN.clicked.connect(self.mirrorCtrlAttr)
 
         
         self.L_Match_List.itemDoubleClicked.connect(self.selectItem)
@@ -81,17 +82,11 @@ class CtrlMirror(QtWidgets.QWidget):
         self.vs1.valueChanged.connect(self.syncScroll)
         self.vs2.valueChanged.connect(self.syncScroll)
 
-        self.Mirror_Shape_BTN.clicked.connect(self.mirrorCrvShape)
+        self.Mirror_Shape_BTN.clicked.connect(self.mirrorSelectedCrvShape)
+        self.Mirror_L2R_BTN.clicked.connect(self.mirrorLeftCrvShape)
+        self.Mirror_R2L_BTN.clicked.connect(self.mirrorRightCrvShape)
 
         self.setStyleSheet('font-family: Microsoft YaHei UI;')
-
-    def TEST(self):
-        print self.Match_Layout.sizePolicy()
-        print self.Match_Layout.sizeHint()
-        print self.Match_Layout.height()
-        print self.Match_Layout.maximumHeight()
-        # if not self.Match_Toggle.toggleCollapse:
-        #     self.Match_Layout.setMaximumHeight(16777215)
 
     def syncScroll(self,value):
         self.vs1.setValue(value)
@@ -109,7 +104,7 @@ class CtrlMirror(QtWidgets.QWidget):
             pm.headsUpMessage(u"物体不存在了")
 
     def negativeAxis(self,vec):
-        return dt.Vector([-eval("vec.%s" % _axis) if self.axis == _axis else eval("vec.%s" % _axis) for _axis in ['x','y','z']])
+        return dt.Vector([-vec[i] if self.axis == i else vec[i] for i in range(3)])
 
     def findNameMatchCtrl(self,transform):
         for R,L in MATCH_DICT.items():
@@ -125,7 +120,6 @@ class CtrlMirror(QtWidgets.QWidget):
             if pm.objExists(name):
                 return pm.PyNode(name)
 
-    
     def getMatches(self):
         self.R_list = {}
         self.L_list = {}
@@ -133,6 +127,8 @@ class CtrlMirror(QtWidgets.QWidget):
         self.L_matches = {}
         self.C_matches = {}
         self.N_matches = {}
+        self.L_Rotation = {}
+        self.R_Rotation = {}
 
         crv_list = pm.ls(ni=1,type="nurbsCurve")
 
@@ -143,7 +139,7 @@ class CtrlMirror(QtWidgets.QWidget):
                 continue
 
             pos = transform.getRotatePivot(space="world")
-            attr = eval("pos.%s" % self.axis)
+            attr = pos[self.axis]
             if attr > self.thersold:
                 self.R_list[transform] = pos
             elif attr < -self.thersold:
@@ -157,6 +153,9 @@ class CtrlMirror(QtWidgets.QWidget):
             if L_ctrl:
                 self.R_matches[R_ctrl] = L_ctrl
                 self.L_matches[L_ctrl] = R_ctrl
+
+                self.L_Rotation[L_ctrl] = dt.Vector(L_ctrl.getRotation(space="world")) 
+                self.R_Rotation[R_ctrl] = dt.Vector(R_ctrl.getRotation(space="world")) 
                 continue
 
             R_pos = self.negativeAxis(R_pos)
@@ -166,11 +165,12 @@ class CtrlMirror(QtWidgets.QWidget):
                     if R_end == L_ctrl.split("_")[-1]:
                         self.R_matches[R_ctrl] = L_ctrl
                         self.L_matches[L_ctrl] = R_ctrl
+
+                        self.L_Rotation[L_ctrl] = dt.Vector(L_ctrl.getRotation(space="world")) 
+                        self.R_Rotation[R_ctrl] = dt.Vector(R_ctrl.getRotation(space="world")) 
                         break
             else:
                 self.N_matches[R_ctrl] = R_pos
-
-        # self.C_matches.update(no_matches)
 
         self.updateList()
 
@@ -192,8 +192,9 @@ class CtrlMirror(QtWidgets.QWidget):
 
         self.Mirror_Shape_BTN.setEnabled(True)
         self.Anim_Mirror_Layout.setEnabled(True)
-
-    def mirrorCrvShape(self):
+        self.Crv_Mirror_Layout.setEnabled(True)
+    
+    def mirrorSelectedCrvShape(self):
         crv_shape_list = set()
         sel_list = pm.ls(sl=1,ni=1)
         for sel in sel_list:
@@ -205,7 +206,19 @@ class CtrlMirror(QtWidgets.QWidget):
         for sel in pm.ls(sl=1):
             if type(sel) == pm.general.NurbsCurveCV or type(sel) == pm.general.NurbsCurveEP:
                 crv_shape_list.add(sel.node())
+        
+        self.mirrorCrvShape(crv_shape_list)
 
+    def mirrorLeftCrvShape(self):
+        crv_shape_list = [L.getShape() for L in self.L_matches]
+        self.mirrorCrvShape(crv_shape_list)
+
+    def mirrorRightCrvShape(self):
+        crv_shape_list = [R.getShape() for R in self.R_matches]
+        self.mirrorCrvShape(crv_shape_list)
+
+    def mirrorCrvShape(self,crv_shape_list):
+        sel_list = pm.ls(sl=1,ni=1)
         pm.undoInfo(ock=1)
         for shape in crv_shape_list:
             crv = shape.getParent()
@@ -239,7 +252,8 @@ class CtrlMirror(QtWidgets.QWidget):
             pm.move(x,y,z,mirror_crv.scalePivot,mirror_crv.rotatePivot,r=1)
             pm.makeIdentity(a=1,t=1,r=1,s=1,n=0,pn=1)
             # NOTE 镜像
-            pm.xform(scale=[1,1,-1])
+            
+            pm.xform(scale=self.negativeAxis([1,1,1]))
             pm.makeIdentity(a=1,t=1,r=1,s=1,n=0,pn=1)
             # NOTE 抵消组位移
             matrix = origin.worldMatrix.get().inverse()
@@ -262,9 +276,73 @@ class CtrlMirror(QtWidgets.QWidget):
             pm.delete(mirror_crv)
             pm.delete(origin_shape)
 
-        pm.select(sel_list)
         pm.undoInfo(cck=1)
+
+        try:
+            pm.select(sel_list)
+        except:
+            pm.select(cl=1)
                     
+    def getCtrlAttr(self,ctrl):
+        return [attr for attr in ctrl.listAttr(k=1) if not attr.isLocked()]
+    
+    def mirrorCtrlAttr(self):
+        pm.undoInfo(ock=1)
+        for L,R in self.L_matches.items():
+            L_rot = self.L_Rotation[L]
+            R_rot = self.R_Rotation[R]
+            flag = False
+            length = (L_rot - R_rot).length()
+
+            if abs(length - 3.14) > self.thersold :
+                flag = True
+                
+            for L_attr in self.getCtrlAttr(L):
+                _,name = L_attr.name().split(".")
+                R_attr = "%s.%s"%(R,name)
+                if not pm.objExists(R_attr):continue
+                    
+                R_attr = pm.Attribute(R_attr)
+
+                L_value = L_attr.get()
+                R_value = R_attr.get()
+                
+                
+                if "translate" in L_attr.lower():
+                    L_attr.set(-R_value)
+                    R_attr.set(-L_value)
+                else:
+                    L_attr.set(R_value)
+                    R_attr.set(L_value)
+                
+                if flag:
+                    if (L_rot.x - -R_rot.x) < self.thersold and (L_rot.y - -R_rot.y) < self.thersold:
+                        if "rotatex" in L_attr.lower() or "rotatey" in L_attr.lower():
+                            L_attr.set(-R_value)
+                            R_attr.set(-L_value)
+                        elif "translatex" in L_attr.lower() or "translatey" in L_attr.lower(): 
+                            L_attr.set(R_value)
+                            R_attr.set(L_value)
+                    elif abs(L_rot.x - R_rot.x) - math.pi < self.thersold  and abs(L_rot.y - R_rot.y) - math.pi < self.thersold:
+                        if "rotatey" in L_attr.lower() or "rotatez" in L_attr.lower():
+                            L_attr.set(-R_value)
+                            R_attr.set(-L_value)
+                        elif "translatey" in L_attr.lower() or "translatez" in L_attr.lower(): 
+                            L_attr.set(R_value)
+                            R_attr.set(L_value)
+            
+        for C in self.C_matches:
+            for C_attr in self.getCtrlAttr(C):
+                C_value = C_attr.get()
+                if "translatex" in C_attr.lower() or \
+                    "rotatey" in C_attr.lower() or \
+                    "rotatez" in C_attr.lower():
+                    C_attr.set(-C_value)
+                else:
+                    C_attr.set(C_value)
+
+        pm.undoInfo(cck=1)
+
     def mayaShow(self,name="MF_CtrlMirrorTool"):
         # NOTE 如果变量存在 就检查窗口多开
         if pm.window(name,q=1,ex=1):

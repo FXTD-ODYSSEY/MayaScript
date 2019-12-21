@@ -61,7 +61,13 @@ def unlockNormal():
         for i in range(2):
             vert_idx = edge_itr.vertexId(i)
             vert_itr.setIndex(vert_idx)
-            face_1,face_2 = edge_itr.getConnectedFaces()
+            try:
+                face_1,face_2 = edge_itr.getConnectedFaces()
+            except:
+                print dagPath,edge_itr.index()
+                import traceback
+                traceback.print_exc()
+                raise
             normal_1 = mesh_normal[vert_idx][face_1]
             normal_2 = mesh_normal[vert_idx][face_2]
             if normal_1 != normal_2:

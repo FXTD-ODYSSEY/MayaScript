@@ -33,7 +33,6 @@ class CollapsibleWidget( object ):
         def toggleFn(btn,anim):
             if btn.toggleCollapse:
                 btn.toggleCollapse = False
-                anim.setEndValue(container.sizeHint().height())
                 anim.setDirection(QtCore.QAbstractAnimation.Forward)
                 anim.start()
                 btn.setText(u"▼%s"%btn.text()[1:])
