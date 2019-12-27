@@ -14,7 +14,7 @@
 #   Added mirrorSelectedChannels convenience function
 #   Format changes
 #
-# for questions or suggestions, email me at martinik24@gmail.com
+# for questions or suggestions, email me at martinik24@gmail.com 
 
 ###############################################################################
 import maya.cmds as cmds

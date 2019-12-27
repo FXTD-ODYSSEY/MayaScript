@@ -162,13 +162,21 @@ class AnimSpliterWindow(QtWidgets.QWidget):
     def createNewConfig(self):
         
         config_file = self.currentConfig()
-        root,text = os.path.split(config_file)
-        text,_ = os.path.splitext(text)
+        if config_file:
+            root,text = os.path.split(config_file)
+            text,_ = os.path.splitext(text)
+        else:
+            root = os.path.join(REMOTE,"other")
+            text = ""
+
         text,OK = QtWidgets.QInputDialog.getText(self, u"创建新配置",u"配置名称",text=text)
 
         if not OK:
             return
 
+        if not os.path.exists(root):
+            os.mkdir(root)
+            
         config_file = os.path.join(root,text+".json")
         if os.path.exists(config_file):
             QtWidgets.QMessageBox.warning(self, u"警告",u"当前配置名称已存在")
