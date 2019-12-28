@@ -53,7 +53,6 @@ def deleteEvent(idx,node):
         pm.delete(node)
 
 def updatePivot(sel,loc):
-    print "updatePivot123"
     pos = pm.xform(loc,q=1,ws=1,t=1)
     pm.xform(sel, piv=pos, ws=1)
 
