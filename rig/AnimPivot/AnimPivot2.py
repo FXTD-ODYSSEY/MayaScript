@@ -31,10 +31,8 @@ def pivotEvent(sel,loc,msg, m_plug, otherMplug, clientData):
         if str(loc) == node and "translate" in attr and pm.objExists(loc):
             pm.xform(sel, piv=pm.xform(loc,q=1,ws=1,t=1), ws=1)
 
-def deleteCallback(idx,event):
+def deleteCallback(idx):
     om.MMessage.removeCallback(idx)
-    if pm.scriptJob(q=1,ex=event):
-        pm.scriptJob(k=event,f=1)
 
 def addAttrCallback(sel,loc):
 
@@ -48,11 +46,7 @@ def addAttrCallback(sel,loc):
 
     # Connect callback to event
     idx = om.MNodeMessage.addAttributeChangedCallback(_node, partial(pivotEvent,sel,loc))
-
-    rotateEvent = lambda: sel.r.set(loc.r.get() + sel.r.get())
-    event = pm.scriptJob( attributeChange=['%s.r'%loc,rotateEvent] )
-
-    deleteEvent = partial(deleteCallback,idx,event)
+    deleteEvent = lambda:om.MMessage.removeCallback(idx)
     pm.scriptJob( ro=1,nd= [str(loc),deleteEvent], protected=True)
     pm.scriptJob( ro=1,e= ["SceneOpened",deleteEvent], protected=True)
     
@@ -135,7 +129,7 @@ def addAttrCallback(sel,loc):
 
     
 
-def generateAnimPivotLocator():
+def generateAnimPivotLocator(script=False):
         
     sel_list = pm.ls(sl=1)
     loc_list = []
@@ -164,16 +158,18 @@ def generateAnimPivotLocator():
             loc_shape.localScaleZ.set(40)
 
             # NOTE 锁定并隐藏无关的属性
-            # pm.setAttr(loc.rx,l=1,k=0,cb=0)
-            # pm.setAttr(loc.ry,l=1,k=0,cb=0)
-            # pm.setAttr(loc.rz,l=1,k=0,cb=0)
+            pm.setAttr(loc.rx,l=1,k=0,cb=0)
+            pm.setAttr(loc.ry,l=1,k=0,cb=0)
+            pm.setAttr(loc.rz,l=1,k=0,cb=0)
             # pm.setAttr(loc.sx,l=1,k=0,cb=0)  
             # pm.setAttr(loc.sy,l=1,k=0,cb=0)  
             # pm.setAttr(loc.sz,l=1,k=0,cb=0)  
-            # loc.t.connect(sel.rotatePivot)    
-
-            # createScriptJob(sel,loc)
-            addAttrCallback(sel,loc)
+            
+            if not script:
+                loc.t.connect(sel.rotatePivot)
+            else:
+                # createScriptJob(sel,loc)
+                addAttrCallback(sel,loc)
 
             loc_list.append(loc)
 
@@ -182,21 +178,19 @@ def generateAnimPivotLocator():
         import traceback
         pm.delete(loc)
         pm.delete(loc_list)
-        traceback.print_exc()
-        print "wrong"
+        pm.confirmDialog(title=u'错误', message=u'%s' % traceback.format_exc())
         return [],[]
 
     return loc_list,warning_list
 
-def main():
-
+def main(enhance):
     # NOTE 获取当前视窗的 modelEditor 开启 locator 显示
     for mp in pm.getPanel(type="modelPanel"):
         if pm.modelEditor(mp, q=1, av=1):
             pm.modelEditor(mp,e=1,locators=1)
             break
     
-    loc_list,warning_list = generateAnimPivotLocator()
+    loc_list,warning_list = generateAnimPivotLocator(script=enhance)
     
     pm.select(loc_list)
 
@@ -204,6 +198,12 @@ def main():
         warn_str = "\n".join(warning_list)
         pm.confirmDialog(title=u'警告', message=u'以下控制器创建失败：\n\n%s' % warn_str)
 
+def singleClickCommand():
+    main(False)
+
+def doubleClickCommand():
+    main(True)
+
 if __name__ == "__main__":
-    main()
+    singleClickCommand()
 
