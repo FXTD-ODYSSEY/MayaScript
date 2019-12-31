@@ -1,0 +1,744 @@
+//***********************************************//
+//                                               //
+//           Overlapper release 1.1              //
+//    Tool for creating overlapping action       //
+//      copyright Dmitrii Kolpakov 2018          //
+//                                               //
+//    intro: https://vimeo.com/286860063         //
+//   purchase: https://gumroad.com/l/overlaper   //
+//                                               //
+//                                               //
+//***********************************************//
+
+
+global proc OverlapperRelease()
+{
+	optionVar -intValue animBlendingOpt 1;
+	if ((`window -ex OverlapperPanel`)==true)
+	deleteUI OverlapperPanel;
+	
+	CleanUpProc;
+	
+	string $window = `window  -title "Overlapper 1.1"
+	       -toolbox 1
+	       -s 1
+	       -menuBar 1 
+	       -widthHeight 172 133
+	        OverlapperPanel`;
+ 
+    menu  -l "Advanced" -to 0 aboutMenu;
+    menuItem  -l "Debug mode" -cb 0 -ann "Don't delete Overlapping offset controls. Expert mode. Be careful"  debMode;
+    menuItem  -l "Bake on anim layer" -cb 0 -ann "Each new overlapping animation will be baked on new animation layer"  onLayerMode;
+	menuItem  -l "Adaptive scale" -cb 1 -ann "Overlap Scale parameter automaticly changes for distance between selected controls" adScaleMode;
+	menuItem  -l "Create selection set" -cb 1 -ann "Create selection set of overlapped controls for last overlapper session" ovCrSelSet;
+	menuItem  -l "CleanUp" -ann "Delete all Oveplapper stuff" -c CleanUpProc;    
+    
+    menu -l "Help" -to 0 helpMenu;
+    menuItem -l "Intro"  -c hIntro;
+    menuItem -l "Tutorial"  -c hTutorial;
+
+ 	columnLayout;   
+    rowColumnLayout -nc 2 ;
+    text -label "     Softness    " -align "center" -ann "More animation velocity, less softness";
+    floatField -v 3 -w 10 -precision 2 timeShift;
+    text -label "     Scale    " -align "center" -ann "More Scale, more overlap apmlitude";
+    floatField -v 1.0 -w 10 -precision 2 globalScale;
+ 	rowColumnLayout -nc 1;
+    rowColumnLayout -nc 1;
+    checkBox -ann "Add wind animation on overlapped controls" -label " Wind" -v 0 -h 18  WindCheckBox;
+    setParent..;
+    setParent..;
+    rowColumnLayout -nc 2;
+    text  -label " Scale" -align "center" -ann "More Scale, more wind apmlitude";
+    floatField -v 1 -w 48 -bgc 0.45 0.52 0.57  -precision 2 windScale; 
+    text -label " Speed " -align "center"  -ann "More Speed, more wind frequence";
+    floatField -v 1 -w 20 -precision 2 -bgc 0.45 0.52 0.57 windSpeed;
+    setParent..;     setParent..; setParent..; 
+    rowColumnLayout -nc 1;
+    string $theLayout =`frameLayout -cc OverlapperPanelBig -ec OverlapperPanelSmall -collapsable 1 - collapse 1 -l "Options"`;
+
+    checkBox -l "Don't use first controls" -v 0 -ann "Don't use first controls in selected sequence of controls" firstCtrl;
+    checkBox -l "Add translate" -v 0 -ann "Add translate overlap for selected controls" IKmode;
+    checkBox  -l "Hierarchy" -v 0 -ann "Add all controls below the hierarchy. Works with Advanced Skeleton rigs" HierarchyCheckBox;
+    checkBox  -l "Cycle" -v 0 -ann "Create seamless overlapping action for cycle animation. The first and the last keys on timeline must be the same" CycleCheckBox; 
+
+    setParent..;
+
+	button  -w 160 -label "Overlap" -bgc 0.85 0.85 0.85 -command "OverlapperStarter";
+	showWindow $window;
+	window -edit -widthHeight 163 163 OverlapperPanel;
+}
+
+global proc OverlapperPanelBig()
+{window -edit -widthHeight 163 163 OverlapperPanel;}
+
+global proc OverlapperPanelSmall()
+{window -edit -widthHeight 163 236 OverlapperPanel;}
+
+proc hIntro()
+{launch -web "https://vimeo.com/286860063";}
+
+proc hTutorial()
+{launch -web "https://vimeo.com/287771379";}
+
+global proc CleanUpProc()
+{
+if(`objExists "*_OverlapJoint*"`) 			{delete "*_OverlapJoint*";}
+if(`objExists "*:*_OverlapJoint*"`) 		{delete "*:*_OverlapJoint*";}
+if(`objExists "*:*:*_OverlapJoint*"`)       {delete "*:*:*_OverlapJoint*";}
+if(`objExists "*overlapOffsetLocator*"`)    {delete "*overlapOffsetLocator*";}
+if(`objExists "overlapResultLocatorOut*"`)  {delete "overlapResultLocatorOut*";}
+if(`objExists "TEMP_Offset_locator*"`)   	{delete ("TEMP_Offset_locator*");}
+if(`objExists "*overlapOffsetIKLocator*"`)  {delete "*overlapOffsetIKLocator*";}
+if(`objExists "OverlapperSet"`)             {delete "OverlapperSet";}
+if(`objExists "OverlapperWorkSet"`)         {delete "OverlapperWorkSet";}
+
+progressWindow -endProgress;
+
+}
+
+global proc OverlapperStarter()
+{
+	if(`objExists "OverlapperWorkSet"`){delete "OverlapperWorkSet";}
+
+	//time range
+	global string $gPlayBackSlider; 
+	global float $timeStart, $timeEnd;
+	global float $timeStartGlobal, $timeEndGlobal;
+	float $RangeStart, $Range[];
+	$Range = `timeControl -q -ra $gPlayBackSlider`;
+	$RangeStart = $Range[1] - $Range[0];
+	
+	if($RangeStart == 1)
+		{$timeStartGlobal = `playbackOptions -q -min`; $timeEndGlobal = `playbackOptions -q -max`;}
+	else
+		{$timeStartGlobal = $Range[0]; $timeEndGlobal = $Range[1];}
+	
+			string $ctrlsAmount[] = `ls -sl`;
+			
+			// MANY CONTROLS
+			if(`size($ctrlsAmount)`>1)
+				{ 
+						// some ctrls with hierarchy DONE!!!!!!
+					if (`checkBox -q -v HierarchyCheckBox`==1) 
+						{
+							for ($SelCtrl in $ctrlsAmount)
+							{
+								select -r $SelCtrl; progressWindow -endProgress; OverlapperWithHierarchy; CycleFinal;
+							}
+						}
+	
+						// some ctrls without hierarchy DONE!!!!!!
+					else
+						{
+							Overlapper; CycleFinal;
+						}
+				}
+			// ONE CONTROLS	
+			else {
+
+					// with hierarchy DONE!!!!!!
+					if (`checkBox -q -v HierarchyCheckBox`==1) 
+						{
+							progressWindow -endProgress; OverlapperWithHierarchy; CycleFinal;
+						}
+	
+					// without hierarchy
+					else
+						{
+							confirmDialog  -b "Ok" -t "Oooops.." -m "For correct work you should select more than one control \n            or switch on Hierarchy mode in Options \n\nIf you want overlap one control: \n    1. select two neighboring controls \n    2. check  `Don't use first control`  in Options ";
+						}
+				
+				}
+}
+
+////////////////// Hierarchy work //////////////////////
+
+proc OverlapperWithHierarchy()
+{    
+		string $ArraySecondGuys[];
+		string $parentArray[];
+		string $nodesArray[];
+		string $Chain[];        
+		string $lastElement;
+		string $allSceneNurbes[];
+		string $currentShapeType;
+		string $CtrlByHierarchy[];
+		string $TypeOfObject;
+		int $ClearElemwnts;
+		
+		$ClearElemwnts = `size($allSceneNurbes)`; for ($s=0; $s<$ClearElemwnts; ++$s ){stringArrayRemoveAtIndex(0, $allSceneNurbes);}
+		
+		// find type of selection
+		string $currentCtrls[] = `ls -sl`;
+		select -r $currentCtrls[0];
+		pickWalk -d down;
+		string $currentShape[] = `ls -sl`;
+		$currentShapeType = `objectType $currentShape[0]`;
+		
+		select -r $currentCtrls; select -hi;
+		$currentCtrls = `ls -sl`;
+		
+		if( `objExists "*Root_M"`||`objExists "*:Root_M"`||`objExists "*DeformationSystem"`||`objExists "*:DeformationSystem"`||`objExists "*MotionSystem"`||`objExists "*:MotionSystem"`||`objExists "*FitSkeleton"`||`objExists "*:FitSkeleton"`)
+			 {$currentShapeType = "nurbsCurve";}
+		
+		$allSceneNurbes = `listTransforms ("-type "+$currentShapeType)`;
+		
+		string $Stuff[] = stringArrayRemove($allSceneNurbes, $currentCtrls);
+		$CtrlByHierarchy = stringArrayRemove($Stuff, $currentCtrls);
+		select -r $CtrlByHierarchy;
+		
+		int $amountOfAllCtrls = `size($CtrlByHierarchy)`;
+		string $LastCtrlInHierarchy = $CtrlByHierarchy[(`size($CtrlByHierarchy)`)-1];
+		
+		$ClearElemwnts = `size($Chain)`; for ($s=0; $s<$ClearElemwnts; ++$s ){stringArrayRemoveAtIndex(0, $Chain);}
+		
+		for ($i=0; $i<$amountOfAllCtrls; ++$i )
+		{	
+			select -r $CtrlByHierarchy[$i];
+			select -hi;
+			string $currentCtrls[] = `ls -sl`;
+			string $Stuff[] = stringArrayRemove($allSceneNurbes, $currentCtrls);
+			string $CurrentCtrlByHierarchy[] = stringArrayRemove($Stuff, $currentCtrls);
+				
+		        if ($CtrlByHierarchy[$i+1]==$CurrentCtrlByHierarchy[1]&&$CurrentCtrlByHierarchy[0]!=$LastCtrlInHierarchy)
+		        {
+		            stringArrayInsertAtIndex(100, $Chain, $CurrentCtrlByHierarchy[0]);
+					select -r $CurrentCtrlByHierarchy[0];
+		        }
+		        else 
+		        {	
+					stringArrayInsertAtIndex(100, $Chain, $CurrentCtrlByHierarchy[0]);
+		        	select -r $Chain;
+		        	Overlapper;
+		        	string $CtrlByHierarchy[] = stringArrayRemove($Chain, $CtrlByHierarchy);
+		        	int $ClearElemwnts = `size($Chain)`;for ($s=0; $s<$ClearElemwnts; ++$s ){stringArrayRemoveAtIndex(0, $Chain);}
+		        }
+		        
+			int $amountOfAllCtrls = `size($CtrlByHierarchy)`;      
+		}
+}
+
+///////////// Overlapper /////////////
+
+proc Overlapper()
+{
+	cycleCheck -e off;
+	global float $timeStartGlobal, $timeEndGlobal;
+	global float $timeStart, $timeEnd;
+	$timeStart = $timeStartGlobal;
+	$timeEnd = $timeEndGlobal;
+	int $ClearElemwnts;
+		
+	float $OverTimeShift = `floatField -q -v timeShift`;
+	float $OverGlobalScale = `floatField -q -v globalScale`; if($OverGlobalScale<=0){$OverGlobalScale=0.001;}
+	float $windScaleValue = `floatField -q -v windScale`;
+	float $windSpeedValue = `floatField -q -v windSpeed`;
+	
+
+	int $deBugMode = `menuItem -query -cb  debMode`;
+	int $onLayerSwitch = `menuItem -query -cb  onLayerMode`;
+	int $adptScale = `menuItem -query -cb  adScaleMode`;
+	int $OvSelectionSet = `menuItem -query -cb  ovCrSelSet`;
+
+	
+	int $TRANSLATEmode = `checkBox -q -v IKmode`;
+	int $useFirstCtrl = `checkBox -q -v firstCtrl`;
+	int $WindSwitch = `checkBox -q -v WindCheckBox`;
+	int $CycleCheckBox = `checkBox -q -v CycleCheckBox`;
+	
+	
+	float $timeShift = $OverTimeShift;
+	float $overlapIntensity = $OverGlobalScale;
+
+	float $scaleModulator = 5;
+	string $overlapJointsArray[];
+	float $overlapJointsLenghtArray[];
+	float $averageLenghtJoints;
+	global float $sumLenghtJoints;
+	string $ControlName[];
+	float $cycleLenghts;
+	string $SelectedControlsClearNameSpaces[];
+	string $SelectedControls[];
+	global string $eulerFilterCurves[];	
+	
+	$ClearElemwnts = `size($overlapJointsArray)`; for ($i=0; $i<$ClearElemwnts; ++$i ){stringArrayRemoveAtIndex(0, $overlapJointsArray);}	
+	$ClearElemwnts = `size($overlapJointsLenghtArray)`; for ($i=0; $i<$ClearElemwnts; ++$i ) {floatArrayRemoveAtIndex(0, $overlapJointsLenghtArray);}
+	$ClearElemwnts = `size($SelectedControls)`; for ($i=0; $i<$ClearElemwnts; ++$i ) {stringArrayRemoveAtIndex(0, $SelectedControls);}	
+	$ClearElemwnts = `size($SelectedControlsClearNameSpaces)`; for ($i=0; $i<$ClearElemwnts; ++$i ) {stringArrayRemoveAtIndex(0, $SelectedControlsClearNameSpaces);}	
+	
+
+	//time range
+	float $currentTime =`currentTime -query`;
+	
+	//set frame
+	currentTime - e $timeStart;
+	
+	$SelectedControls = `ls -sl`;
+	int $iLoop = `size($SelectedControls)`;
+
+	$DividedName = `tokenize $SelectedControls[0] ":" $ControlName`;
+	if ($DividedName>1) 
+	{
+		for ($i=0; $i<$iLoop; ++$i)
+			{	
+				$DividedNameCurve = `tokenize $SelectedControls[$i] ":" $ControlName`;
+				$ClearNameCtrl = $ControlName[($DividedNameCurve-1)];
+				stringArrayInsertAtIndex(100, $SelectedControlsClearNameSpaces, $ClearNameCtrl);	
+			}
+	}
+	else {$SelectedControlsClearNameSpaces=$SelectedControls;}
+	
+	select -cl;
+
+	//progressBar
+    int $amount = 0;
+    float $prAmount = 100/$iLoop;
+
+     progressWindow
+         -title "progress..."
+         -progress $amount
+         -status "Progress: 0%"
+         -isInterruptable true;
+
+	// create locators for Joints
+	for ($i=0; $i<$iLoop; ++$i)
+		{	
+			spaceLocator -n ("TEMP_Offset_locator"+$i);
+		    select -r $SelectedControls[$i] ("TEMP_Offset_locator"+$i);
+			parentConstraint -weight 1;
+		}
+			select -cl;
+
+	// create Joints
+	
+	for ($i=0; $i<$iLoop; ++$i )
+		{	
+			float $WorldTr[] = `xform -q -ws -t ("TEMP_Offset_locator"+$i)`;
+			joint -rad 1 -n ($SelectedControls[$i]+"_OverlapJoint") -p $WorldTr[0] $WorldTr[1] $WorldTr[2];
+
+				if ($i>0)
+				{
+					joint -e -zso -oj xyz -sao yup ($SelectedControls[$i-1]+"_OverlapJoint");
+				}
+				
+			stringArrayInsertAtIndex( 100, $overlapJointsArray, ($SelectedControls[$i]+"_OverlapJoint") );
+		}
+		
+	delete ("TEMP_Offset_locator*");
+
+	int $overlapJointsAnmount = `size($SelectedControls)`;
+    select -r ($overlapJointsArray[$overlapJointsAnmount-1]);
+		
+	duplicate -rr;
+	string $LastOrientJoints[] = `ls -sl`;
+	move -r -ls -wd 2 0 0 ;
+	float $WorldLastTr[] = `xform -q -ws -t $LastOrientJoints[0]`;
+	select -r ($SelectedControls[$i-1]+"_OverlapJoint");
+	joint -rad 1 -n ($SelectedControls[$i-1]+"LastOrientJoint") -p $WorldLastTr[0] $WorldLastTr[1] $WorldLastTr[2];
+	joint -e -zso -oj xyz -sao yup ($SelectedControls[$i-1]+"_OverlapJoint");
+	delete $LastOrientJoints;
+	$LastOrientJoints = `ls -sl`;
+	stringArrayInsertAtIndex( 100, $overlapJointsArray, $LastOrientJoints[0]);
+	select -r $overlapJointsArray;
+	joint -e  -oj xyz -secondaryAxisOrient zup -ch -zso;
+
+	
+	$ClearElemwnts = `size($overlapJointsLenghtArray)`; for ($s=0; $s<$ClearElemwnts; ++$s ){floatArrayRemoveAtIndex(0, $overlapJointsLenghtArray);}
+
+	//joints lengths
+	for ($i=1; $i<($iLoop+1); ++$i )
+		{	
+			float $DistanceBetween = `getAttr ($overlapJointsArray[$i]+".translateX")`;
+			floatArrayInsertAtIndex( 100, $overlapJointsLenghtArray, $DistanceBetween);
+		}
+	
+	//average
+	int $JointsLentghtsAmount = `size($overlapJointsLenghtArray)`;
+	
+	$sumLenghtJoints = 0;
+	for ($i=0; $i<($JointsLentghtsAmount); ++$i )
+		{	
+			$sumLenghtJoints = $sumLenghtJoints + $overlapJointsLenghtArray[$i];
+		}
+				
+	$averageLenghtJoints = ($sumLenghtJoints-2)/$JointsLentghtsAmount;
+	setAttr ($SelectedControls[$i-1]+"LastOrientJoint.translateX") $averageLenghtJoints;
+	
+	// constrain joint to controls
+	for ($i=0; $i<$iLoop; ++$i )
+		{	
+			select -r $SelectedControls[$i] ($SelectedControls[$i]+"_OverlapJoint");
+			pointConstraint  -weight 1 -mo;
+			orientConstraint -weight 1 -mo;
+		}
+
+	// bake jonts
+	select -r $overlapJointsArray;
+	bakeResults 
+		-simulation 0
+	    -t ($timeStart+":"+$timeEnd)
+	    -sampleBy 1 
+	    -disableImplicitControl 1 
+	    -preserveOutsideKeys 1 
+	    -sparseAnimCurveBake 1 
+	    -bakeOnOverrideLayer 0 
+	    -minimizeRotation 0
+	    $overlapJointsArray;
+	delete -constraints;
+
+	// Cycling (copy curves, add time)
+	if ($CycleCheckBox == 1)
+	{
+			for ($i=0; $i<($iLoop-1); ++$i )
+		    {
+		    	selectKey -r -k -t ($timeStart+":"+$timeEnd) ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_translateX")
+									    					  ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_translateY")
+									    					  ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_translateZ")
+									    					  ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_rotateX")
+									    					  ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_rotateY")
+									    					  ($SelectedControlsClearNameSpaces[$i]+"_OverlapJoint_rotateZ");		  
+		    	copyKey;
+				pasteKey -time $timeEnd -float $timeEnd -option insert -copies 2 -connect 0 -timeOffset 0 -floatOffset 0 -valueOffset 0;
+				select -cl  ;     		
+		    } 
+	$cycleLenghts = $timeEnd-$timeStart;
+	$timeEnd = $timeEnd+2*$cycleLenghts;
+	}
+
+	// Overlaping
+	for ($i=0; $i<$iLoop; ++$i )
+		{
+		 	//progressBar	
+			$amount += $prAmount;		
+			progressWindow -edit
+			-progress $amount
+			-status ("Progress: "+$amount+"%");
+	
+			//create locator
+			spaceLocator -n ("overlapOffsetLocator"+$i);
+			select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
+			string $temps[] = `pointConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			$temps = `orientConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			
+			//create IK locator
+			spaceLocator -n ("overlapOffsetIKLocator"+$i);
+			select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
+			$temps = `pointConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			$temps = `orientConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			
+			select -r ("overlapOffsetLocator"+$i);
+			if ($adptScale==1){$scaleModulator = $averageLenghtJoints;}
+			float $overlapIntensityMult = $averageLenghtJoints/$overlapIntensity*5;
+			move  -r -os -ls $overlapIntensityMult 0 0 ;
+			select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
+			parentConstraint -mo -weight 1;
+			
+			select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
+			parentConstraint -mo -weight 1;
+	
+			bakeResults -simulation 0 
+			    -t ($timeStart+":"+$timeEnd)
+			    -sampleBy 1 
+			    -disableImplicitControl 1 
+			    -preserveOutsideKeys 1 
+			    -sparseAnimCurveBake 0 
+			    -removeBakedAttributeFromLayer 0 
+			    -removeBakedAnimFromLayer 0 
+			    -bakeOnOverrideLayer 0     
+			    -minimizeRotation 0 
+			    -controlPoints 0 
+			    -shape 1 
+			    ("overlapOffsetLocator"+$i) ("overlapOffsetIKLocator"+$i);    
+			    
+			filterCurve ("overlapOffsetLocator"+$i+"_rotateX")("overlapOffsetLocator"+$i+"_rotateY")("overlapOffsetLocator"+$i+"_rotateZ");	
+			spaceLocator -n ("overlapOffsetLocatorWind"+$i);
+			parent ("overlapOffsetLocatorWind"+$i) ("overlapOffsetLocator"+$i);
+			makeIdentity -apply false -t 1 -r 1 -s 1;
+	
+			float $timeShiftNeg = -1*$timeShift;
+			float $timeShiftCurrent = $timeShift+1;
+				
+		    keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateZ");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateZ");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateZ");
+	
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateZ");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateZ");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateZ");
+				
+			keyframe -animation keys -option over -relative -timeChange $timeShiftNeg;
+			
+			spaceLocator -n ("overlapInLocator_first_"+$i);
+			spaceLocator -n ("overlapInLocator_second_"+$i);
+			spaceLocator -n ("overlapResultLocator_"+$i);
+			select -r ("overlapInLocator_first_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapInLocator_second_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapResultLocator_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapInLocator_first_"+$i) ("overlapInLocator_second_"+$i) ("overlapResultLocator_"+$i);
+			makeIdentity -apply false -t 1 -r 1 -s 1;
+			select -r("overlapInLocator_second_"+$i);
+			move  -r -os -ls $overlapIntensityMult 0 0 ;		
+			select -r ("overlapInLocator_first_"+$i);
+			group -n ("overlapInLocator_first_"+$i+"grp");
+		
+			// IK mode
+			if($TRANSLATEmode==1)
+			{ 
+				select -r ("overlapOffsetIKLocator"+$i) ("overlapInLocator_first_"+$i+"grp");
+				pointConstraint -mo -weight 1;
+			}
+			
+			select -r ("overlapOffsetLocatorWind"+$i) ("overlapInLocator_second_"+$i);
+			parentConstraint -mo -weight 1;
+			
+			select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i+"grp");
+			aimConstraint -mo -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "object" -worldUpObject ("overlapInLocator_second_"+$i);
+			select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i);
+			orientConstraint -mo -skip y -skip z -weight 1;
+			select -r  ("overlapInLocator_first_"+$i) ("overlapResultLocator_"+$i);
+			parentConstraint -mo -weight 1;
+		
+			///Wind
+			if($i<1&&$WindSwitch==1) 
+			{
+	    		select -r overlapOffsetLocatorWind0;
+	    		string $WindFirstControl[] = `ls -sl`;
+	    		
+	    		float $windMultiply = 0.07*$overlapIntensityMult*$windScaleValue ; 
+	    		float $speedMultiply = 20/$windSpeedValue; 
+	    		
+	    		setKeyframe  -attribute "translateY" -attribute "translateZ" -t $timeStart overlapOffsetLocatorWind0;
+	    		
+	    		bakeResults 
+	    			-simulation 0 
+	    			-t ($timeStart+":"+($timeEnd+$speedMultiply))
+	    			-sampleBy $speedMultiply 
+	    			-oversamplingRate 1 
+	    			-disableImplicitControl true 
+	    			-preserveOutsideKeys 1 
+	    			-sparseAnimCurveBake false 
+	    			-removeBakedAttributeFromLayer false 
+	    			-removeBakedAnimFromLayer false 
+	    			-bakeOnOverrideLayer false 
+	    			-minimizeRotation true 
+	    			-at "ty" -at "tz" 
+	    			overlapOffsetLocatorWind0;
+	    		
+	    		    string $listAnimAttrs[] = `listAttr -k overlapOffsetLocatorWind0`;		
+	    			for ($attr in $listAnimAttrs)
+	    			{ 	
+	    				// array of animated atributes
+	    				string $animCurve[] = `listConnections -type "animCurve" ("overlapOffsetLocatorWind0."+$attr)`;
+	    				for ($animCurveCurrent in $animCurve)
+	    					{
+	    						// array of keys
+	    						float $animCurveCurrentKeysTimeArray[] = `keyframe -time ($timeStart+":"+$timeEnd) -query -timeChange $animCurveCurrent`;
+	    		
+	    					    // array of values
+								for ($animCurveCurrentKeysTime in $animCurveCurrentKeysTimeArray)
+								{
+									float $animCurveCurrentKeysTimeArray[] = `keyframe -time $animCurveCurrentKeysTime -query -valueChange $animCurveCurrent`;
+									
+									//Randomazer
+									float $RandomizerValue = `rand -1 1`;
+									float $animCurveCurrentKeysValueArrayAddRandom = $animCurveCurrentKeysTimeArray[0]+$windMultiply*$RandomizerValue;
+									keyframe -e -iub true -r -o over -vc $animCurveCurrentKeysValueArrayAddRandom -t $animCurveCurrentKeysTime $animCurveCurrent;
+	    						}
+	                        }
+				    }
+				keyframe -e -iub true -r -o over -tc ($speedMultiply/2) overlapOffsetLocatorWind0_translateY;
+				selectKey -add -k -t (($speedMultiply/2)+1) overlapOffsetLocatorWind0_translateY;
+	    		keyframe -animation keys -option over -relative -timeChange ($speedMultiply/-2);
+			}
+			
+			bakeResults -simulation 0 
+					    -t ($timeStart+":"+$timeEnd)
+					    -sampleBy 1 
+					    -disableImplicitControl 1 
+					    -preserveOutsideKeys 1 
+					    -sparseAnimCurveBake 0 
+					    -removeBakedAttributeFromLayer 0 
+					    -removeBakedAnimFromLayer 0 
+					    -bakeOnOverrideLayer 0     
+					    -minimizeRotation 0 
+					    -controlPoints 0 
+					    -shape 1 
+					    ("overlapResultLocator_"+$i);
+					    
+		    if($deBugMode==0) {delete ("overlapInLocator_first_"+$i) ("overlapInLocator_first_"+$i+"grp") ("overlapOffsetLocator"+$i) ("overlapInLocator_second_"+$i);}
+		    spaceLocator -n ("overlapResultLocatorOut_"+$i);
+		    	 
+		    if(`objExists "OverlapperOverlapResultLocatorSet"`) {sets -edit -forceElement OverlapperOverlapResultLocatorSet ("overlapResultLocatorOut_"+$i);}
+	 	    else {$createSetResult = `sets -name "OverlapperOverlapResultLocatorSet"`;}
+	    
+	    
+		    select -r  ("overlapResultLocator_"+$i) ("overlapResultLocatorOut_"+$i);
+		    parentConstraint -weight 1;
+		    bakeResults -simulation 0 
+					    -t ($timeStart+":"+$timeEnd)
+					    -sampleBy 1 
+					    -disableImplicitControl 1 
+					    -preserveOutsideKeys 1 
+					    -sparseAnimCurveBake 0 
+					    -removeBakedAttributeFromLayer 0 
+					    -removeBakedAnimFromLayer 0 
+					    -bakeOnOverrideLayer 0     
+					    -minimizeRotation 0 
+					    -controlPoints 0 
+					    -shape 1 
+					    ("overlapResultLocatorOut_"+$i);
+			if($deBugMode==0) {delete ("overlapResultLocator_"+$i);}
+		    select -r ("overlapResultLocatorOut_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+		    parentConstraint -weight 1 -mo;
+	}
+	    
+
+	    
+	// constrain controls back to joint
+   
+    if ($useFirstCtrl==1)
+	{
+	    for ($i=1; $i<$iLoop; ++$i )
+	    {	
+    	//orient constraint
+	    	if (`getAttr -keyable ($SelectedControls[$i]+".rx")`==1&&`getAttr -lock ($SelectedControls[$i]+".rx")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".ry")`==1&&`getAttr -lock ($SelectedControls[$i]+".ry")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".rx")`==1&&`getAttr -lock ($SelectedControls[$i]+".rx")`==0)
+		    	{select -r ($SelectedControls[$i]+"_OverlapJoint") $SelectedControls[$i]; orientConstraint -mo -weight 1;}
+	    	
+	    	//point constraint
+	    	if (`getAttr -keyable ($SelectedControls[$i]+".tx")`==1&&`getAttr -lock ($SelectedControls[$i]+".tx")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".ty")`==1&&`getAttr -lock ($SelectedControls[$i]+".ty")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".tx")`==1&&`getAttr -lock ($SelectedControls[$i]+".tx")`==0)
+	    		{pointConstraint -mo -weight 1;}
+	    }
+	}
+	else
+	{
+	    for ($i=0; $i<$iLoop; ++$i )
+	    {	
+	    	//orient constraint
+	    	if (`getAttr -keyable ($SelectedControls[$i]+".rx")`==1&&`getAttr -lock ($SelectedControls[$i]+".rx")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".ry")`==1&&`getAttr -lock ($SelectedControls[$i]+".ry")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".rx")`==1&&`getAttr -lock ($SelectedControls[$i]+".rx")`==0)
+		    	{select -r ($SelectedControls[$i]+"_OverlapJoint") $SelectedControls[$i]; orientConstraint -mo -weight 1;}
+	    	
+	    	//point constraint
+	    	if (`getAttr -keyable ($SelectedControls[$i]+".tx")`==1&&`getAttr -lock ($SelectedControls[$i]+".tx")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".ty")`==1&&`getAttr -lock ($SelectedControls[$i]+".ty")`==0&&
+	    	    `getAttr -keyable ($SelectedControls[$i]+".tx")`==1&&`getAttr -lock ($SelectedControls[$i]+".tx")`==0)
+	    		{pointConstraint -mo -weight 1;}
+	    }
+	}
+	
+				if ($CycleCheckBox == 1)
+			{	
+		
+			$timeStart = `playbackOptions -q -min`; 
+			$timeEnd = `playbackOptions -q -max`;
+			$cycleLenghts = $timeEnd-$timeStart;
+	
+				select -r  OverlapperOverlapResultLocatorSet;
+				string $EulerArrays[] = `ls -sl`;
+				
+				for ($obj in $EulerArrays)
+				{
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts) ($obj+"_translateX");
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts)	($obj+"_translateY");
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts) ($obj+"_translateZ");
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts) ($obj+"_rotateX");
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts)	($obj+"_rotateY");
+					keyframe -e -iub true -r -o over -tc (-2*$cycleLenghts) ($obj+"_rotateZ");
+				}	    
+			}
+	
+	select -r $SelectedControls;	
+
+	$timeStart = `playbackOptions -q -min`; 
+	$timeEnd = `playbackOptions -q -max`;
+
+    bakeResults 
+    	-simulation 0 
+    	-t ($timeStart+":"+$timeEnd)
+    	-sampleBy 1 
+    	-disableImplicitControl 1 
+    	-preserveOutsideKeys 1 
+    	-sparseAnimCurveBake 0 
+    	-removeBakedAttributeFromLayer 0
+    	-removeBakedAnimFromLayer 0 
+    	-bakeOnOverrideLayer $onLayerSwitch     
+    	-minimizeRotation 0 
+    	-controlPoints 0 
+    	-shape 1 
+    	$SelectedControls;
+    	  
+	//create selection set 
+	if($OvSelectionSet==1) 
+	{	
+	    if(`objExists "OverlapperSet*"`) {sets -edit -forceElement OverlapperSet $SelectedControls;}
+	    else {$createSetResult = `sets -name "OverlapperSet"`;}
+    }
+	    if(`objExists "OverlapperWorkSet*"`) {sets -edit -forceElement OverlapperWorkSet $SelectedControls;}
+	    else {$createSetResult = `sets -name "OverlapperWorkSet"`;}
+	    
+    // finalization 
+	if($deBugMode==0) {delete $overlapJointsArray "overlapResultLocatorOut*" "*overlapOffsetIKLocator*";}
+    currentTime - e $currentTime;
+    select -r $SelectedControls;
+    cycleCheck -e on;
+	progressWindow -endProgress;
+	
+	// select ovelapped controls set 
+    if(`objExists "OverlapperSet"`) {select -r OverlapperSet;}
+}
+
+// Finalizing
+global proc CycleFinal()
+{
+
+	string $SelectedControlsClearNameSpaces[];
+	string $SelectedControls[];
+	global string $eulerFilterCurves[];	
+	string $ControlName[];
+  	float $cycleLenghts;
+  	
+ 	// euler all anim curves	
+	$ClearElemwnts = `size($eulerFilterCurves)`; for ($s=0; $s<$ClearElemwnts; ++$s ){stringArrayRemoveAtIndex(0, $eulerFilterCurves);}
+	select -r OverlapperWorkSet;
+	string $EulerArrays[] = `ls -sl`;
+	
+	for ($obj in $EulerArrays)
+	{
+		$listAnimAttrs = `listAttr -k $obj`;		
+		for ($attr in $listAnimAttrs)
+		{ 	
+			$animCurve = `listConnections -type "animCurve" ($obj+"."+$attr)`;
+			int $ClearElemwnts = `size($animCurve)`;
+			appendStringArray($eulerFilterCurves, $animCurve, $ClearElemwnts);
+		}
+	}
+	filterCurve $eulerFilterCurves;		
+	delete "OverlapperWorkSet";
+}
+
+OverlapperRelease;
