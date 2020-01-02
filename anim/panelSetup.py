@@ -37,9 +37,9 @@ def getWindowPos(screen,panel_width,panel_height,gap,pos,margin = 0):
 def createExtraPanel(
     panel_width=0,
     panel_height=0,
-    gap=0,
+    gap=[0,0],
     margin=0,
-    panel_height_percent=3.0/5,
+    panel_height_percent=27.0/50,
     gap_percent=1.0/20,
     titleBar_height = 30,
     pos="top"):
@@ -63,17 +63,21 @@ def createExtraPanel(
     if panel_height <= 0:
         panel_height = screen.height() * panel_height_percent
     
-    if gap <= 0:
-        gap = screen.width() * gap_percent
+    gap_LR,gap_TD = gap
+
+    if gap_LR < 0:
+        gap_LR = screen.width() * gap_percent
+    if gap_TD < 0:
+        gap_TD = gap_LR
 
     if panel_width <= 0:
-        panel_width = (screen.width() - gap) / 2
+        panel_width = (screen.width() - gap_LR) / 2
 
     # NOTE 计算面板显示的位置
-    w,h = getWindowPos(screen,panel_width,panel_height,gap,pos,margin)
+    w,h = getWindowPos(screen,panel_width,panel_height,gap_LR,pos,margin)
     h += titleBar_height
     main_pos = [w,h,panel_width,panel_height]
-    shadow_pos = [w+panel_width+gap,h,panel_width,panel_height]
+    shadow_pos = [w+panel_width+gap_LR,h,panel_width,panel_height]
     
     # NOTE 创建主视角视图
     main_panel_win = "main_panel_win"
@@ -125,8 +129,8 @@ def createExtraPanel(
     graph_win = mel.eval('tearOffRestorePanel "Graph Editor" "graphEditor" true')
     graph_win = mayaToQT(graph_win).window()
     width = screen.width()
-    height = screen.height() * (1 - panel_height_percent) - gap - titleBar_height*2
-    h += panel_height + titleBar_height + gap
+    height = screen.height() * (1 - panel_height_percent) - gap_TD - titleBar_height*2
+    h += panel_height + titleBar_height + gap_TD
     graph_win.setGeometry(w,h,width,height)
 
 
@@ -164,7 +168,7 @@ def main():
         cmds.viewFit(cmds.modelEditor(mp,q=1,cam=1),all=True )
 
 
-    createExtraPanel(panel_width=0,panel_height=0,gap=30,margin=0,pos="top")
+    createExtraPanel(panel_width=0,panel_height=0,gap=[30,0],margin=0,pos="top")
 
 if __name__ == "__main__":
     main()

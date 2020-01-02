@@ -12,11 +12,12 @@ from maya import mel
 from maya import OpenMayaUI
 from maya import utils
 
-import time
 from Qt import QtWidgets
 from Qt import QtCore
 from Qt.QtCompat import wrapInstance
 
+import re
+import time
 from functools import partial
 
 ASPECT_RATIO = 1.0/2
@@ -49,15 +50,19 @@ class LockResizeWindow(QtWidgets.QDialog):
         layout.setContentsMargins(0,0,0,0)
         self.setLayout(layout)
 
+        self.lockSizeState = True
+        self.ASPECT_RATIO = ASPECT_RATIO
         # label = QtWidgets.QLabel("test")
         # layout.addWidget(label)
 
     def resizeEvent(self,e):
-        width = e.size().width()
-        rect = self.geometry()
-        rect.setWidth(width)
-        rect.setHeight(width*ASPECT_RATIO)
-        self.setGeometry(rect)
+        if self.lockSizeState:
+            width = e.size().width()
+            rect = self.geometry()
+            rect.setWidth(width)
+            rect.setHeight(width*self.ASPECT_RATIO)
+            self.setGeometry(rect)
+
 
             
 # MF_ASPECTRATIO_WIN = LockResizeWindow(parent=mayaWindow())
@@ -76,6 +81,17 @@ def main():
             if win.objectName() == "MayaWindow":
                 continue
             
+            if hasattr(win,"lockSizeState"):
+                win.lockSizeState = not win.lockSizeState
+                if win.lockSizeState:
+                    title = re.sub(u"解锁",u"锁定",win.windowTitle())
+                    width = win.geometry().width()
+                    win.resize(width,width/2)
+                else:
+                    title = re.sub(u"锁定",u"解锁",win.windowTitle())
+                win.setWindowTitle(title)
+                continue
+
             # NOTE 将原窗口的大小修正到特定比例
             width = win.size().width()
             height = width*ASPECT_RATIO
@@ -84,8 +100,7 @@ def main():
                 width = desktop.height()
             win.resize(width,height)
 
-            _panel = cmds.modelPanel(toc=mp)
-            panel = mayaToQT(_panel).window()
+            panel = mayaToQT(cmds.modelPanel(toc=mp)).window()
             MF_ASPECTRATIO_WIN = LockResizeWindow()
 
             # NOTE 添加新的 Panel
@@ -93,7 +108,7 @@ def main():
 
             # NOTE 获取原窗口的数据
             MF_ASPECTRATIO_WIN.setObjectName(win.objectName())
-            MF_ASPECTRATIO_WIN.setWindowTitle(win.windowTitle())
+            MF_ASPECTRATIO_WIN.setWindowTitle(win.windowTitle().strip() + u" - 2 : 1 锁定")
 
             # NOTE 获取原窗口长宽
             MF_ASPECTRATIO_WIN.setGeometry(win.geometry())
