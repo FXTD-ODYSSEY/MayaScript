@@ -407,226 +407,222 @@ proc Overlapper()
 	$timeEnd = $timeEnd+2*$cycleLenghts;
 	}
 
-	// // Overlaping
-	// for ($i=0; $i<$iLoop; ++$i )
-	// 	{
-	// 	 	//progressBar	
-	// 		$amount += $prAmount;		
-	// 		progressWindow -edit
-	// 		-progress $amount
-	// 		-status ("Progress: "+$amount+"%");
+	// Overlaping
+	for ($i=0; $i<$iLoop; ++$i )
+		{
+		 	//progressBar	
+			$amount += $prAmount;		
+			progressWindow -edit
+			-progress $amount
+			-status ("Progress: "+$amount+"%");
 	
-	// 		//create locator
-	// 		spaceLocator -n ("overlapOffsetLocator"+$i);
-	// 		select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
-	// 		string $temps[] = `pointConstraint -offset 0 0 0 -weight 1`;
-	// 		delete $temps;
-	// 		$temps = `orientConstraint -offset 0 0 0 -weight 1`;
-	// 		delete $temps;
+			//create locator
+			spaceLocator -n ("overlapOffsetLocator"+$i);
+			select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
+			string $temps[] = `pointConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			$temps = `orientConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
 			
-	// 		//create IK locator
-	// 		spaceLocator -n ("overlapOffsetIKLocator"+$i);
-	// 		select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
-	// 		$temps = `pointConstraint -offset 0 0 0 -weight 1`;
-	// 		delete $temps;
-	// 		$temps = `orientConstraint -offset 0 0 0 -weight 1`;
-	// 		delete $temps;
+			//create IK locator
+			spaceLocator -n ("overlapOffsetIKLocator"+$i);
+			select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
+			$temps = `pointConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
+			$temps = `orientConstraint -offset 0 0 0 -weight 1`;
+			delete $temps;
 			
-	// 		select -r ("overlapOffsetLocator"+$i);
-	// 		if ($adptScale==1){$scaleModulator = $averageLenghtJoints;}
-	// 		float $overlapIntensityMult = $averageLenghtJoints/$overlapIntensity*5;
-	// 		move  -r -os -ls $overlapIntensityMult 0 0 ;
-	// 		select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
-	// 		parentConstraint -mo -weight 1;
+			select -r ("overlapOffsetLocator"+$i);
+			if ($adptScale==1){$scaleModulator = $averageLenghtJoints;}
+			float $overlapIntensityMult = $averageLenghtJoints/$overlapIntensity*5;
+			move  -r -os -ls $overlapIntensityMult 0 0 ;
+			select -r $overlapJointsArray[$i] ("overlapOffsetLocator"+$i);
+			parentConstraint -mo -weight 1;
 			
-	// 		select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
-	// 		parentConstraint -mo -weight 1;
+			select -r $overlapJointsArray[$i] ("overlapOffsetIKLocator"+$i);
+			parentConstraint -mo -weight 1;
 	
-	// 		bakeResults -simulation 0 
-	// 		    -t ($timeStart+":"+$timeEnd)
-	// 		    -sampleBy 1 
-	// 		    -disableImplicitControl 1 
-	// 		    -preserveOutsideKeys 1 
-	// 		    -sparseAnimCurveBake 0 
-	// 		    -removeBakedAttributeFromLayer 0 
-	// 		    -removeBakedAnimFromLayer 0 
-	// 		    -bakeOnOverrideLayer 0     
-	// 		    -minimizeRotation 0 
-	// 		    -controlPoints 0 
-	// 		    -shape 1 
-	// 		    ("overlapOffsetLocator"+$i) ("overlapOffsetIKLocator"+$i);    
+			bakeResults -simulation 0 
+			    -t ($timeStart+":"+$timeEnd)
+			    -sampleBy 1 
+			    -disableImplicitControl 1 
+			    -preserveOutsideKeys 1 
+			    -sparseAnimCurveBake 0 
+			    -removeBakedAttributeFromLayer 0 
+			    -removeBakedAnimFromLayer 0 
+			    -bakeOnOverrideLayer 0     
+			    -minimizeRotation 0 
+			    -controlPoints 0 
+			    -shape 1 
+			    ("overlapOffsetLocator"+$i) ("overlapOffsetIKLocator"+$i);    
 			    
-	// 		filterCurve ("overlapOffsetLocator"+$i+"_rotateX")("overlapOffsetLocator"+$i+"_rotateY")("overlapOffsetLocator"+$i+"_rotateZ");	
-	// 		spaceLocator -n ("overlapOffsetLocatorWind"+$i);
-	// 		parent ("overlapOffsetLocatorWind"+$i) ("overlapOffsetLocator"+$i);
-	// 		makeIdentity -apply false -t 1 -r 1 -s 1;
+			filterCurve ("overlapOffsetLocator"+$i+"_rotateX")("overlapOffsetLocator"+$i+"_rotateY")("overlapOffsetLocator"+$i+"_rotateZ");	
+			spaceLocator -n ("overlapOffsetLocatorWind"+$i);
+			parent ("overlapOffsetLocatorWind"+$i) ("overlapOffsetLocator"+$i);
+			makeIdentity -apply false -t 1 -r 1 -s 1;
 	
-	// 		float $timeShiftNeg = -1*$timeShift;
-	// 		float $timeShiftCurrent = $timeShift+1;
+			float $timeShiftNeg = -1*$timeShift;
+			float $timeShiftCurrent = $timeShift+1;
 			
-	// 		// NOTE 根据softness偏移关键帧
-	// 	    keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateX");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateY");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateZ");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateX");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateY");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateZ");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateX");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateY");
-	// 		keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateZ");
+			// NOTE 根据softness偏移关键帧
+		    keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_translateZ");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetIKLocator"+$i+"_translateZ");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateX");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateY");
+			keyframe -e -iub true -r -o over -tc $timeShift ("overlapOffsetLocator"+$i+"_rotateZ");
 	
-	// 		// NOTE 选择关键帧
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateX");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateY");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateZ");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateX");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateY");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateZ");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateX");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateY");
-	// 		selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateZ");
+			// NOTE 选择关键帧
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_translateZ");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetIKLocator"+$i+"_translateZ");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateX");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateY");
+			selectKey -add -k -t $timeShiftCurrent ("overlapOffsetLocator"+$i+"_rotateZ");
 			
-	// 		// NOTE 将动画关键帧的初始帧挪动到初始位置上
-	// 		keyframe -animation keys -option over -relative -timeChange $timeShiftNeg;
+			// NOTE 将动画关键帧的初始帧挪动到初始位置上
+			keyframe -animation keys -option over -relative -timeChange $timeShiftNeg;
 			
-	// 		// NOTE 重新创建跟手的偏移 Locator
-	// 		spaceLocator -n ("overlapInLocator_first_"+$i);
-	// 		spaceLocator -n ("overlapInLocator_second_"+$i);
-	// 		spaceLocator -n ("overlapResultLocator_"+$i);
-	// 		select -r ("overlapInLocator_first_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
-	// 		Parent;
-	// 		select -r ("overlapInLocator_second_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
-	// 		Parent;
-	// 		select -r ("overlapResultLocator_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
-	// 		Parent;
-	// 		select -r ("overlapInLocator_first_"+$i) ("overlapInLocator_second_"+$i) ("overlapResultLocator_"+$i);
-	// 		makeIdentity -apply false -t 1 -r 1 -s 1;
-	// 		select -r("overlapInLocator_second_"+$i);
-	// 		move  -r -os -ls $overlapIntensityMult 0 0 ;		
-	// 		select -r ("overlapInLocator_first_"+$i);
-	// 		group -n ("overlapInLocator_first_"+$i+"grp");
+			// NOTE 重新创建跟手的偏移 Locator
+			spaceLocator -n ("overlapInLocator_first_"+$i);
+			spaceLocator -n ("overlapInLocator_second_"+$i);
+			spaceLocator -n ("overlapResultLocator_"+$i);
+			select -r ("overlapInLocator_first_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapInLocator_second_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapResultLocator_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			Parent;
+			select -r ("overlapInLocator_first_"+$i) ("overlapInLocator_second_"+$i) ("overlapResultLocator_"+$i);
+			makeIdentity -apply false -t 1 -r 1 -s 1;
+			select -r("overlapInLocator_second_"+$i);
+			move  -r -os -ls $overlapIntensityMult 0 0 ;		
+			select -r ("overlapInLocator_first_"+$i);
+			group -n ("overlapInLocator_first_"+$i+"grp");
 		
-	// 		// IK mode
-	// 		if($TRANSLATEmode==1)
-	// 		{ 
-	// 			select -r ("overlapOffsetIKLocator"+$i) ("overlapInLocator_first_"+$i+"grp");
-	// 			pointConstraint -mo -weight 1;
-	// 		}
+			// // IK mode
+			// if($TRANSLATEmode==1)
+			// { 
+			// 	select -r ("overlapOffsetIKLocator"+$i) ("overlapInLocator_first_"+$i+"grp");
+			// 	pointConstraint -mo -weight 1;
+			// }
 			
-	// 		// NOTE 相对位置约束，构建出 差值 跟随locator
-	// 		select -r ("overlapOffsetLocatorWind"+$i) ("overlapInLocator_second_"+$i);
-	// 		parentConstraint -mo -weight 1;
+			// NOTE 相对位置约束，构建出 差值 跟随locator
+			select -r ("overlapOffsetLocatorWind"+$i) ("overlapInLocator_second_"+$i);
+			parentConstraint -mo -weight 1;
 			
-	// 		select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i+"grp");
-	// 		aimConstraint -mo -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "object" -worldUpObject ("overlapInLocator_second_"+$i);
-	// 		select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i);
-	// 		orientConstraint -mo -skip y -skip z -weight 1;
-	// 		select -r  ("overlapInLocator_first_"+$i) ("overlapResultLocator_"+$i);
-	// 		parentConstraint -mo -weight 1;
+			select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i+"grp");
+			aimConstraint -mo -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "object" -worldUpObject ("overlapInLocator_second_"+$i);
+			select -r ("overlapInLocator_second_"+$i) ("overlapInLocator_first_"+$i);
+			orientConstraint -mo -skip y -skip z -weight 1;
+			select -r  ("overlapInLocator_first_"+$i) ("overlapResultLocator_"+$i);
+			parentConstraint -mo -weight 1;
 		
-	// 		///Wind
-	// 		if($i<1&&$WindSwitch==1) 
-	// 		{
-	//     		select -r overlapOffsetLocatorWind0;
-	//     		string $WindFirstControl[] = `ls -sl`;
+			///Wind
+			if($i<1&&$WindSwitch==1) 
+			{
+	    		select -r overlapOffsetLocatorWind0;
+	    		string $WindFirstControl[] = `ls -sl`;
 	    		
-	//     		float $windMultiply = 0.07*$overlapIntensityMult*$windScaleValue ; 
-	//     		float $speedMultiply = 20/$windSpeedValue; 
+	    		float $windMultiply = 0.07*$overlapIntensityMult*$windScaleValue ; 
+	    		float $speedMultiply = 20/$windSpeedValue; 
 	    		
-	//     		setKeyframe  -attribute "translateY" -attribute "translateZ" -t $timeStart overlapOffsetLocatorWind0;
+	    		setKeyframe  -attribute "translateY" -attribute "translateZ" -t $timeStart overlapOffsetLocatorWind0;
 	    		
-	//     		bakeResults 
-	//     			-simulation 0 
-	//     			-t ($timeStart+":"+($timeEnd+$speedMultiply))
-	//     			-sampleBy $speedMultiply 
-	//     			-oversamplingRate 1 
-	//     			-disableImplicitControl true 
-	//     			-preserveOutsideKeys 1 
-	//     			-sparseAnimCurveBake false 
-	//     			-removeBakedAttributeFromLayer false 
-	//     			-removeBakedAnimFromLayer false 
-	//     			-bakeOnOverrideLayer false 
-	//     			-minimizeRotation true 
-	//     			-at "ty" -at "tz" 
-	//     			overlapOffsetLocatorWind0;
+	    		bakeResults 
+	    			-simulation 0 
+	    			-t ($timeStart+":"+($timeEnd+$speedMultiply))
+	    			-sampleBy $speedMultiply 
+	    			-oversamplingRate 1 
+	    			-disableImplicitControl true 
+	    			-preserveOutsideKeys 1 
+	    			-sparseAnimCurveBake false 
+	    			-removeBakedAttributeFromLayer false 
+	    			-removeBakedAnimFromLayer false 
+	    			-bakeOnOverrideLayer false 
+	    			-minimizeRotation true 
+	    			-at "ty" -at "tz" 
+	    			overlapOffsetLocatorWind0;
 	    		
-	//     		    string $listAnimAttrs[] = `listAttr -k overlapOffsetLocatorWind0`;		
-	//     			for ($attr in $listAnimAttrs)
-	//     			{ 	
-	//     				// array of animated atributes
-	//     				string $animCurve[] = `listConnections -type "animCurve" ("overlapOffsetLocatorWind0."+$attr)`;
-	//     				for ($animCurveCurrent in $animCurve)
-	//     					{
-	//     						// array of keys
-	//     						float $animCurveCurrentKeysTimeArray[] = `keyframe -time ($timeStart+":"+$timeEnd) -query -timeChange $animCurveCurrent`;
+	    		    string $listAnimAttrs[] = `listAttr -k overlapOffsetLocatorWind0`;		
+	    			for ($attr in $listAnimAttrs)
+	    			{ 	
+	    				// array of animated atributes
+	    				string $animCurve[] = `listConnections -type "animCurve" ("overlapOffsetLocatorWind0."+$attr)`;
+	    				for ($animCurveCurrent in $animCurve)
+	    					{
+	    						// array of keys
+	    						float $animCurveCurrentKeysTimeArray[] = `keyframe -time ($timeStart+":"+$timeEnd) -query -timeChange $animCurveCurrent`;
 	    		
-	//     					    // array of values
-	// 							for ($animCurveCurrentKeysTime in $animCurveCurrentKeysTimeArray)
-	// 							{
-	// 								float $animCurveCurrentKeysTimeArray[] = `keyframe -time $animCurveCurrentKeysTime -query -valueChange $animCurveCurrent`;
+	    					    // array of values
+								for ($animCurveCurrentKeysTime in $animCurveCurrentKeysTimeArray)
+								{
+									float $animCurveCurrentKeysTimeArray[] = `keyframe -time $animCurveCurrentKeysTime -query -valueChange $animCurveCurrent`;
 									
-	// 								//Randomazer
-	// 								float $RandomizerValue = `rand -1 1`;
-	// 								float $animCurveCurrentKeysValueArrayAddRandom = $animCurveCurrentKeysTimeArray[0]+$windMultiply*$RandomizerValue;
-	// 								keyframe -e -iub true -r -o over -vc $animCurveCurrentKeysValueArrayAddRandom -t $animCurveCurrentKeysTime $animCurveCurrent;
-	//     						}
-	//                         }
-	// 			    }
-	// 			keyframe -e -iub true -r -o over -tc ($speedMultiply/2) overlapOffsetLocatorWind0_translateY;
-	// 			selectKey -add -k -t (($speedMultiply/2)+1) overlapOffsetLocatorWind0_translateY;
-	//     		keyframe -animation keys -option over -relative -timeChange ($speedMultiply/-2);
-	// 		}
+									//Randomazer
+									float $RandomizerValue = `rand -1 1`;
+									float $animCurveCurrentKeysValueArrayAddRandom = $animCurveCurrentKeysTimeArray[0]+$windMultiply*$RandomizerValue;
+									keyframe -e -iub true -r -o over -vc $animCurveCurrentKeysValueArrayAddRandom -t $animCurveCurrentKeysTime $animCurveCurrent;
+	    						}
+	                        }
+				    }
+				keyframe -e -iub true -r -o over -tc ($speedMultiply/2) overlapOffsetLocatorWind0_translateY;
+				selectKey -add -k -t (($speedMultiply/2)+1) overlapOffsetLocatorWind0_translateY;
+	    		keyframe -animation keys -option over -relative -timeChange ($speedMultiply/-2);
+			}
 			
-	// 		bakeResults -simulation 0 
-	// 				    -t ($timeStart+":"+$timeEnd)
-	// 				    -sampleBy 1 
-	// 				    -disableImplicitControl 1 
-	// 				    -preserveOutsideKeys 1 
-	// 				    -sparseAnimCurveBake 0 
-	// 				    -removeBakedAttributeFromLayer 0 
-	// 				    -removeBakedAnimFromLayer 0 
-	// 				    -bakeOnOverrideLayer 0     
-	// 				    -minimizeRotation 0 
-	// 				    -controlPoints 0 
-	// 				    -shape 1 
-	// 				    ("overlapResultLocator_"+$i);
+			bakeResults -simulation 0 
+					    -t ($timeStart+":"+$timeEnd)
+					    -sampleBy 1 
+					    -disableImplicitControl 1 
+					    -preserveOutsideKeys 1 
+					    -sparseAnimCurveBake 0 
+					    -removeBakedAttributeFromLayer 0 
+					    -removeBakedAnimFromLayer 0 
+					    -bakeOnOverrideLayer 0     
+					    -minimizeRotation 0 
+					    -controlPoints 0 
+					    -shape 1 
+					    ("overlapResultLocator_"+$i);
 					    
-	// 	    if($deBugMode==0) {delete ("overlapInLocator_first_"+$i) ("overlapInLocator_first_"+$i+"grp") ("overlapOffsetLocator"+$i) ("overlapInLocator_second_"+$i);}
-	// 	    spaceLocator -n ("overlapResultLocatorOut_"+$i);
+		    if($deBugMode==0) {delete ("overlapInLocator_first_"+$i) ("overlapInLocator_first_"+$i+"grp") ("overlapOffsetLocator"+$i) ("overlapInLocator_second_"+$i);}
+		    spaceLocator -n ("overlapResultLocatorOut_"+$i);
 		    	 
-	// 	    if(`objExists "OverlapperOverlapResultLocatorSet"`) {sets -edit -forceElement OverlapperOverlapResultLocatorSet ("overlapResultLocatorOut_"+$i);}
-	//  	    else {$createSetResult = `sets -name "OverlapperOverlapResultLocatorSet"`;}
+		    if(`objExists "OverlapperOverlapResultLocatorSet"`) {sets -edit -forceElement OverlapperOverlapResultLocatorSet ("overlapResultLocatorOut_"+$i);}
+	 	    else {$createSetResult = `sets -name "OverlapperOverlapResultLocatorSet"`;}
 
-	//     	// NOTE 将 ResultLocator 输出到 out 上
-	// 	    select -r  ("overlapResultLocator_"+$i) ("overlapResultLocatorOut_"+$i);
-	// 	    parentConstraint -weight 1;
-	// 	    bakeResults -simulation 0 
-	// 				    -t ($timeStart+":"+$timeEnd)
-	// 				    -sampleBy 1 
-	// 				    -disableImplicitControl 1 
-	// 				    -preserveOutsideKeys 1 
-	// 				    -sparseAnimCurveBake 0 
-	// 				    -removeBakedAttributeFromLayer 0 
-	// 				    -removeBakedAnimFromLayer 0 
-	// 				    -bakeOnOverrideLayer 0     
-	// 				    -minimizeRotation 0 
-	// 				    -controlPoints 0 
-	// 				    -shape 1 
-	// 				    ("overlapResultLocatorOut_"+$i);
-	// 		if($deBugMode==0) {delete ("overlapResultLocator_"+$i);}
+	    	// NOTE 将 ResultLocator 输出到 out 上
+		    select -r  ("overlapResultLocator_"+$i) ("overlapResultLocatorOut_"+$i);
+		    parentConstraint -weight 1;
+		    bakeResults -simulation 0 
+					    -t ($timeStart+":"+$timeEnd)
+					    -sampleBy 1 
+					    -disableImplicitControl 1 
+					    -preserveOutsideKeys 1 
+					    -sparseAnimCurveBake 0 
+					    -removeBakedAttributeFromLayer 0 
+					    -removeBakedAnimFromLayer 0 
+					    -bakeOnOverrideLayer 0     
+					    -minimizeRotation 0 
+					    -controlPoints 0 
+					    -shape 1 
+					    ("overlapResultLocatorOut_"+$i);
+			if($deBugMode==0) {delete ("overlapResultLocator_"+$i);}
 
-	//     	// NOTE 将 ResultLocator 输出到 out 上
-	// 		// if ($i < 1) {
-	// 		// 	select -r ("overlapResultLocatorOut_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
-	// 		// 	parentConstraint -weight 1 -mo;
-	// 		// }
-	// 		select -r ("overlapResultLocatorOut_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
-	// 		parentConstraint -weight 1 -mo;
-	// }
+	    	// NOTE 将 ResultLocator 输出到 out 上
+			select -r ("overlapResultLocatorOut_"+$i) ($SelectedControls[$i]+"_OverlapJoint");
+			parentConstraint -weight 1 -mo;
+	}
 	    
 
 	    
-	// // constrain controls back to joint
+	// constrain controls back to joint
    
     // if ($useFirstCtrl==1)
 	// {

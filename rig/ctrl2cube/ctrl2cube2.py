@@ -107,8 +107,9 @@ def replaceController2Cube():
 
             pm.parent(shape,origin,r=1,s=1)
             pm.delete(crv)
+            name = origin_shape.name()
             pm.delete(origin_shape)
-
+            shape.rename(name)
         else:
             # NOTE 说明层之下没有骨骼了
             pm.warning(u"找不到下层级骨骼 %s" % origin)

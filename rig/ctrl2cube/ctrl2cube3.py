@@ -78,13 +78,13 @@ def replaceController2Cube(distant=3):
 
         try:
             start_jnt = jnt_list[0]
-            start_pt = start_jnt.getTranslation(space="world")
-            origin_pt = origin.getTranslation(space="world")
+            start_pt = dt.Point(*pm.xform(start_jnt,q=1,ws=1,t=1))
+            origin_pt = dt.Point(*pm.xform(origin,q=1,ws=1,t=1))
             if (start_pt - origin_pt).length() > 0.01:
                 raise RuntimeError()
             child_list = pm.ls(start_jnt,dag=1,type="joint")
             end_jnt = child_list[1]
-            end_pt = end_jnt.getTranslation(space="world")
+            end_pt = dt.Point(*pm.xform(end_jnt,q=1,ws=1,t=1))
             crv = generateCubeFromVector(start_pt,end_pt,origin,distant=distant)
         except:
             start_pt = dt.Point(-distant,0,0)
@@ -104,7 +104,9 @@ def replaceController2Cube(distant=3):
 
         pm.parent(shape,origin,r=1,s=1)
         pm.delete(crv)
+        name = origin_shape.name()
         pm.delete(origin_shape)
+        shape.rename(name)
 
 
 if __name__ == "__main__":

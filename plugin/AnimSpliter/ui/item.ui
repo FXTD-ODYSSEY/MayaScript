@@ -42,6 +42,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum">
+      <number>-9</number>
+     </property>
      <property name="maximum">
       <number>999</number>
      </property>

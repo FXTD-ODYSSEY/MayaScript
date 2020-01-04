@@ -42,6 +42,8 @@ def main():
     REMOTE = "9.134.117.16"
     GIT_DIR = "//{REMOTE}/Tools/Scripts/".format(REMOTE=REMOTE)
     # NOTE 通过 git 读取更新日志
+    # NOTE https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
+    # NOTE https://stackoverflow.com/questions/16792737/git-change-working-directory
     CMD = '//{REMOTE}/Tools/software/git/bin/git --git-dir //{REMOTE}/Tools/Scripts/.git show --pretty="" --name-only'.format(REMOTE=REMOTE)
 
     cmds.progressWindow(title=u'读取更新信息',status=u"读取更新信息...",progress=0.0)
