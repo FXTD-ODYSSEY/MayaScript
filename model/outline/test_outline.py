@@ -150,10 +150,16 @@ def generateProfileCurve(profile_node):
         crv_list.append(crv.getParent())
     return crv_list
 
-def main():
+def main(size = 0.5):
     
-    size = 0.5
-        
+    
+    pm.nurbsToPolygonsPref(polyType = 1)
+    pm.nurbsToPolygonsPref(format   = 2)
+    pm.nurbsToPolygonsPref(uType    = 3)
+    pm.nurbsToPolygonsPref(uNumber  = 1)
+    pm.nurbsToPolygonsPref(vType    = 3)
+    pm.nurbsToPolygonsPref(vNumber  = 1)
+
     mel.eval("""
     source "assignPfxToon.mel";
     """)
@@ -177,7 +183,7 @@ def main():
         # NOTE 曲线放样成描边模型
         for base in base_crv_list:
             pm.rebuildCurve(base,ch=0,rpo=1,rt=0,end=1,kr=1,kcp=0,kep=1,kt=0,s=0,d=3,tol=0.01)
-            inflate = inflateCurveOnMesh(base,sel)
+            inflate = inflateCurveOnMesh(base,sel,scale=size)
             inflate_crv_list.append(inflate)
 
             mesh = pm.loft(base,inflate,ch=0,u=1,c=0,ar=1,d=3,ss=1,rn=0,po=1,rsn=1)
