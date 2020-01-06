@@ -9,7 +9,6 @@ overlapper 插件改良
 """
 
 from maya import cmds
-import random
 # from PySide2 import QtGui
 # from PySide2 import QtCore
 # from PySide2 import QtWidgets
@@ -35,14 +34,9 @@ import random
 
 # cmds.delete("*_OverlapJoint")
 
-    
+
 overlapIntensity = 1.0
-timeShift = 3.0
-
-WindSwitch = True
-windScaleValue = 1.0
-windSpeedValue = 1.0
-
+timeShift = 2.0
 timeStart = cmds.playbackOptions(q=1,min=1)
 timeEnd = cmds.playbackOptions(q=1,max=1)
 
@@ -96,19 +90,16 @@ timeShiftCurrent = 1+timeShift
 
 for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
 
-    IK_loc = cmds.spaceLocator(n="overlapOffsetIKLocator%s"%i)[0]
-    cmds.delete(cmds.parentConstraint(jnt,IK_loc,w=1))
     offset_loc = cmds.spaceLocator(n="overlapOffsetLocator%s"%i)[0]
     cmds.delete(cmds.parentConstraint(jnt,offset_loc,w=1))
 
     cmds.move(overlapIntensityMult,0,0,r=1,os=1,ls=1)
     con_1 = cmds.parentConstraint(jnt,offset_loc,mo=1)
-    con_2 = cmds.parentConstraint(jnt,IK_loc,mo=1)
 
     # bake
     # filter curve
     cmds.bakeResults(
-        offset_loc,IK_loc,
+        offset_loc,
         simulation = 0,
         t = (timeStart,timeEnd),
         sampleBy = 1, 
@@ -116,7 +107,7 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
         preserveOutsideKeys = 1, 
     )
 
-    cmds.delete(con_1,con_2)
+    cmds.delete(con_1)
 
     # NOTE 过滤关键帧曲线
     cmds.filterCurve(
@@ -128,9 +119,6 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
     cmds.parent(wind_loc,offset_loc)
     cmds.makeIdentity(wind_loc,a=0,t=1,r=1,s=1,n=0,pn=1)
     
-    cmds.keyframe((IK_loc+"_translateX"),e=1,iub=1,r=1,o="over",tc=timeShift)
-    cmds.keyframe((IK_loc+"_translateY"),e=1,iub=1,r=1,o="over",tc=timeShift)
-    cmds.keyframe((IK_loc+"_translateZ"),e=1,iub=1,r=1,o="over",tc=timeShift)
     cmds.keyframe((offset_loc+"_translateX"),e=1,iub=1,r=1,o="over",tc=timeShift)
     cmds.keyframe((offset_loc+"_translateY"),e=1,iub=1,r=1,o="over",tc=timeShift)
     cmds.keyframe((offset_loc+"_translateZ"),e=1,iub=1,r=1,o="over",tc=timeShift)
@@ -138,9 +126,6 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
     cmds.keyframe((offset_loc+"_rotateY"),e=1,iub=1,r=1,o="over",tc=timeShift)
     cmds.keyframe((offset_loc+"_rotateZ"),e=1,iub=1,r=1,o="over",tc=timeShift)
 
-    cmds.selectKey((IK_loc+"_translateX"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
-    cmds.selectKey((IK_loc+"_translateY"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
-    cmds.selectKey((IK_loc+"_translateZ"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
     cmds.selectKey((offset_loc+"_translateX"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
     cmds.selectKey((offset_loc+"_translateY"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
     cmds.selectKey((offset_loc+"_translateZ"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
@@ -148,16 +133,15 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
     cmds.selectKey((offset_loc+"_rotateY"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
     cmds.selectKey((offset_loc+"_rotateZ"),add=1,k=1,t=(timeShiftCurrent,timeShiftCurrent))
 
+
     cmds.keyframe(animation="keys",option="over",relative=1,timeChange=timeShiftNeg)
 
     first_loc = cmds.spaceLocator(n="overlapInLocator_first_%s"%i)[0]
-    result_loc = cmds.spaceLocator(n="overlapResultLocator_%s"%i)[0]
     second_loc = cmds.spaceLocator(n="overlapInLocator_second_%s"%i)[0]
     cmds.parent(first_loc,jnt)
-    cmds.parent(result_loc,jnt)
     cmds.parent(second_loc,jnt)
 
-    cmds.makeIdentity(first_loc,second_loc,result_loc,a=0,t=1,r=1,s=1,n=0,pn=1)
+    cmds.makeIdentity(first_loc,second_loc,a=0,t=1,r=1,s=1,n=0,pn=1)
 
     cmds.move(overlapIntensityMult,0,0,r=1,os=1,ls=1)
 
@@ -167,38 +151,10 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
 
     cmds.aimConstraint(second_loc,aim_grp,mo=1,aimVector=[1,0,0],upVector=[0,1,0],worldUpType="object",worldUpObject=second_loc)
     cmds.orientConstraint(second_loc,first_loc,mo=1,skip=["y","z"],w=1)
-    cmds.parentConstraint(first_loc,result_loc,mo=1)
-
-    if i < 1 and WindSwitch :
-        windMultiply = 0.07*overlapIntensityMult*windScaleValue
-        speedMultiply = 20/windSpeedValue; 
-
-        cmds.setKeyframe( wind_loc, attribute=['translateY','translateZ'], t=[timeStart,timeStart] )
-
-        cmds.bakeResults(
-            wind_loc,
-            simulation = 0,
-            t = (timeStart,timeEnd+speedMultiply),
-            sampleBy = speedMultiply, 
-            oversamplingRate = 1, 
-            disableImplicitControl = 1, 
-            preserveOutsideKeys = 1, 
-            at = ['ty','tz']
-        )
-
-        for attr in cmds.listAttr(wind_loc,k=1):
-            for animCurveCurrent in cmds.listConnections("%s.%s"%(wind_loc,attr),type="animCurve"):
-                for animCurveCurrentKeysTime in cmds.keyframe(animCurveCurrent,q=1,t=[timeStart,timeEnd],tc=1):
-                    animCurveCurrentKeysTimeArray = cmds.keyframe(animCurveCurrent,q=1,time=[animCurveCurrentKeysTime,animCurveCurrentKeysTime],vc=1)
-                    RandomizerValue = random.random()*2 - 1
-                    animCurveCurrentKeysValueArrayAddRandom = animCurveCurrentKeysTimeArray[0] + windMultiply*RandomizerValue
-                    cmds.keyframe(animCurveCurrent,e=1,iub=1,r=1,o="over",vc=animCurveCurrentKeysValueArrayAddRandom,t=[animCurveCurrentKeysTime,animCurveCurrentKeysTime])
-
-        attr = (wind_loc+"_translateY")
-        cmds.keyframe(attr,e=1,iub=1,r=1,o="over",tc=speedMultiply/2)
-        cmds.selectKey(attr,add=1,k=1,t=(speedMultiply/2)+1)
-        cmds.keyframe(attr,animation="keys",r=1,o="over",tc=speedMultiply/-2)
     
+    result_loc = cmds.spaceLocator(n="overlapResultLocator_%s"%i)[0]
+    cmds.parentConstraint(first_loc,result_loc)
+
     cmds.bakeResults(
         result_loc,
         simulation = 0,
@@ -207,16 +163,28 @@ for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
         disableImplicitControl = 1, 
         preserveOutsideKeys = 1, 
     )
+    cmds.parentConstraint(result_loc,jnt,mo=1)
 
-    out_loc = cmds.spaceLocator(n="overlapResultLocatorOut_%s"%i)
-    cmds.parentConstraint(result_loc,out_loc,mo=1)
+    # out_loc = cmds.spaceLocator(n="overlapResultLocatorOut_%s"%i)
+    # cmds.parentConstraint(result_loc,out_loc,mo=1)
 
-    cmds.bakeResults(
-        out_loc,
-        simulation = 0,
-        t = (timeStart,timeEnd),
-        sampleBy = 1, 
-        disableImplicitControl = 1, 
-        preserveOutsideKeys = 1, 
-    )
-    cmds.parentConstraint(out_loc,jnt,mo=1)
+    # cmds.bakeResults(
+    #     out_loc,
+    #     simulation = 0,
+    #     t = (timeStart,timeEnd),
+    #     sampleBy = 1, 
+    #     disableImplicitControl = 1, 
+    #     preserveOutsideKeys = 1, 
+    # )
+    # cmds.parentConstraint(out_loc,jnt,mo=1)
+
+    # cmds.bakeResults(
+    #     jnt,
+    #     simulation = 0,
+    #     t = (timeStart,timeEnd),
+    #     sampleBy = 1, 
+    #     disableImplicitControl = 1, 
+    #     preserveOutsideKeys = 1, 
+    # )
+
+    # break
