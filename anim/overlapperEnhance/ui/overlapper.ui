@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>317</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Overlapper 1.2 </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Softness</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="Softness_SP">
+       <property name="minimum">
+        <double>-999.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>3.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Scale</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="Scale_SP">
+       <property name="minimum">
+        <double>-999.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="Wind_CB">
+     <property name="title">
+      <string>Wind</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Scale</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="Wind_Scale_SP">
+          <property name="minimum">
+           <double>-999.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Speed</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="Wind_Speed_SP">
+          <property name="minimum">
+           <double>-999.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="verticalGroupBox_2">
+     <property name="title">
+      <string>Option</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QCheckBox" name="First_CB">
+        <property name="text">
+         <string>Dont't use first controls</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Translate_CB">
+        <property name="text">
+         <string>Add translate</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Hierarchy_CB">
+        <property name="text">
+         <string>Hierarchy</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Cycle_CB">
+        <property name="text">
+         <string>Cycle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Bake_CB">
+        <property name="text">
+         <string>Bake on anim layer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="Overlap_BTN">
+     <property name="text">
+      <string>Overlap</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

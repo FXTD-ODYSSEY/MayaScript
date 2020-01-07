@@ -35,14 +35,18 @@ import random
 
 # cmds.delete("*_OverlapJoint")
 
-def mian():
+def main():
         
     overlapIntensity = 1.0
     timeShift = 3.0
 
-    WindSwitch = True
-    windScaleValue = 1.0
+    WindSwitch = False
+    windScaleValue = 3.0
     windSpeedValue = 1.0
+
+    TRANSLATEmode = True
+    
+    CycleCheckBox = True
 
     timeStart = cmds.playbackOptions(q=1,min=1)
     timeEnd = cmds.playbackOptions(q=1,max=1)
@@ -54,7 +58,7 @@ def mian():
     cmds.select(cl=1)
     for i,controller in enumerate(controller_list):
         # controller.getRotatePivot(space="world")
-        pos = cmds.xform(controller,q=1,rp=1) 
+        pos = cmds.xform(controller,q=1,rp=1,ws=1) 
         jnt = cmds.joint(p=pos,rad=1,n="%s_OverlapJoint" % controller)
         if i > 0:
             cmds.joint(_jnt,e=1,zso=1,oj="xyz",sao="yup")
@@ -77,24 +81,45 @@ def mian():
     for controller,jnt in zip(controller_list,jnt_list):
         constraint_list.extend(cmds.pointConstraint(controller,jnt,mo=1))
         constraint_list.extend(cmds.orientConstraint(controller,jnt,mo=1))
-
+    
     # bake
     cmds.bakeResults(
         jnt_list,
-        simulation = 0,
+        simulation = 1,
         t = (timeStart,timeEnd),
         sampleBy = 1, 
         disableImplicitControl = 1, 
         preserveOutsideKeys = 0, 
     )
-
+    
     cmds.delete(constraint_list)
 
+    if CycleCheckBox:
+        for i,jnt in enumerate(jnt_list):
+            # if i == len(controller_list) - 1:
+            #     continue
+
+            cmds.selectKey(
+                cmds.listConnections(jnt+".tx",type="animCurve"),
+                cmds.listConnections(jnt+".ty",type="animCurve"),
+                cmds.listConnections(jnt+".tz",type="animCurve"),
+                cmds.listConnections(jnt+".rx",type="animCurve"),
+                cmds.listConnections(jnt+".ry",type="animCurve"),
+                cmds.listConnections(jnt+".rz",type="animCurve"),
+                r=1,k=1,t=(timeStart,timeEnd))
+            cmds.copyKey()
+            cmds.pasteKey(time=(timeEnd,timeEnd),float=(timeEnd,timeEnd),option="insert",copies=2,connect=0,timeOffset=0,floatOffset=0,valueOffset=0)
+        
+        cycleLenghts = timeEnd - timeStart
+        timeEnd = timeEnd + 2*cycleLenghts
+
+    
     # NOTE 进行 overlap
     overlapIntensityMult = averageLenghtJoints/overlapIntensity*5
     timeShiftNeg = -timeShift
     timeShiftCurrent = 1+timeShift
 
+    out_list = []
     for i,[controller,jnt] in enumerate(zip(controller_list,jnt_list)):
 
         IK_loc = cmds.spaceLocator(n="overlapOffsetIKLocator%s"%i)[0]
@@ -119,6 +144,8 @@ def mian():
 
         cmds.delete(con_1,con_2)
 
+       
+        
         # NOTE 过滤关键帧曲线
         cmds.filterCurve(
             (offset_loc+"_rotateX"),
@@ -164,41 +191,49 @@ def mian():
 
         aim_grp = cmds.group(first_loc,n=first_loc+"grp")
         
+        if TRANSLATEmode:
+            cmds.pointConstraint(IK_loc,first_loc,mo=1)
+
         cmds.parentConstraint(wind_loc,second_loc,mo=1)
 
         cmds.aimConstraint(second_loc,aim_grp,mo=1,aimVector=[1,0,0],upVector=[0,1,0],worldUpType="object",worldUpObject=second_loc)
         cmds.orientConstraint(second_loc,first_loc,mo=1,skip=["y","z"],w=1)
         cmds.parentConstraint(first_loc,result_loc,mo=1)
 
-        # if i < 1 and WindSwitch :
-        #     windMultiply = 0.07*overlapIntensityMult*windScaleValue
-        #     speedMultiply = 20/windSpeedValue; 
+        if WindSwitch :
+            windMultiply = 0.07*overlapIntensityMult*windScaleValue
+            speedMultiply = 20/windSpeedValue; 
 
-        #     cmds.setKeyframe( wind_loc, attribute=['translateY','translateZ'], t=[timeStart,timeStart] )
+            cmds.setKeyframe( wind_loc, attribute=['translateY','translateZ'], t=[timeStart,timeStart] )
 
-        #     cmds.bakeResults(
-        #         wind_loc,
-        #         simulation = 0,
-        #         t = (timeStart,timeEnd+speedMultiply),
-        #         sampleBy = speedMultiply, 
-        #         oversamplingRate = 1, 
-        #         disableImplicitControl = 1, 
-        #         preserveOutsideKeys = 1, 
-        #         at = ['ty','tz']
-        #     )
+            cmds.bakeResults(
+                wind_loc,
+                simulation = 0,
+                t = (timeStart,timeEnd+speedMultiply),
+                sampleBy = speedMultiply, 
+                oversamplingRate = 1, 
+                disableImplicitControl = 1, 
+                preserveOutsideKeys = 1, 
+                at = ['ty','tz']
+            )
 
-        #     for attr in cmds.listAttr(wind_loc,k=1):
-        #         for animCurveCurrent in cmds.listConnections("%s.%s"%(wind_loc,attr),type="animCurve"):
-        #             for animCurveCurrentKeysTime in cmds.keyframe(animCurveCurrent,q=1,t=[timeStart,timeEnd],tc=1):
-        #                 animCurveCurrentKeysTimeArray = cmds.keyframe(animCurveCurrent,q=1,time=[animCurveCurrentKeysTime,animCurveCurrentKeysTime],vc=1)
-        #                 RandomizerValue = random.random()*2 - 1
-        #                 animCurveCurrentKeysValueArrayAddRandom = animCurveCurrentKeysTimeArray[0] + windMultiply*RandomizerValue
-        #                 cmds.keyframe(animCurveCurrent,e=1,iub=1,r=1,o="over",vc=animCurveCurrentKeysValueArrayAddRandom,t=[animCurveCurrentKeysTime,animCurveCurrentKeysTime])
+            for attr in cmds.listAttr(wind_loc,k=1):
+                animCurve = cmds.listConnections("%s.%s"%(wind_loc,attr),type="animCurve")
+                if not animCurve:
+                    continue
+                for animCurveCurrent in animCurve:
+                    for animCurveCurrentKeysTime in cmds.keyframe(animCurveCurrent,q=1,t=(timeStart,timeEnd),tc=1):
+                        t = (animCurveCurrentKeysTime,animCurveCurrentKeysTime)
+                        animCurveCurrentKeysTimeArray = cmds.keyframe(animCurveCurrent,q=1,time=t,vc=1)
+                        RandomizerValue = random.random()*2 - 1
+                        animCurveCurrentKeysValueArrayAddRandom = animCurveCurrentKeysTimeArray[0] + windMultiply*RandomizerValue
+                        cmds.keyframe(animCurveCurrent,e=1,iub=1,r=1,o="over",vc=animCurveCurrentKeysValueArrayAddRandom,t=t)
 
-        #     attr = (wind_loc+"_translateY")
-        #     cmds.keyframe(attr,e=1,iub=1,r=1,o="over",tc=speedMultiply/2)
-        #     cmds.selectKey(attr,add=1,k=1,t=(speedMultiply/2)+1)
-        #     cmds.keyframe(attr,animation="keys",r=1,o="over",tc=speedMultiply/-2)
+            attr = (wind_loc+"_translateY")
+            cmds.keyframe(attr,e=1,iub=1,r=1,o="over",tc=speedMultiply/2)
+            t = (speedMultiply/2)+1
+            cmds.selectKey(attr,add=1,k=1,t=(t,t))
+            cmds.keyframe(attr,animation="keys",r=1,o="over",tc=speedMultiply/-2)
         
         cmds.bakeResults(
             result_loc,
@@ -209,7 +244,7 @@ def mian():
             preserveOutsideKeys = 1, 
         )
 
-        out_loc = cmds.spaceLocator(n="overlapResultLocatorOut_%s"%i)
+        out_loc = cmds.spaceLocator(n="overlapResultLocatorOut_%s"%i)[0]
         cmds.parentConstraint(result_loc,out_loc,mo=1)
 
         cmds.bakeResults(
@@ -221,7 +256,24 @@ def mian():
             preserveOutsideKeys = 1, 
         )
         cmds.parentConstraint(out_loc,jnt,mo=1)
+        out_list.append(out_loc)
+
+    # cmds.progressWindow(ep=1)
+    # return
+    if CycleCheckBox:
+        timeStart = cmds.playbackOptions(q=1,min=1)
+        timeEnd = cmds.playbackOptions(q=1,max=1)
+        cycleLenghts = timeEnd - timeStart
+        for out_loc in out_list:
+            cmds.keyframe((out_loc+"_translateX"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+            cmds.keyframe((out_loc+"_translateY"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+            cmds.keyframe((out_loc+"_translateZ"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+            cmds.keyframe((out_loc+"_rotateX"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+            cmds.keyframe((out_loc+"_rotateY"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+            cmds.keyframe((out_loc+"_rotateZ"),e=1,iub=1,r=1,o="over",tc=cycleLenghts*-2)
+
 
 if __name__ == "__main__":
     from timeit import timeit
-    print timeit("main()","from __main__ import main",number=1)
+    # print timeit("main()","from __main__ import main",number=1)
+    main()
