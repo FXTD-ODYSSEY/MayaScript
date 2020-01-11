@@ -1,0 +1,30 @@
+1. Unzip all files into same folder
+
+2. Run Maya
+
+3. Run command below in command bar with Python way
+    execfile(r'the folder path\springMagic.py')
+    example:
+    execfile(r'C:\Users\Chris\Scripts\springMagic.py')
+
+    keep the 'r' in front of your path to avoid IO Error may cause
+
+Tested under Maya 2011 and above, you may need to install Pymel for Maya 2010 or elder build by yourself
+
+Known Issue:
+1.  Error: Syntax error
+    Please check if you run the command in Python mode, you can click "mel" word to toggle between mel and python
+
+2.  # Error: ImportError: No module named pymel.core #
+    That means you are using old version of MAYA and have no Pymel installed, please download and install Pymel follow this page:
+    http://download.autodesk.com/us/maya/2011help/PyMel/install.html
+
+3.  Error: IOError: file <maya console> line 1: 2
+    It mean your path has some error when you run the execfile command, please double check what you typed
+
+
+for more details visit my site
+www.animbai.com
+
+Yanbin
+2017.10

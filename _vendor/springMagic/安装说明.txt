@@ -1,0 +1,30 @@
+1. 把springMagic.py， 所有.ui文件和icons文件夹解压到任意路径下，但必须在同一个文件夹里
+
+2. 运行MAYA
+
+3. 在命令行以Python方式运行命令
+    execfile(r'你解压的完整路径\springMagic.py')
+    例如
+    execfile(r'C:\Users\LiLei\Scripts\springMagic.py')
+    
+    注意保留 r 在路径前，以防报错
+
+在MAYA 2011及以上版本测试过，更早版本则不能确保正常工作，可能需要安装pymel插件，2011及以上版本则已经整合了pymel，无需额外安装
+
+
+已知错误:
+1.  Error: Syntax error
+    请检查你运行execfile命令的方式是否为python模式
+    maya默认的运行方式为mel，点击一下mel文字，会切换到python方式，然后在按照第3步的说明运行execfile命令即可
+2.  Error: ImportError: No module named pymel.core #
+    表明你的maya缺少pymel库，请按照以下地址说明的方法安装
+    http://download.autodesk.com/us/maya/2011help/PyMel/install.html
+3.  Error: IOError: file <maya console> line 1: 2
+    这是说你在执行execfile命令的时候文件路径不正确，请仔细检查你的路径名称，确保没有多加空格之类的错误，并保留路径前的 r
+
+
+访问我的网站获取更多信息
+www.animbai.com
+
+白严宾
+2017.10

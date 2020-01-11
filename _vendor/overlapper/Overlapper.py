@@ -44,7 +44,7 @@ def main():
     windScaleValue = 3.0
     windSpeedValue = 1.0
 
-    TRANSLATEmode = True
+    TRANSLATEmode = False
     
     CycleCheckBox = True
 
