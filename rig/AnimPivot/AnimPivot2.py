@@ -31,8 +31,8 @@ def pivotEvent(sel,loc,msg, m_plug, otherMplug, clientData):
         if str(loc) == node and "translate" in attr and pm.objExists(loc):
             pm.xform(sel, piv=pm.xform(loc,q=1,ws=1,t=1), ws=1)
 
-def deleteCallback(idx):
-    om.MMessage.removeCallback(idx)
+# def deleteCallback(idx):
+#     om.MMessage.removeCallback(idx)
 
 def addAttrCallback(sel,loc):
 
