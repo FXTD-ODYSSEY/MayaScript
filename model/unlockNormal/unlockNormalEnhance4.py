@@ -71,12 +71,12 @@ def unlockNormal():
             normal_1 = mesh_normal[vert_idx][face_1]
             normal_2 = mesh_normal[vert_idx][face_2]
             if normal_1 != normal_2:
-                edge_itr.next()
                 break
         else:
             edge = "%s.e[%s]" % (dagPath.fullPathName(),edge_itr.index())
             smooth_list.append(edge) 
-            edge_itr.next()
+            
+        edge_itr.next()
 
         
 
