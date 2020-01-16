@@ -27,6 +27,7 @@ def unlockNormal(thersold=0.05):
 
     smooth_list = []
     hard_list = []
+    sp_list = {}
     
     # pm.progressWindow()
 
@@ -61,7 +62,6 @@ def unlockNormal(thersold=0.05):
         hard_flag = 0
         for i in range(2):
             vert_idx = edge_itr.vertexId(i)
-            vert_itr.setIndex(vert_idx)
      
             face_list = edge_itr.getConnectedFaces()
 
@@ -69,12 +69,16 @@ def unlockNormal(thersold=0.05):
                 print dagPath,edge_itr.index()
                 raise RuntimeError(u"model edge should not have 3 faces connected")
             
-
             face_1,face_2 = face_list
 
             normal_1 = mesh_normal[vert_idx][face_1]
             normal_2 = mesh_normal[vert_idx][face_2]
             
+            # NOTE 法线分叉 说明是 硬边
+            if normal_1 != normal_2:
+                hard_flag += 1
+                continue
+
             vert_itr.setIndex(vert_idx)
 
             vert_avg_normal = om.MVector(0.0, 0.0, 0.0)
@@ -106,46 +110,51 @@ def unlockNormal(thersold=0.05):
                 smooth_flag += 1
             else:
                 # NOTE 过滤 非 hard
-                normal_1 = (face_1_normal - normal_1).length()
-                normal_2 = (face_2_normal - normal_2).length()
-                if normal_1 < thersold*2 and normal_2 < thersold*2:
+                _normal_1 = (face_1_normal - normal_1).length()
+                _normal_2 = (face_2_normal - normal_2).length()
+                if _normal_1 < thersold*5 and _normal_2 < thersold*5:
                     hard_flag += 1
+                else:
+                    vertex = "%s.vtx[%s]" % (dagPath.fullPathName(),vert_idx)
+                    if vertex not in sp_list:
+                        sp_list[vertex] = normal_1
 
-
-
-            # if i == 1 and smooth_flag == 0:
-            #     smooth_flag -= 1
-                
 
         edge = "%s.e[%s]" % (dagPath.fullPathName(),edge_itr.index())
         # NOTE 两个点 smooth  (百分百smooth)
-        if smooth_flag == 0:
+        if smooth_flag > 1:
             smooth_list.append(edge)
-        # NOTE 有一个点 smooth 的 hard
-        # elif smooth_flag == 1 and hard_flag == 1:
-        #     hard_list.append(edge)
-
-        if hard_flag == 2:
+        if hard_flag > 0:
             hard_list.append(edge)
-
 
 
         edge_itr.next()
 
         
-    if not smooth_list:
+    if not hard_list:
         return
     
-    # # NOTE 添加硬边
-    # pm.polySoftEdge(sel,a=0,ch=0)
 
     # # NOTE 解锁法线
     # pm.polyNormalPerVertex(sel,ufn=1)
     
-    # # NOTE 添加软边边
-    # pm.polySoftEdge(smooth_list,a=180,ch=0)
+    # # NOTE 添加软边
+    # pm.polySoftEdge(sel,a=180,ch=0)
+
+    # # NOTE 添加硬边
+    # pm.polySoftEdge(hard_list,a=0,ch=0)
+
+    # NOTE 添加硬边
+    pm.polySoftEdge(sel,a=0,ch=0)
+
+    # NOTE 解锁法线
+    pm.polyNormalPerVertex(sel,ufn=1)
+
+    # NOTE 添加软边
+    pm.polySoftEdge(smooth_list,a=180,ch=0)
     
-    pm.select(hard_list)
+    for vtx,normal in sp_list.items():
+        pm.polyNormalPerVertex(vtx,xyz=list(normal))
 
     print "elapsed time : %s s" % (time.time() - curr)
 
