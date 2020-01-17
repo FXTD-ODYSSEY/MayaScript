@@ -5,9 +5,7 @@ __email__ =  '820472580@qq.com'
 __date__ = '2019-11-27 15:30:31'
 
 """
-由于Maya unlock normal 会丢失当前法线
-因此开发一个脚本解决这个问题
-2.0 解決三角面识别不了问题
+完美解决 FBX 法线解锁 丢失问题
 """
 import time
 from maya import cmds
@@ -144,8 +142,8 @@ def unlockNormal(thersold=0.05):
     # # NOTE 添加硬边
     # pm.polySoftEdge(hard_list,a=0,ch=0)
 
-    # NOTE 添加硬边
-    pm.polySoftEdge(sel,a=0,ch=0)
+    # # NOTE 添加硬边
+    # pm.polySoftEdge(sel,a=0,ch=0)
 
     # NOTE 解锁法线
     pm.polyNormalPerVertex(sel,ufn=1)
