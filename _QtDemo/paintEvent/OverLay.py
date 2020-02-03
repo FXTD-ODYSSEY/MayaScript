@@ -42,7 +42,7 @@ from PyQt5 import QtWidgets
 #                                 #  Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
 
 class OverLay(QtWidgets.QWidget):
-    BorderColor     = QtGui.QColor(0, 0, 0, 255)     
+    BorderColor     = QtGui.QColor(255, 0, 0, 255)     
     BackgroundColor = QtGui.QColor(255, 165, 0, 180) 
     
     def __init__(self, *args, **kwargs):

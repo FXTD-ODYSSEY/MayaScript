@@ -1,3 +1,13 @@
+# coding:utf-8
+
+__author__ =  'timmyliang'
+__email__ =  '820472580@qq.com'
+__date__ = '2020-02-02 10:58:29'
+
+"""
+# NOTE https://stackoverflow.com/questions/53107173/change-color-png-image-qpushbutton
+"""
+
 import os
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets

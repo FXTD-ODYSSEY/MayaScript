@@ -11,9 +11,11 @@ __date__ = '2020-01-06 14:27:25'
 # NOTE https://stackoverflow.com/questions/53349623/how-to-change-languagestranslations-dynamically-on-pyqt5
 
 
+import os
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
+DIR = os.path.dirname(__file__)
 class Demo(QtWidgets.QWidget):
     def __init__(self):
         super(Demo, self).__init__()
@@ -30,17 +32,19 @@ class Demo(QtWidgets.QWidget):
         self.v_layout.addWidget(self.button)
         self.v_layout.addWidget(self.label)
 
-        options = ([('English', ''), ('français', 'eng-fr' ), ('中文', r'F:\MayaTecent\MayaScript\_QtDemo\i18n\53349623\eng-chs.qm'), ])
+        chinese_qm = os.path.join(DIR,"eng_chs.qm")
+        options = ([('English', ''), ('français', 'eng-fr' ), ('中文', chinese_qm), ])
 
         for i, (text, lang) in enumerate(options):
             self.combo.addItem(text)
             self.combo.setItemData(i, lang)
         self.retranslateUi()
 
-    @QtCore.pyqtSlot(int)
+    @QtCore.Slot(int)
     def change_func(self, index):
         data = self.combo.itemData(index)
         if data:
+            print data
             self.trans.load(data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
