@@ -1,3 +1,13 @@
+# coding:utf-8
+
+__author__ =  'timmyliang'
+__email__ =  '820472580@qq.com'
+__date__ = '2020-02-04 11:28:44'
+
+"""
+# NOTE https://stackoverflow.com/questions/9957195/updating-gui-elements-in-multithreaded-pyqt
+"""
+
 import sys
 import urllib2
 

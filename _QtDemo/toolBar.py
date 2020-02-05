@@ -23,7 +23,7 @@ class tooldemo(QMainWindow):
       self.setWindowTitle("toolbar demo")
 		
    def toolbtnpressed(self,a):
-      print "pressed tool button is",a.text()
+      print ("pressed tool button is",a.text())
 		
 def main():
    app = QApplication(sys.argv)
