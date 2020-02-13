@@ -17,7 +17,7 @@ class widget(QtWidgets.QWidget):
     signal = QtCore.pyqtSignal(str)
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self)
-        self.button = QtWidgets.QPushButton(u"clicked",self)
+        # self.button = QtWidgets.QPushButton(u"clicked",self)
 
 
     def appinit(self):
@@ -36,6 +36,7 @@ class worker(QtCore.QThread):
     def run(self):
         # time.sleep(5)
         print "in thread"
+        self.widget.button = QtWidgets.QPushButton(u"clicked",self.widget)
         self.widget.button.setText("hello")
         self.widget.button.clicked.connect(self.widget.testfunc)
 
@@ -43,7 +44,7 @@ def main():
     w = widget()
     w.show()
     w.appinit()
-    # QtCore.QTimer.singleShot(0, w.appinit)
     sys.exit(app.exec_())
 
-main()
+if __name__ == "__main__":
+    main()
