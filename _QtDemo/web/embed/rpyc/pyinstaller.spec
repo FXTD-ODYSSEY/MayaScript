@@ -42,7 +42,7 @@ else:
 
 a = Analysis(
     ["./remote.py"],
-    hookspath=[r"D:\Users\82047\Desktop\repo\MayaScript\_QtDemo\web\embed\rpyc"],  # To find "hook-cefpython3.py"
+    hookspath=["."],  # To find "hook-cefpython3.py"
     cipher=cipher_obj,
     win_private_assemblies=True,
     win_no_prefer_redirects=True,

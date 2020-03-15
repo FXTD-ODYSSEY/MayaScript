@@ -10,26 +10,72 @@ maya 客户端模拟
 
 import os
 import sys
-import rpyc
 import time
 import ctypes
 import subprocess
+import multiprocessing
+
 from PySide.QtGui import *
 from PySide.QtCore import *
+# from PySide2.QtGui import *
+# from PySide2.QtCore import *
 # from PySide2.QtWidgets import *
 
-# NOTE https://www.tutorialspoint.com/pyqt/pyqt_qtoolbar_widget.htm
+import rpyc
+from rpyc import Service  
+from rpyc.utils.server import ThreadedServer  
 
 DIR = os.path.dirname(__file__)
+
+class TestService(Service):  
+    resize = False
+    url = None
+    
+    def exposed_onResizeCall(self):
+        TestService.resize = True
+        return TestService.resize
+
+    def exposed_resizeCall(self):  
+        if TestService.resize:
+            TestService.resize = False
+            return True
+
+    def exposed_onLoadUrl(self,_url):
+        TestService.url = _url
+
+    def exposed_loadUrl(self):
+        if TestService.url:
+            _url = TestService.url
+            TestService.url = None
+            return _url
+
+def createRpyc(port):
+    sr = ThreadedServer(TestService, port=port, auto_register=False)  
+    sr.start()
+
+
 class CefWidget(QWidget):
-    browser = None
-    def __init__(self, parent = None , port=5266):
+    def __init__(self, parent = None , port=4462):
         super(CefWidget, self).__init__(parent)
         self.port = port
 
-    def embed(self):
-        subprocess.Popen('python %s %s %s' % (os.path.join(DIR,"remote.py"), int(self.winIdFixed()),self.port),shell=True)
-        self.conn = rpyc.connect('localhost',self.port)  
+    def embed(self,port=None):
+        port = int(port) if port else self.port
+        server = multiprocessing.Process(target=createRpyc,args=(port,))
+        server.start()  
+        
+        self.destroyed.connect(server.terminate)
+
+        winId = int(self.winIdFixed())
+        # subprocess.Popen('F:\\Anaconda2\\python.exe %s %s %s' % (os.path.join(DIR,"remote.py"), winId,port),shell=True)
+        # print "embed",winId
+
+        browser = subprocess.Popen(r'D:\Users\82047\Desktop\repo\MayaScript\_QtDemo\web\embed\rpyc\dist\cefapp\cefapp.exe %s %s' % (winId,port),shell=True)
+        # time.sleep(1)
+        self.destroyed.connect(browser.terminate)
+        
+        self.conn = rpyc.connect('localhost',port)  
+        print self.conn
 
     def loadUrl(self,url):
         self.conn.root.onLoadUrl(url)  
