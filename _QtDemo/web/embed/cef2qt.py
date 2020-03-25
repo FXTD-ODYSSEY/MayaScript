@@ -1,3 +1,13 @@
+# coding:utf-8
+
+__author__ =  'timmyliang'
+__email__ =  '820472580@qq.com'
+__date__ = '2020-03-17 11:05:01'
+
+"""
+https://stackoverflow.com/questions/40502148/using-cefpython-in-pyqt-when-setlayout-get-browser-releasing-shared-request-c
+"""
+
 import sys
 import os
 import ctypes
@@ -28,9 +38,6 @@ class CefWidget(QWidget):
         self.browser = cefpython.CreateBrowserSync(windowInfo,
                                                    browserSettings={},
                                                    navigateUrl="https://blog.l0v0.com/my_work/OPENGL_homework/old_Method/")
-                                                #    navigateUrl="https://threejs.org/editor/")
-                                                #    navigateUrl="http://editor.l0v0.com/")
-                                                #    navigateUrl="https://get.webgl.org/")
 
     def winIdFixed(self):
         # PySide bug: QWidget.winId() returns <PyCObject object at 0x02FD8788>,

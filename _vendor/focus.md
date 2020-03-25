@@ -14,6 +14,7 @@
 
 [pylish](https://pyblish.com/)
 [tik_manager](https://github.com/masqu3rad3/tik_manager)
+[prism](https://prism-pipeline.com/)
 
 ## Maya 启动器
 

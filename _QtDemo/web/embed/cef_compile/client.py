@@ -12,6 +12,8 @@ import os
 import sys
 import time
 import ctypes
+import signal
+import platform
 import subprocess
 import multiprocessing
 
@@ -49,6 +51,18 @@ class TestService(Service):
             TestService.url = None
             return _url
 
+    def exposed_stop(self):
+        print "stop"
+        pid = os.getpid()
+
+        if platform.system() == 'Windows':
+            PROCESS_TERMINATE = 1
+            handle = ctypes.windll.kernel32.OpenProcess(PROCESS_TERMINATE, False, pid)
+            ctypes.windll.kernel32.TerminateProcess(handle, -1)
+            ctypes.windll.kernel32.CloseHandle(handle)
+        else:
+            os.kill(pid, signal.SIGTERM)
+
 def createRpyc(port):
     sr = ThreadedServer(TestService, port=port, auto_register=False)  
     sr.start()
@@ -59,23 +73,38 @@ class CefWidget(QWidget):
         super(CefWidget, self).__init__(parent)
         self.port = port
 
-    def embed(self,port=None):
+    def embed(self,parent,port=None):
         port = int(port) if port else self.port
-        server = multiprocessing.Process(target=createRpyc,args=(port,))
-        server.start()  
+        self.server = multiprocessing.Process(target=createRpyc,args=(port,))
+        self.server.start()  
         
-        self.destroyed.connect(server.terminate)
-
         winId = int(self.winIdFixed())
-        # subprocess.Popen('F:\\Anaconda2\\python.exe %s %s %s' % (os.path.join(DIR,"remote.py"), winId,port),shell=True)
+        self.browser = subprocess.Popen('F:\\Anaconda2\\python.exe %s %s %s' % (os.path.join(DIR,"remote.py"), winId,port),shell=True)
         # print "embed",winId
 
-        browser = subprocess.Popen(r'D:\Users\82047\Desktop\repo\MayaScript\_QtDemo\web\embed\rpyc\dist\cefapp\cefapp.exe %s %s' % (winId,port),shell=True)
+        # self.browser = subprocess.Popen(r'D:\Users\82047\Desktop\repo\MayaScript\_QtDemo\web\embed\rpyc\dist\cefapp\cefapp.exe %s %s' % (winId,port),shell=True)
         # time.sleep(1)
-        self.destroyed.connect(browser.terminate)
-        
         self.conn = rpyc.connect('localhost',port)  
         print self.conn
+
+        parent.installEventFilter(self)
+        # parent.closeEvent = self.destroyedEvent
+
+    def eventFilter(self,receiver,event):
+        print event.type()
+        if QEvent.Type.ChildRemoved == event.type():
+            self.server.terminate()
+            self.browser.terminate()
+            self.deleteLater()
+            receiver.deleteLater()
+
+        return False
+
+    # def destroyedEvent(self,e):
+    #     self.server.terminate()
+    #     self.browser.terminate()
+    #     self.deleteLater()
+        # self.conn.root.stop()
 
     def loadUrl(self,url):
         self.conn.root.onLoadUrl(url)  
@@ -97,14 +126,14 @@ class CefWidget(QWidget):
 
     def moveEvent(self, event):
         if hasattr(self,"conn"):
-            self.conn.root.onResizeCall()  
+            self.conn.root.onResizeCall()
 
     def resizeEvent(self, event):
         if hasattr(self,"conn"):
-            self.conn.root.onResizeCall()  
-
+            self.conn.root.onResizeCall()
 
 class MainWindow(QMainWindow):
+
     def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
         self.setGeometry(150,150, 800, 800)
@@ -124,7 +153,16 @@ class MainWindow(QMainWindow):
         frame.setLayout(m_vbox)
         self.setCentralWidget(frame)
 
-        self.view.embed()
+        self.view.embed(self)
+
+    #     self.installEventFilter(self)
+
+    # def eventFilter(self,receiver,event):
+    #     print type(event)
+
+    # def closeEvent(self,e):
+    #     print "close　－－－－－－－－－－－－－－－－－－－－－－"
+    #     self.view.destroyedEvent(e)
 
 def main():
    app = QApplication(sys.argv)

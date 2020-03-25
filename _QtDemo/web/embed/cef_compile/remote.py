@@ -9,6 +9,7 @@ __date__ = '2020-03-13 10:27:56'
 """
 
 import sys
+import time
 
 # import sys
 # MODULE = r"F:\Anaconda2\Lib\site-packages"
@@ -45,21 +46,31 @@ def createBrowser():
 
     port = int(sys.argv[2])
     conn = None
+    link_time = time.time()
     while True:
+        
+        cef.MessageLoopWork()
+
+        # NOTE 用于保持 rpyc 的连接
+        if time.time() - link_time < .5:continue
+        link_time = time.time()
+
         if conn:
-            url = conn.root.loadUrl()
+            try:
+                url = conn.root.loadUrl()
+            except:
+                # NOTE 说明 rpyc 关闭 | 跳出循环
+                break
             if url and url != browser.GetUrl():
                 browser.LoadUrl(url)
             elif conn.root.resizeCall():
                 cef.WindowUtils.OnSize(winId, 0, 0, 0)
         else:
             try:
-                conn = rpyc.connect('localhost',port)  
+                conn = rpyc.connect('localhost',port)
             except:
                 pass
-
-        cef.MessageLoopWork()
-
+            
     cef.Shutdown()
 
 

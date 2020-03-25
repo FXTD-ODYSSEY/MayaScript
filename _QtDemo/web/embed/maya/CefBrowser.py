@@ -29,27 +29,42 @@ class CefWidget(QWidget):
     def __init__(self, parent = None , port=4433):
         super(CefWidget, self).__init__(parent)
         self.port = port
+        self._port = port 
 
     def embed(self,port=None):
         port = int(port) if port else self.port
 
-        cef = os.path.join(DIR,"cef")
+        cef = os.path.join(DIR,"cefapp")
         cefapp = os.path.join(cef,"cefapp.exe")
-        server = os.path.join(cef,"server.exe")
-        # NOTE 开启 rpyc 服务
-        self.sever_process = subprocess.Popen('"%s" %s' % (server,port),shell=True)
-        winId = int(self.winIdFixed())
-        # NOTE 开启 cef 浏览器
-        self.browser_process = subprocess.Popen('"%s" %s %s' % (cefapp,winId,port),shell=True)
-        self.conn = rpyc.connect('localhost',port)  
 
-    def closeEvent(self,e):
-        print "close"
-        self.sever_process.terminate()
-        self.browser_process.terminate()
+        # NOTE 开启 rpyc 服务
+        server = os.path.join(cef,"server.exe")
+        self.sever_process = subprocess.Popen('"%s" %s' % (server,port),shell=True)
+
+        # self.sever_process = subprocess.Popen('"%s" "%s" %s' % (os.path.join(sys.executable,"..","mayapy.exe"),server,port),shell=True)
+        # self.sever_process = subprocess.Popen(' %s %s %s' % (sys.executable,server,port),shell=True)
+        try:
+            self.conn = rpyc.connect('localhost',port)  
+        except:
+            if port - self._port < 10:
+                self.embed(port=port+1)
+            return
+
+        # NOTE 开启 cef 浏览器
+        winId = int(self.winIdFixed())
+        self.browser_process = subprocess.Popen('"%s" %s %s' % (cefapp,winId,port),shell=True)
+        self.window().installEventFilter(self)
+
+    def eventFilter(self,receiver,event):
+        if QEvent.Type.Close == event.type() or QEvent.Type.ChildRemoved == event.type():
+            print "delete"
+            self.conn.root.stop()  
+            self.sever_process.terminate()
+            self.browser_process.terminate()
+            self.deleteLater()
+        return False
 
     def loadUrl(self,url):
-        print "loadUrl"
         self.conn.root.onLoadUrl(url)  
 
     def winIdFixed(self):
@@ -83,7 +98,7 @@ class MainWindow(QWidget):
         
         m_vbox = QVBoxLayout()
         m_button = QPushButton("Change Url")
-        m_button.clicked.connect(lambda:self.view.loadUrl(r"https://threejs.org/editor/"))
+        m_button.clicked.connect(lambda:self.view.loadUrl(r"http://editor.l0v0.com/"))
         m_button.setMaximumHeight(100)
         
         m_vbox.addWidget(m_button)

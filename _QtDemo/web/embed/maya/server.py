@@ -7,11 +7,15 @@ __date__ = '2020-03-14 23:54:08'
 """
 
 """
+import os
 import sys
+import ctypes
+import signal
+import platform
+
 import rpyc
 from rpyc import Service  
 from rpyc.utils.server import ThreadedServer  
-
 
 class TestService(Service):  
     resize = False
@@ -35,6 +39,17 @@ class TestService(Service):
             TestService.url = None
             return _url
 
+    def exposed_stop(self):
+        print "stop"
+        pid = os.getpid()
+
+        if platform.system() == 'Windows':
+            PROCESS_TERMINATE = 1
+            handle = ctypes.windll.kernel32.OpenProcess(PROCESS_TERMINATE, False, pid)
+            ctypes.windll.kernel32.TerminateProcess(handle, -1)
+            ctypes.windll.kernel32.CloseHandle(handle)
+        else:
+            os.kill(pid, signal.SIGTERM)
 
 sr = ThreadedServer(TestService, port=int(sys.argv[1]), auto_register=False)  
 sr.start()
