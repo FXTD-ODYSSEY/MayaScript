@@ -4,3 +4,6 @@
 project/
 
 *.pyc
+
+cef/
+cefapp/
