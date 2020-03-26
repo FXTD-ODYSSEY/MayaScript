@@ -24,15 +24,21 @@ for i,ref in enumerate(cmds.ls(references=1)):
         
     cmds.progressWindow( e=1, progress=amount,status='%s' % i)
 
+    # NOTE 获取引用文件的名称
     try:
         file_name = cmds.referenceQuery( ref,filename=1,unresolvedName=1 )
     except:
         continue
+
+    # NOTE 查询文件是否加载进场景中
     referenceUnloaded = cmds.file(file_name,q=1,dr=1)
+
+    # NOTE 获取当前引用节点的编辑信息
     for edit in cmds.referenceQuery( ref,editStrings=True,showDagPath=1 ):
         buffer = edit.split()
         command,attr = buffer[:2]
 
+        # NOTE 根据 referenceEditsWindow.mel 的处理来区分类型的引用调用的代码
         connectAttr = False
         if command == "disconnectAttr":
             remove_attr = buffer[-2] if referenceUnloaded else buffer[-1]
@@ -45,9 +51,11 @@ for i,ref in enumerate(cmds.ls(references=1)):
         remove_attr = remove_attr.replace('"','')
 
         dagPath = remove_attr.split('.')[0].replace('"', '') if connectAttr == True else remove_attr.split('.')[0].replace('"', '')
+        # NOTE 如果物体不存在则跳过处理
         if not cmds.objExists(dagPath):
             continue
         objectType = cmds.objectType(dagPath)
+        # NOTE 过滤 transform 节点 和 动画曲线的处理
         if objectType != 'transform' and 'animCurve' not in objectType:
             if connectAttr:
                 cmds.referenceEdit( *remove_attr.split(","), editCommand=command, failedEdits = True, successfulEdits = True, removeEdits = True )
