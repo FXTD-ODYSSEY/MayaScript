@@ -39,3 +39,8 @@
 [softIkSolver](https://github.com/Toolchefs/softIkSolver)
 [jsRadial](https://github.com/scorza/jsRadial)
 
+## osl
+
+[Arnold官方文档](https://docs.arnoldrenderer.com/display/A5AFMUG/Using+the+HalfTone+OSL+Shader+with+Toon)
+[Autodesk standard](https://github.com/Autodesk/standard-surface)
+[osl 官方](https://github.com/imageworks/OpenShadingLanguage)
