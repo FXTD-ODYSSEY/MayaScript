@@ -39,8 +39,14 @@
 [softIkSolver](https://github.com/Toolchefs/softIkSolver)
 [jsRadial](https://github.com/scorza/jsRadial)
 
-## osl
+## osl 学习资料
 
 [Arnold官方文档](https://docs.arnoldrenderer.com/display/A5AFMUG/Using+the+HalfTone+OSL+Shader+with+Toon)
 [Autodesk standard](https://github.com/Autodesk/standard-surface)
 [osl 官方](https://github.com/imageworks/OpenShadingLanguage)
+
+## 格式转换
+
+[gltf python](https://github.com/matiascodesal/maya-glTF)
+[gltf C++](https://github.com/kashikacojp/glTF-Maya-Exporter)
+
