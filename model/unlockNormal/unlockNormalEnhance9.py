@@ -18,13 +18,32 @@ from maya import OpenMayaUI
 from Qt import QtCore, QtGui, QtWidgets
 from Qt.QtCompat import wrapInstance
 
+class EdgeError(Exception):
+    pass
+
+def errorLog(func):
+    def wrapper(*args,**kwargs):
+        try:
+            return func(*args,**kwargs)
+        except EdgeError:
+            pass
+        except:
+            import traceback
+            err = traceback.format_exc()
+            msg = u"运行出错，请联系 timmyliang\n%s" % err
+            QtWidgets.QMessageBox.warning(QtWidgets.QApplication.activeWindow(),u"警告",msg)
+        finally:
+            pm.progressWindow(ep=1)
+
+    return wrapper
+
 def unlockNormal(sel,thersold=0.05):
 
     smooth_list = set()
     edit_list = set()
     
-    # NOTE 执行一个 mesh 命令 - 更新模型数据 避免获取的法线数据不对
-    pm.polyConnectComponents(sel,ch=0)
+    # # NOTE 执行一个 mesh 命令 - 更新模型数据 避免获取的法线数据不对
+    # pm.polyConnectComponents(sel,ch=0)
 
     # NOTE OpenMaya 加速遍历过程 
     sel_list = om.MSelectionList()
@@ -77,7 +96,9 @@ def unlockNormal(sel,thersold=0.05):
             if len(face_list) != 2:
                 edge = "%s.e[%s]" % (dagPath.fullPathName(),edge_id)
                 print edge
-                raise RuntimeError(u"model edge should not have 3 faces connected")
+                msg = u"模型的边存在同时连接三个面\n边序号为 : %s" % edge
+                QtWidgets.QMessageBox.warning(QtWidgets.QApplication.activeWindow(),u"警告",msg)
+                raise EdgeError(msg)
             
             face_1,face_2 = face_list
 
@@ -162,6 +183,7 @@ def unlockNormal(sel,thersold=0.05):
 
     # pm.select(["%s.e[%s]" % (dagPath.fullPathName(),vtx) for vtx in edit_list],add=1)
 
+@errorLog
 def normalUnlocker(thersold=0.05):
     curr = time.time()
     pm.undoInfo(ock=1)

@@ -87,7 +87,7 @@ def main():
             except:
                 pass
 
-main()
+
 # import sys
 # MODULE = r"F:\MayaTecent\MayaScript\anim"
 # if MODULE not in sys.path:

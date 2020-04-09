@@ -67,16 +67,16 @@ def generateJointCube(distant=3):
             end_pt = end_jnt.getTranslation(space="world")
             crv = generateCubeFromVector(start_pt, end_pt, distant=distant)
 
-            # crv.rename("cloth_%s_M" % i)
+            crv.rename("%s_ctrl" % start_jnt)
             x,y,z = start_pt
             pm.move(x,y,z,crv.scalePivot,crv.rotatePivot)
             grp = pm.group(crv)
-            # grp.rename(crv.name() + "_GRP")
+            grp.rename(crv.name() + "_GRP")
             pm.xform(grp,m=start_matrix.inverse())
             pm.makeIdentity(grp,a=1,t=1,r=1,s=1,n=0,pn=1)
             pm.xform(grp,m=start_matrix)
-            if last_crv:
-                grp.setParent(last_crv)
+            # if last_crv:
+            #     grp.setParent(last_crv)
             last_crv = crv
             
             pm.setAttr(crv.sx,l=1,k=0,cb=0)
@@ -84,16 +84,16 @@ def generateJointCube(distant=3):
             pm.setAttr(crv.sz,l=1,k=0,cb=0)
             pm.parentConstraint(crv,start_jnt,mo=1)
 
-def renameCurve():
-    for i,crv in enumerate(pm.ls(sl=1,dag=1,ni=1,type="nurbsCurve"),1):
-        crv = crv.getParent()
-        name = "cloth_%s_M" % i
-        crv.rename(name)
-        grp = crv.getParent()
-        grp.rename("%s_GRP" % name)
+# def renameCurve():
+#     for i,crv in enumerate(pm.ls(sl=1,dag=1,ni=1,type="nurbsCurve"),1):
+#         crv = crv.getParent()
+#         name = "cloth_%s_M" % i
+#         crv.rename(name)
+#         grp = crv.getParent()
+#         grp.rename("%s_GRP" % name)
 
 
 if __name__ == "__main__":
-    generateJointCube()
+    generateJointCube(10)
 
     

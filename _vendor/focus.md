@@ -25,7 +25,7 @@
 [mgear](http://www.mgear-framework.com/)
 [hyperdrive](https://github.com/timlehr/hyperdrive)
 
-## C++ API
+## C++ **API**
 
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
 [screenspace](https://github.com/eddiehoyle/screenspace)
@@ -39,6 +39,12 @@
 [softIkSolver](https://github.com/Toolchefs/softIkSolver)
 [jsRadial](https://github.com/scorza/jsRadial)
 
+### convex hull 
+
+[Quick Collider](https://gumroad.com/l/Iirpn)
+[mayaPolyQuickHull](https://github.com/RKSimon/mayaPolyQuickHull)
+[DDConvexHull](https://github.com/digitaldestructo/DDConvexHull)
+
 ## osl 学习资料
 
 [Arnold官方文档](https://docs.arnoldrenderer.com/display/A5AFMUG/Using+the+HalfTone+OSL+Shader+with+Toon)
@@ -50,3 +56,11 @@
 [gltf python](https://github.com/matiascodesal/maya-glTF)
 [gltf C++](https://github.com/kashikacojp/glTF-Maya-Exporter)
 
+## 编程规范
+
+[TA_101](https://github.com/theodox/ta_101)
+
+## github 账户
+
+[elrond79](https://github.com/elrond79)
+[theodox](https://github.com/theodox)
