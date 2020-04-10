@@ -89,6 +89,7 @@ class SearchWidget(QWidget):
     def __init__( self, channelBox ,CamShakerWidget,parent=None, threshold=0.75):
         # initialize
         super(SearchWidget, self).__init__(parent)
+        CamShakerWidget.Cam_Combo.currentIndexChanged.connect(self.update)
         self.CamShakerWidget = CamShakerWidget
         # self.setObjectName(CHANNELBOX_SEARCH)
         self.CHANNELBOX = channelBox
@@ -105,13 +106,6 @@ class SearchWidget(QWidget):
         layout.setContentsMargins(3,5,3,5)
         layout.setSpacing(3)
         
-        # # create seleted shaker rig
-        # self.selector = ICompleterComboBox()
-        # self.updateShakerList()
-        # signal = IMouseClickSignal(self.selector)
-        # signal.LClicked.connect(self.updateShakerList)
-        # layout.addWidget(self.selector)
-
         # create search widget
         self.edit = QLineEdit(self)
         self.edit.textChanged.connect(self.update)
@@ -131,27 +125,6 @@ class SearchWidget(QWidget):
         self.id = self.registerCallback()
         self.update()
         
-    # ------------------------------------------------------------------------
-
-    # def updateShakerList(self):
-    #     pass
-    #     # text = self.Cam_Combo.currentText()
-    #     # self.Cam_Combo.clear()
-    #     shaker_grp = "Cam_Shaker_GRP"
-    #     if not pm.objExists(shaker_grp):
-    #         return
-        
-    #     shaker_grp = pm.PyNode(shaker_grp)
-        
-    #     for shaker in shaker_grp.listRelatives():
-    #         pass
-
-    #     # for i,cam in enumerate(pm.ls(ca=1)):
-    #     #     cam = cam.getParent()
-    #     #     if str(cam) in self.exclude_list:continue
-    #     #     self.Cam_Combo.addItem(str(cam))
-            
-    #     # self.Cam_Combo.setCurrentText(text)
     
     # ------------------------------------------------------------------------
     

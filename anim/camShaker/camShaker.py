@@ -132,7 +132,7 @@ class CamShakerWidget(QtWidgets.QWidget):
         self.CAM_CTRL.addAttr("trans_ZROT_ROLL",attributeType="double",defaultValue=0,keyable=1)
 
         self.CAM_CTRL.addAttr("trans_scaleXYZ",attributeType="double",defaultValue=3,keyable=1)
-        self.CAM_CTRL.addAttr("trans_Focal_Length",attributeType="double",defaultValue=35,min=2.5,keyable=1)
+        self.CAM_CTRL.addAttr("trans_focalLength",attributeType="double",defaultValue=35,min=2.5,smx=50,keyable=1)
 
         self.CAM_CTRL.addAttr("weight",attributeType="enum",en="menu")
         self.CAM_CTRL.weight.set(cb=1,l=1)
@@ -143,6 +143,18 @@ class CamShakerWidget(QtWidgets.QWidget):
         self.CAM_CTRL.addAttr("weight_shk_rx",attributeType="double",defaultValue=0,min=0,max=1,keyable=1)
         self.CAM_CTRL.addAttr("weight_shk_ry",attributeType="double",defaultValue=0,min=0,max=1,keyable=1)
         self.CAM_CTRL.addAttr("weight_shk_rz",attributeType="double",defaultValue=0,min=0,max=1,keyable=1)
+        self.CAM_CTRL.addAttr("weight_shk_focalLength",attributeType="double",defaultValue=0,min=0,max=1,keyable=1)
+
+        self.CAM_CTRL.addAttr("amplify",attributeType="enum",en="menu")
+        self.CAM_CTRL.amplify.set(cb=1,l=1)
+
+        self.CAM_CTRL.addAttr("amplify_shk_tx",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_ty",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_tz",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_rx",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_ry",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_rz",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
+        self.CAM_CTRL.addAttr("amplify_shk_focalLength",attributeType="double",defaultValue=1,min=0,smx=20,max=999,keyable=1)
 
         self.CAM_CTRL.addAttr("noise_weight",attributeType="enum",en="menu")
         self.CAM_CTRL.noise_weight.set(cb=1,l=1)
@@ -153,6 +165,7 @@ class CamShakerWidget(QtWidgets.QWidget):
         self.CAM_CTRL.addAttr("noise_shk_rx",attributeType="double",defaultValue=1,min=0,max=1,keyable=1)
         self.CAM_CTRL.addAttr("noise_shk_ry",attributeType="double",defaultValue=1,min=0,max=1,keyable=1)
         self.CAM_CTRL.addAttr("noise_shk_rz",attributeType="double",defaultValue=1,min=0,max=1,keyable=1)
+        self.CAM_CTRL.addAttr("noise_shk_focalLength",attributeType="double",defaultValue=1,min=0,max=1,keyable=1)
 
         self.CAM_CTRL.addAttr("shakingAttr",attributeType="enum",en="menu")
         self.CAM_CTRL.shakingAttr.set(cb=1,l=1)
@@ -171,15 +184,10 @@ class CamShakerWidget(QtWidgets.QWidget):
         self.CAM_CTRL.addAttr("attr_rz_Frequency",attributeType="double",defaultValue=20,keyable=1)
         self.CAM_CTRL.addAttr("attr_rz_Seed",attributeType="double",defaultValue=1,keyable=1)
 
-        # NOTE 添加表达式 ----------------------------------------------------------------
-        exp = ''
-        for attr,axis in product(('t','r'),('x','y','z')):
-            attr = "%s%s" % (attr,axis)
-            # exp += "{SHAKER}.{attr} = {CAM_CTRL}.weight_shk_{attr} * (0.282*(1-{CAM_CTRL}.noise_shk_{attr}) + ({CAM_CTRL}.noise_shk_{attr} * noise((frame + {CAM_CTRL}.attr_{attr}_Seed)/{CAM_CTRL}.attr_{attr}_Frequency)));\n".format(SHAKER=SHAKER,attr=attr,CAM_CTRL=self.CAM_CTRL)
-            exp += "{SHAKER}.{attr} = {CAM_CTRL}.weight_shk_{attr} * (({CAM_CTRL}.noise_shk_{attr} * noise((frame + {CAM_CTRL}.attr_{attr}_Seed)/{CAM_CTRL}.attr_{attr}_Frequency)));\n".format(SHAKER=SHAKER,attr=attr,CAM_CTRL=self.CAM_CTRL)
-        
-        pm.expression(n="%s_exp"%self.CAM_CTRL , s=exp,o=str(SHAKER),ae=1,uc="all")
+        self.CAM_CTRL.addAttr("attr_focalLength_Frequency",attributeType="double",defaultValue=20,keyable=1)
+        self.CAM_CTRL.addAttr("attr_focalLength_Seed",attributeType="double",defaultValue=1,keyable=1)
 
+        exp = ''
         # NOTE 连接摄像机 ----------------------------------------------------------------
         if cam:
             # NOTE 匹配当前摄像机位置
@@ -187,7 +195,22 @@ class CamShakerWidget(QtWidgets.QWidget):
             pm.parentConstraint(CAM_LOC,cam)
             cam_shape = cam.getShape()
             self.CAM_CTRL.trans_scaleXYZ.connect(cam_shape.locatorScale)
-            self.CAM_CTRL.trans_Focal_Length.connect(cam_shape.focalLength)
+            # NOTE 添加 focal length 抖动
+            attr = "focalLength"
+            exp += "{SHAKER}.{attr} = {CAM_CTRL}.trans_focalLength + {CAM_CTRL}.weight_shk_{attr} * {CAM_CTRL}.amplify_shk_{attr} * (({CAM_CTRL}.noise_shk_{attr} * noise((frame + {CAM_CTRL}.attr_{attr}_Seed)/{CAM_CTRL}.attr_{attr}_Frequency)));\n".format(SHAKER=cam_shape,attr=attr,CAM_CTRL=self.CAM_CTRL)
+            
+            
+        # NOTE 添加表达式 ----------------------------------------------------------------
+        for attr,axis in product(('t','r'),('x','y','z')):
+            attr = "%s%s" % (attr,axis)
+            # exp += "{SHAKER}.{attr} = {CAM_CTRL}.weight_shk_{attr} * (0.282*(1-{CAM_CTRL}.noise_shk_{attr}) + ({CAM_CTRL}.noise_shk_{attr} * noise((frame + {CAM_CTRL}.attr_{attr}_Seed)/{CAM_CTRL}.attr_{attr}_Frequency)));\n".format(SHAKER=SHAKER,attr=attr,CAM_CTRL=self.CAM_CTRL)
+            exp += "{SHAKER}.{attr} = {CAM_CTRL}.weight_shk_{attr} * {CAM_CTRL}.amplify_shk_{attr} * (({CAM_CTRL}.noise_shk_{attr} * noise((frame + {CAM_CTRL}.attr_{attr}_Seed)/{CAM_CTRL}.attr_{attr}_Frequency)));\n".format(SHAKER=SHAKER,attr=attr,CAM_CTRL=self.CAM_CTRL)
+        
+        
+
+        pm.expression(n="%s_exp"%self.CAM_CTRL , s=exp,o=str(SHAKER),ae=1,uc="all")
+
+
 
         # NOTE 连接属性 ----------------------------------------------------------------
         
@@ -205,16 +228,16 @@ class CamShakerWidget(QtWidgets.QWidget):
         self.CAM_CTRL.trans_ZROT_ROLL.connect(ZROT_ROLL.rz)
 
         # NOTE 锁定隐藏属性 ----------------------------------------------------------------
-        # self.CAM_CTRL.tx.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.ty.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.tz.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.rx.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.ry.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.rz.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.sx.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.sy.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.sz.set(l=1,k=0,cb=0)
-        # self.CAM_CTRL.v.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.tx.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.ty.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.tz.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.rx.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.ry.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.rz.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.sx.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.sy.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.sz.set(l=1,k=0,cb=0)
+        self.CAM_CTRL.v.set(l=1,k=0,cb=0)
 
         XYX_TRANS.rx.set(l=1,k=0,cb=0)
         XYX_TRANS.ry.set(l=1,k=0,cb=0)
@@ -309,7 +332,23 @@ class ChannelBoxWidget(QtWidgets.QWidget):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.filter.setSizePolicy(sizePolicy)
 
-        self.filter_list = ('weight','noise','attr','tx','ty','tz','rx','ry','rz','locator','trans')
+        self.filter_list = (
+            'weight',
+            'amplify',
+            'noise',
+            'attr',
+            'tx',
+            'ty',
+            'tz',
+            'rx',
+            'ry',
+            'rz',
+            'focalLength',
+            'locator',
+            'trans',
+            'frequency',
+            'seed',
+        )
         for filter_name in self.filter_list:
             self.filter.addItem(filter_name)
         
