@@ -56,6 +56,15 @@
 [gltf python](https://github.com/matiascodesal/maya-glTF)
 [gltf C++](https://github.com/kashikacojp/glTF-Maya-Exporter)
 
+
+## 图形学
+
+[fun-with-graphics](https://github.com/FancyVin/fun-with-graphics)
+
+## C++
+
+[maya_python_c_extension](https://github.com/sonictk/maya_python_c_extension)
+
 ## 编程规范
 
 [TA_101](https://github.com/theodox/ta_101)
@@ -64,3 +73,4 @@
 
 [elrond79](https://github.com/elrond79)
 [theodox](https://github.com/theodox)
+[sonictk](https://github.com/sonictk)
