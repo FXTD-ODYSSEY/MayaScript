@@ -60,6 +60,7 @@
 ## 图形学
 
 [fun-with-graphics](https://github.com/FancyVin/fun-with-graphics)
+[rendering-papers](https://github.com/ganeshbelgur/rendering-papers)
 
 ## C++
 
