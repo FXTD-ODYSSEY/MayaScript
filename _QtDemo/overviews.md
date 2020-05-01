@@ -40,13 +40,6 @@
         Sensors to Qt Sensors</a></li>
 
 <li><a href="https://doc.qt.io/qtforpython/overviews/qt3d-overview.html">Qt 3D Overview</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-esri.html">Qt Location Esri Plugin</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-here.html">Qt Location HERE Plugin</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-itemsoverlay.html">Qt Location Items Overlay
-        Plugin</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-mapboxgl.html">Qt Location Mapbox GL Plugin</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-mapbox.html">Qt Location Mapbox Plugin</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-osm.html">Qt Location Open Street Map Plugin</a></li>
 
 <li><a href="https://doc.qt.io/qtforpython/overviews/sensors-backend-topics.html">Qt Sensors Backend</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtsensors-cpp.html">Qt Sensors C++ Overview</a></li>
@@ -75,6 +68,17 @@
 
 <hr>
 
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-esri.html">Qt Location Esri Plugin</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-here.html">Qt Location HERE Plugin</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-itemsoverlay.html">Qt Location Items Overlay
+        Plugin</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-mapboxgl.html">Qt Location Mapbox GL Plugin</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-mapbox.html">Qt Location Mapbox Plugin</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/location-plugin-osm.html">Qt Location Open Street Map Plugin</a></li>
+
+
+<hr>
+
 
 <li><a href="https://doc.qt.io/qtforpython/overviews/qml-advtutorial.html">QML Advanced Tutorial</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtquick-tutorials-samegame-samegame1-example.html">QML Advanced Tutorial 1 - Creating the Game Canvas and Blocks</a></li>
@@ -86,10 +90,7 @@
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtlocation-mapviewer-example.html">Map Viewer (QML)</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtlocation-places-example.html">Places (QML)</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtlocation-planespotter-example.html">Plane Spotter (QML)</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/qtsensors-qmlsensorgestures-example.html">Qt Sensors -
-        SensorGesture QML Type example</a></li>
-<li><a href="https://doc.qt.io/qtforpython/overviews/positioning-cpp-qml.html">Interfaces between C++ and QML Code in
-        Qt Positioning</a></li>
+
 <li><a href="https://doc.qt.io/qtforpython/overviews/qml-location5-maps.html">QML Maps</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/location-places-qml.html">QML Places API</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtmultimedia-multimedia-video-qmlvideofx-example.html">QML Video
@@ -97,7 +98,10 @@
 <li><a href="https://doc.qt.io/qtforpython/overviews/qml-multimedia.html">Qt Multimedia QML API</a></li>
 <li><a href="https://doc.qt.io/qtforpython/overviews/qtquick-bestpractices.html">Best Practices for QML and Qt
         Quick</a></li>
-
+<li><a href="https://doc.qt.io/qtforpython/overviews/qtsensors-qmlsensorgestures-example.html">Qt Sensors -
+        SensorGesture QML Type example</a></li>
+<li><a href="https://doc.qt.io/qtforpython/overviews/positioning-cpp-qml.html">Interfaces between C++ and QML Code in
+        Qt Positioning</a></li>
 <hr>
 
 <li><a href="https://doc.qt.io/qtforpython/overviews/metaobjects.html">The Meta-Object System</a></li>
