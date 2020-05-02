@@ -38,7 +38,7 @@ def retrieveLink(url,index=1,content=''):
     p = tag.findNext('p')
     title = p.a.string
     href = base_url + p.a.get('href')
-    content += "[%s](%s)\n" % (title,href)
+    content += "[%s](%s)    \n" % (title,href)
     print (index,title,href)
     index += 1
     with open(os.path.join(DIR,"_overviews.md"),'w') as f:
