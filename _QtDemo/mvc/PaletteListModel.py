@@ -104,28 +104,6 @@ class PaletteListModel(QtCore.QAbstractListModel):
              
         self.endRemoveRows()
         return True
-    
-class TestModel (QtCore.QAbstractListModel):
-
-    def __init__(self, data = None, parent = None):
-        super(TestModel,self).__init__( parent)
-        self._data = data if data else []
-
-    def rowCount(self, index):
-        return len(self._data)
-
-    def data(self, index, role):
-        # NOTE https://stackoverflow.com/questions/5125619/why-doesnt-list-have-safe-get-method-like-dictionary
-        val = self._data[index.row()] if len(self._data) > index.row() else next(iter(self._data), '')
-
-        if role == QtCore.Qt.DisplayRole:
-            return val
-
-    def setData(self,data):
-        self._data = data
-
-    def getData(self):
-        return self._data
 
 class WidgetTest(QtWidgets.QWidget):
     def __init__(self):

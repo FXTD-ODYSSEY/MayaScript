@@ -94,13 +94,14 @@ class ButtonGroupWidget(QGroupBox):
         # self.selectedOption = self.buttonGroup.checkedId()
         # print(self._selectedOption) # for test purpose
         self.selectedOption = self.buttonGroup.checkedId()
-        QApplication.postEvent(  self, QKeyEvent(QEvent.KeyPress, Qt.Key_Enter, Qt.NoModifier))
+        QApplication.postEvent( self, QKeyEvent(QEvent.KeyPress, Qt.Key_Enter, Qt.NoModifier))
 
     def getSelectedOption(self):
         print("get selectedOption is called")
         return self._selectedOption
 
     def setSelectedOption(self,selectedOption):
+        # print ("selectedOption",selectedOption)
         print("set selectedOption is called")
         self._selectedOption = selectedOption
         self.buttonGroup.button(selectedOption).setChecked(True)
@@ -236,9 +237,8 @@ class MainWidget(QWidget):
         self.treeView.selectionModel().currentChanged.connect(self.setSelection)
 
     def setSelection(self, current):
-
         parent = current.parent()
-        self._dataMapper.setRootIndex(parent)
+        # self._dataMapper.setRootIndex(parent)
         self._dataMapper.setCurrentModelIndex(current) 
 
 

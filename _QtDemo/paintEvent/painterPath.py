@@ -8,7 +8,7 @@ __date__ = '2020-01-19 15:01:52'
 NOTE https://stackoverflow.com/questions/55989245/filling-a-drawn-path-using-qpainterpath-in-pyqt5
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from Qt import QtCore, QtGui, QtWidgets
 
 
 class GraphicsView(QtWidgets.QGraphicsView):
@@ -29,7 +29,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         )
         self._path_item = self.scene().addPath(self._path, pen)
 
-    @QtCore.pyqtSlot()
+    @QtCore.Slot()
     def setImage(self):
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             None, "select Image", "", "Image Files (*.png *.jpg *jpg *.bmp)"

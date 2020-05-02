@@ -40,8 +40,8 @@
 
 import sys
 from PySide2.QtWidgets import QApplication
+# import rc_books
 from bookwindow import BookWindow
-import rc_books
 
 if __name__ == "__main__":
     app = QApplication([])

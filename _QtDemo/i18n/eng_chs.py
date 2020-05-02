@@ -5,10 +5,9 @@ __email__ =  '820472580@qq.com'
 __date__ = '2020-01-06 14:27:25'
 
 """
-
+https://stackoverflow.com/questions/53349623/how-to-change-languagestranslations-dynamically-on-pyqt5
 """
 
-# NOTE https://stackoverflow.com/questions/53349623/how-to-change-languagestranslations-dynamically-on-pyqt5
 
 
 import os

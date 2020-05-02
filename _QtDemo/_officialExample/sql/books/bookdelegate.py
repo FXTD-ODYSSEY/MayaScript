@@ -38,6 +38,7 @@
 ##
 #############################################################################
 
+import os
 import copy
 from PySide2.QtSql import QSqlRelationalDelegate
 from PySide2.QtWidgets import QSpinBox, QStyle
@@ -50,7 +51,7 @@ class BookDelegate(QSqlRelationalDelegate):
 
     def __init__(self, parent=None):
         QSqlRelationalDelegate.__init__(self, parent)
-        self.star = QPixmap(":/images/star.png")
+        self.star = QPixmap(os.path.join(__file__,"..","images","star.png"))
 
     def paint(self, painter, option, index):
         """ Paint the items in the table.
