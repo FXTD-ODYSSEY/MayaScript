@@ -9,9 +9,16 @@ https://www.youtube.com/watch?v=AONvtOcpaws&list=PL8B63F2091D787896
 """
 
 import os
-import sys
+def getGitRepo(p):
+    return p if [f for f in os.listdir(p if os.path.isdir(p) else os.path.dirname(p)) if f == '.git'] else None if os.path.dirname(p) == p else getGitRepo(os.path.dirname(p))
+repo = getGitRepo(__file__)
 
-from PySide2 import QtGui,QtWidgets, QtCore
+import sys
+MODULE = os.path.join(repo,"_vendor","Qt")
+if MODULE not in sys.path:
+    sys.path.insert(0,MODULE)
+
+from Qt import QtGui,QtWidgets, QtCore
 from functools import partial
 
 class PaletteListModel(QtCore.QAbstractListModel):

@@ -28,9 +28,12 @@ __date__ = '2020-04-29 13:34:11'
 """
 
 import os
+def getGitRepo(p):
+    return p if [f for f in os.listdir(p if os.path.isdir(p) else os.path.dirname(p)) if f == '.git'] else None if os.path.dirname(p) == p else getGitRepo(os.path.dirname(p))
+repo = getGitRepo(__file__)
+
 import sys
-DIR = os.path.dirname(__file__)
-MODULE = os.path.join(DIR,"..","..","QMVVM","_vender")
+MODULE = os.path.join(repo,"_vendor","Qt")
 if MODULE not in sys.path:
     sys.path.insert(0,MODULE)
 
@@ -68,21 +71,40 @@ from functools import partial
 class TestLabel(QtWidgets.QLabel):
     def __init__(self,parent=None):
         super(TestLabel, self).__init__(parent)
-        # self.text2 = QtCore.Property(str,self.getString,self.setString)
+        self.text3 = "123"
     
     def getString(self):
         print("getString call")
         return self.text()
 
     def setString(self,text):
-        print("setString call")
-        self.setText(text)
+        self.setText("text2: %s" % text)
 
     text2 = QtCore.Property(str,getString,setString)
 
-class TestContainer(QtCore.QObject):
+    @property
+    def text3(self):
+        return self.text()
+    
+    @text3.setter
+    def text3(self,text):
+        self.setText("text3: %s" % text)
 
-    msg = QtCore.Property(str,lambda *args:print("getter"),lambda self,val,*args:print("setter",val))
+# class TestContainer(QtWidgets.QWidget):
+
+#     def __init__(self,widget,getter,setter):
+#         super(TestContainer, self).__init__(widget)
+#         self.widget = widget
+#         self.getter = getattr(widget,getter) if type(getter) is str else getter if callable(getter) else None
+#         self.setter = getattr(widget,setter) if type(setter) is str else setter if callable(setter) else None
+
+#     def getterFunc(self):
+#         self.getter() if self.getter else None
+
+#     def setterFunc(self,*args):
+#         self.setter(*args) if self.setter else None
+
+#     msg = QtCore.Property(str,getterFunc,setterFunc)
 
 class WidgetTest(QtWidgets.QWidget):
     def __init__(self):
@@ -118,7 +140,9 @@ class WidgetTest(QtWidgets.QWidget):
         # self.model = QtCore.QStringListModel(["red", "green", "blue"])
         # self.model = TestModel(["red", "green", "blue",True])
         self.model = QtGui.QStandardItemModel()
-        self.model.appendRow([QtGui.QStandardItem("red"), QtGui.QStandardItem("green"), QtGui.QStandardItem("blue")])
+        red = QtGui.QStandardItem("red")
+        red.appendRow([QtGui.QStandardItem("1"),QtGui.QStandardItem("2"),QtGui.QStandardItem("3")])
+        self.model.appendRow([red, QtGui.QStandardItem("green"), QtGui.QStandardItem("blue")])
         self.model.appendColumn([QtGui.QStandardItem("red"), QtGui.QStandardItem("green"), QtGui.QStandardItem("blue")])
         
         listView.setModel(self.model)
@@ -139,24 +163,18 @@ class WidgetTest(QtWidgets.QWidget):
         self.line = QtWidgets.QLineEdit()
         layout.addWidget(self.line)
         
-        container = TestContainer()
-        setattr(self.label,"msg", container.msg)
-        # print ("msg",self.label.msg)
-        self.label.msg = 123
-        print ("msg",self.label.msg)
+        class TestContainer(QtWidgets.QWidget):
+            
+            msg = QtCore.Property(str,self.label.text,lambda instance,val:self.label.setText("test : %s" % val))
+        
+        # container = TestContainer()
+        self.label.setProperty(b'hello',"world")
 
-        # print ("msg",container.msg)
-        # container.msg = 123
-        # print ("msg",container.msg)
-
-        # print (self.label.text2())
-        # print ('===================')
-        # self.label.text2 = "123"
-        # print (self.label.text2)
-
+        # print ("property",container.property("hello"))
+        # print ("property",container.hello)
 
         # NOTE https://stackoverflow.com/questions/28114655/qdatawidgetmapper-not-working-with-qlabels
-        self.mapper_label.addMapping(self.label, 0 , "text")
+        self.mapper_label.addMapping(self.label, 0 , "hello")
         self.mapper_label.toFirst()
 
         self.mapper.addMapping(self.line, 0)
@@ -166,7 +184,8 @@ class WidgetTest(QtWidgets.QWidget):
         self.line.textChanged.connect(self.changeText)
 
         self.button = QtWidgets.QPushButton('click')
-        self.button.clicked.connect(lambda:self.model.item(0,0).setText("ASD"))
+        # self.button.clicked.connect(lambda:self.model.item(0,0).setText("ASD"))
+        self.button.clicked.connect(lambda:print(self.label.property("text2")))
         layout.addWidget(self.button)
 
         # self.model.itemChange(lambda item:None)
@@ -176,8 +195,6 @@ class WidgetTest(QtWidgets.QWidget):
         # self.setModel()
         print (self.line.text())
         print ("submit",self.mapper.submit())
-        # self.line.defocus()
-        # QtWidgets.QApplication.postEvent( self.line, QtGui.QKeyEvent(QtCore.QEvent.KeyPress, QtCore.Qt.Key_Enter, QtCore.Qt.NoModifier))
 
 if __name__ == '__main__':
     
