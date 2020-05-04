@@ -8,33 +8,12 @@ __date__ = '2020-05-02 13:28:29'
 """
 
 """
-
 import os
 import sys
-MODULE = os.path.join(__file__,"..","..","..","_vendor","Qt")
-if MODULE not in sys.path:
-    sys.path.append(MODULE)
+repo = (lambda f:lambda p=__file__:f(f,p))(lambda f,p: p if [d for d in os.listdir(p if os.path.isdir(p) else os.path.dirname(p)) if d == '.git'] else None if os.path.dirname(p) == p else f(f,os.path.dirname(p)))()
+MODULE = os.path.join(repo,'_vendor','Qt')
+sys.path.insert(0,MODULE) if MODULE not in sys.path else None
 
-from Qt import QtCore,QtWidgets,QtGui
-
-# coding:utf-8
-
-__author__ =  'timmyliang'
-__email__ =  '820472580@qq.com'
-__date__ = '2020-04-29 13:34:11'
-
-"""
-
-"""
-
-import os
-import sys
-DIR = os.path.dirname(__file__)
-MODULE = os.path.join(DIR,"..","..","QMVVM","_vender")
-if MODULE not in sys.path:
-    sys.path.insert(0,MODULE)
-
-import Qt
 from Qt import QtGui,QtWidgets, QtCore
 from functools import partial
 # class TestModel (QtCore.QAbstractListModel):
@@ -133,7 +112,7 @@ class WidgetTest(QtWidgets.QWidget):
         layout.addWidget(self.line)
 
         # NOTE https://stackoverflow.com/questions/28114655/qdatawidgetmapper-not-working-with-qlabels
-        self.mapper_label.addMapping(self.label, 1 , "text")
+        self.mapper_label.addMapping(self.label, 0 , "text")
         self.mapper_label.toFirst()
 
         self.mapper.addMapping(self.line, 0)

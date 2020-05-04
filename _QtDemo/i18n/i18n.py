@@ -1,20 +1,26 @@
 # coding:utf-8
+from __future__ import division,print_function
 
 __author__ =  'timmyliang'
 __email__ =  '820472580@qq.com'
-__date__ = '2020-01-06 14:27:25'
+__date__ = '2020-05-04 11:13:09'
 
 """
 https://stackoverflow.com/questions/53349623/how-to-change-languagestranslations-dynamically-on-pyqt5
 """
 
-
-
 import os
 import sys
-from PySide2 import QtCore, QtGui, QtWidgets
+repo = (lambda f:lambda p=__file__:f(f,p))(lambda f,p: p if [d for d in os.listdir(p if os.path.isdir(p) else os.path.dirname(p)) if d == '.git'] else None if os.path.dirname(p) == p else f(f,os.path.dirname(p)))()
+MODULE = os.path.join(repo,'_vendor','Qt')
+sys.path.insert(0,MODULE) if MODULE not in sys.path else None
+
+from Qt import QtGui
+from Qt import QtCore
+from Qt import QtWidgets
 
 DIR = os.path.dirname(__file__)
+
 class Demo(QtWidgets.QWidget):
     def __init__(self):
         super(Demo, self).__init__()
@@ -32,7 +38,7 @@ class Demo(QtWidgets.QWidget):
         self.v_layout.addWidget(self.label)
 
         chinese_qm = os.path.join(DIR,"eng_chs.qm")
-        options = ([('English', ''), ('français', 'eng-fr' ), ('中文', chinese_qm), ])
+        options = ([('English', ''), ('中文', chinese_qm), ])
 
         for i, (text, lang) in enumerate(options):
             self.combo.addItem(text)
@@ -43,7 +49,7 @@ class Demo(QtWidgets.QWidget):
     def change_func(self, index):
         data = self.combo.itemData(index)
         if data:
-            print data
+            print (data)
             self.trans.load(data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:

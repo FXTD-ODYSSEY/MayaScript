@@ -40,15 +40,23 @@
 ##
 #############################################################################
 
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
+import os
+import sys
+repo = (lambda f:lambda p=__file__:f(f,p))(lambda f,p: p if [d for d in os.listdir(p if os.path.isdir(p) else os.path.dirname(p)) if d == '.git'] else None if os.path.dirname(p) == p else f(f,os.path.dirname(p)))()
+MODULE = os.path.join(repo,'_vendor','Qt')
+sys.path.insert(0,MODULE) if MODULE not in sys.path else None
 
+from Qt.QtGui import *
+from Qt.QtCore import *
+from Qt.QtWidgets import *
+
+class MovementTransition(QEventTransition):
 class MovementTransition(QEventTransition):
     def __init__(self, window):
         super(MovementTransition, self).__init__(window, QEvent.KeyPress)
         self.window = window
     def eventTest(self, event):
+        # print ("eventTest event",event.type())
         if event.type() == QEvent.StateMachineWrapped and \
           event.event().type() == QEvent.KeyPress:
             key = event.event().key()
@@ -57,6 +65,7 @@ class MovementTransition(QEventTransition):
         return False
     def onTransition(self, event):
         key = event.event().key()
+        # print ("onTransition event",event.type())
         if key == Qt.Key_4:
             self.window.movePlayer(self.window.Left)
         if key == Qt.Key_8:
@@ -118,9 +127,6 @@ class MainWindow(QMainWindow):
         # however this line does not
         inputState.assignProperty(self, 'status', 'Move the rogue with 2, 4, 6, and 8')
 
-        machine.setInitialState(inputState)
-        machine.start()
-
         transition = MovementTransition(self)
         inputState.addTransition(transition)
 
@@ -141,7 +147,7 @@ class MainWindow(QMainWindow):
         inputState.addTransition(quitTransition)
 
         machine.setInitialState(inputState)
-        machine.finished.connect(qApp.quit)
+        machine.finished.connect(QApplication.quit)
         machine.start()
 
     def sizeHint(self):

@@ -74,9 +74,9 @@ class Window(QMainWindow):
 
         self._model = QStandardItemModel()
         name_item = QStandardItem()
-        state_item = QStandardItem()
+        state_item = QStandardItem('')
         name_item.setText('My Name')
-        state_item.setText('')
+        # state_item.setText('')
         state_item.setData(State.bar)
         self._model.appendRow([name_item, state_item])
 
