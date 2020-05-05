@@ -72,11 +72,6 @@ class WidgetTest(QtWidgets.QWidget):
 
         comboBox = QtWidgets.QComboBox()
         layout.addWidget(comboBox)
-        comboBox.addItem("0")
-        comboBox.addItem("1")
-        comboBox.addItem("2")
-        comboBox.addItem("3")
-        comboBox.addItem("4")
 
         tableView = QtWidgets.QTableView()
         layout.addWidget(tableView)
