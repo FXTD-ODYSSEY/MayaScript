@@ -16,16 +16,18 @@
 [tik_manager](https://github.com/masqu3rad3/tik_manager)
 [prism](https://prism-pipeline.com/)
 
-## Maya 启动器
+## Maya 工具
 
 [cosmos](https://http://cosmos.toolsfrom.space)
+[CNCGToolKit](https://github.com/cineuse/CNCGToolKit)
+[zfused_outsource](https://github.com/zhoulh0322/zfused_outsource)
 
 ## 绑定
 
 [mgear](http://www.mgear-framework.com/)
 [hyperdrive](https://github.com/timlehr/hyperdrive)
 
-## C++ **API**
+## C++ API
 
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
 [screenspace](https://github.com/eddiehoyle/screenspace)

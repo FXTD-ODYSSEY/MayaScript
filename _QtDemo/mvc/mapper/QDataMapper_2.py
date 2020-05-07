@@ -85,9 +85,13 @@ class WidgetTest(QtWidgets.QWidget):
 
         # self.model = QtCore.QStringListModel(["red", "green", "blue"])
         # self.model = TestModel(["red", "green", "blue",True])
+        red = QtGui.QStandardItem("red")
+        green = QtGui.QStandardItem("green")
+        blue = QtGui.QStandardItem("blue")
         self.model = QtGui.QStandardItemModel()
-        self.model.appendRow([QtGui.QStandardItem("red"), QtGui.QStandardItem("green"), QtGui.QStandardItem("blue")])
-        self.model.appendColumn([QtGui.QStandardItem("red"), QtGui.QStandardItem("green"), QtGui.QStandardItem("blue")])
+        self.model.appendRow([red.clone(), green.clone(), blue.clone()])
+        self._model = QtGui.QStandardItemModel()
+        self._model.appendRow([red, green, blue])
         
         listView.setModel(self.model)
         comboBox.setModel(self.model)
@@ -117,7 +121,7 @@ class WidgetTest(QtWidgets.QWidget):
         self.line.textChanged.connect(self.changeText)
 
         self.button = QtWidgets.QPushButton('click')
-        self.button.clicked.connect(lambda:self.model.item(0,0).setText("ASD"))
+        self.button.clicked.connect(lambda:self._model.item(0,0).setText("ASD"))
         layout.addWidget(self.button)
 
         # self.model.itemChange(lambda item:None)
@@ -125,7 +129,7 @@ class WidgetTest(QtWidgets.QWidget):
 
     def changeText(self,text):
         # self.setModel()
-        print (self.line.text())
+        # print (dir(self.model))
         print ("submit",self.mapper.submit())
         # self.line.defocus()
         # QtWidgets.QApplication.postEvent( self.line, QtGui.QKeyEvent(QtCore.QEvent.KeyPress, QtCore.Qt.Key_Enter, QtCore.Qt.NoModifier))

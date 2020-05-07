@@ -62,7 +62,6 @@ class PaletteListModel(QtCore.QAbstractListModel):
             icon = QtGui.QIcon(pixmap)
             
             return icon
-
               
         if role == QtCore.Qt.DisplayRole:
             

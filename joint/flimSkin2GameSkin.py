@@ -23,7 +23,9 @@ class RigWinow(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(RigWinow,self).__init__(parent)
+        # NOTE 初始化 mel 脚本
         mel.eval('source channelBoxCommand')
+
         self.setWindowTitle(u"导出引擎工具")
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
@@ -46,65 +48,43 @@ class RigWinow(QtWidgets.QWidget):
         return jnt_list
 
     def genereateAnim(self):
+        # NOTE 导入所有的 reference
+        [ref.importContents(True) for ref in pm.listReferences()]
+            
         mesh_list = pm.ls(ni=1,v=1,type="mesh")
-        # jnt_list = self.getJntList(mesh_list)
-        jnt_list = set()
-        for mesh in mesh_list:
-            skin_list = mesh.listHistory(type="skinCluster")
-            skin = next(iter(skin_list),None)
-            if skin is None: continue
-            jnt_list.update(skin.listHistory(type="joint"))
+        # NOTE 删除非变形器历史
+        pm.bakePartialHistory( mesh_list,prePostDeformers=True )
+        jnt_list = self.getJntList(mesh_list)
 
-        # for jnt in jnt_list:
-        #     jnt.tx.setLocked(0)
-        #     jnt.ty.setLocked(0)
-        #     jnt.tz.setLocked(0)
-        #     jnt.rx.setLocked(0)
-        #     jnt.ry.setLocked(0)
-        #     jnt.rz.setLocked(0)
-        #     jnt.tx.showInChannelBox(1)
-        #     jnt.ty.showInChannelBox(1)
-        #     jnt.tz.showInChannelBox(1)
-        #     jnt.rx.showInChannelBox(1)
-        #     jnt.ry.showInChannelBox(1)
-        #     jnt.rz.showInChannelBox(1)
+        pm.select(cl=1)
+        root = pm.joint(n="root")
 
+        anim_jnt_list = []
+        for jnt in jnt_list:
+            pm.select(cl=1)
+            anim_jnt = pm.joint(n="%s_bind"%jnt)
+            con = pm.parentConstraint(jnt,anim_jnt,mo=0)
+            anim_jnt.setParent(root)
+            anim_jnt_list.append(anim_jnt)
 
         # NOTE bake 关键帧
         start_time = pm.playbackOptions(q=1,min=1)
         end_time = pm.playbackOptions(q=1,max=1)
         pm.bakeResults(
-            jnt_list,
+            anim_jnt_list,
             simulation=1, 
             t=(start_time,end_time)
         )
 
-        pm.select(cl=1)
-        root = pm.joint(n="root")
-
-        for jnt,pos in {jnt:pm.xform(jnt,q=1,ws=1,t=1) for jnt in jnt_list}.iteritems():
-            jnt.setParent(jnt,root)
-            parent = jnt.getParent()
-        #     if parent.name() == root:
-        #         try:
-        #             jnt.tx.set(pos[0])
-        #             jnt.ty.set(pos[1])
-        #             jnt.tz.set(pos[2])
-        #         except:
-        #             pass
-
-        for jnt in jnt_list:
-            for node in pm.ls(jnt,dag=1):
-                if node == jnt or not pm.objExists(node): continue
-                pm.delete(node)
+        # NOTE 删除 root 骨骼下的所有约束
+        pm.delete(pm.ls(root,dag=1,ni=1,type="constraint"))
 
         pm.select(root)
 
-
-    def genereateRig(self):
-        # NOTE 删除所有 IK 控制器
-        pm.delete(pm.ls(type="ikEffector"))
-
+    def genereateRig(self,select=True):
+        # NOTE 导入所有的 reference
+        [ref.importContents(True) for ref in pm.listReferences()]
+        
         # NOTE 获取场景中所有可见的模型
         mesh_list = pm.ls(ni=1,v=1,type="mesh")
         # NOTE 删除非变形器历史
@@ -114,6 +94,10 @@ class RigWinow(QtWidgets.QWidget):
         pm.select(cl=1)
         root = pm.joint(n="root")
 
+        # NOTE 删除所有 IK 控制器 & Blendshape
+        pm.delete(pm.ls(type="ikEffector"))
+        pm.delete(pm.ls(type="blendShape"))
+
         for jnt,pos in {jnt:pm.xform(jnt,q=1,ws=1,t=1) for jnt in jnt_list}.iteritems():
             jnt.tx.setLocked(0)
             jnt.ty.setLocked(0)
@@ -121,6 +105,9 @@ class RigWinow(QtWidgets.QWidget):
             jnt.rx.setLocked(0)
             jnt.ry.setLocked(0)
             jnt.rz.setLocked(0)
+            jnt.sx.setLocked(0)
+            jnt.sy.setLocked(0)
+            jnt.sz.setLocked(0)
 
             jnt.tx.showInChannelBox(1)
             jnt.ty.showInChannelBox(1)
@@ -128,22 +115,39 @@ class RigWinow(QtWidgets.QWidget):
             jnt.rx.showInChannelBox(1)
             jnt.ry.showInChannelBox(1)
             jnt.rz.showInChannelBox(1)
+            jnt.sx.showInChannelBox(1)
+            jnt.sy.showInChannelBox(1)
+            jnt.sz.showInChannelBox(1)
+
             mel.eval('CBdeleteConnection %s' % jnt.tx)
             mel.eval('CBdeleteConnection %s' % jnt.ty)
             mel.eval('CBdeleteConnection %s' % jnt.tz)
-            jnt.setParent(jnt,root)
+            mel.eval('CBdeleteConnection %s' % jnt.rx)
+            mel.eval('CBdeleteConnection %s' % jnt.ry)
+            mel.eval('CBdeleteConnection %s' % jnt.rz)
+            mel.eval('CBdeleteConnection %s' % jnt.sx)
+            mel.eval('CBdeleteConnection %s' % jnt.sy)
+            mel.eval('CBdeleteConnection %s' % jnt.sz)
+
+            jnt.setParent(root)
+            jnt.rename("%s_bind" % jnt)
             parent = jnt.getParent()
             if parent.name() == root:
                 jnt.tx.set(pos[0])
                 jnt.ty.set(pos[1])
                 jnt.tz.set(pos[2])
+            else:
+                jnt.s.set(parent.s.get())
+                parent.s.set(1,1,1)
+                jnt.setParent(root)
+                pm.delete(parent)
 
-        for jnt in jnt_list:
-            for node in pm.ls(jnt,dag=1):
-                if node == jnt or not pm.objExists(node): continue
-                pm.delete(node)
 
-        pm.select(root,mesh_list)
+        [pm.delete(node) for jnt in jnt_list for node in jnt.getChildren()]
+                
+        pm.select(root,mesh_list) if select else None
+        
+        return root
 
     def mayaShow(self,name="RigWinow"):
         # NOTE 如果变量存在 就检查窗口多开

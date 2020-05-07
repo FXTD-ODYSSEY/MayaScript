@@ -9,12 +9,14 @@ __date__ = '2020-05-04 14:52:04'
 https://stackoverflow.com/questions/10176226/how-do-i-pass-extra-arguments-to-a-python-decorator
 """
 
-import functools
+import time
+from functools import partial, wraps
 
 def myDecorator(func=None,logIt=None):
+    print("func",func,logIt)
     if not func:
-        return functools.partial(myDecorator, logIt=logIt)
-    @functools.wraps(func)
+        return partial(myDecorator, logIt=logIt)
+    @wraps(func)
     def f(*args, **kwargs):
         if logIt==1:
             print ('Logging level 1 for {}'.format(func.__name__))
@@ -25,11 +27,26 @@ def myDecorator(func=None,logIt=None):
         return func(*args, **kwargs)
     return f
 
+def logTime(func=None, msg="elapsed time:"):
+    if not func:
+        return partial(logTime,msg=msg)
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        curr = time.time()
+        res = func(*args, **kwargs)
+        print(msg,time.time() - curr)
+        return res
+    return wrapper
 
-@myDecorator(logIt=2)
+
+@logTime()
 def pow2(i):
-    return i**2
+    return [j ** 2 for j in range(i**2)]
 
-@myDecorator
-def pow3(i):
-    return i**3
+# @myDecorator
+# def pow3(i):
+#     return i**3
+
+if __name__ == "__main__":
+    pow2(1000)
+    
