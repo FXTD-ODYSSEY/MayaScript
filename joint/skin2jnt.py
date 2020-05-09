@@ -6,8 +6,8 @@ __date__ = '2019-11-23 19:23:58'
 
 import pymel.core as pm
 
-mesh = pm.ls(sl=1)[0]
+mesh_list = pm.ls(pm.pickWalk(d="down"),type="mesh")
 
-skin = mesh.history(type="skinCluster")[0]
-
-pm.select(skin.inputs(type="joint"))
+jnt_list = {jnt for mesh in mesh_list for skin in mesh.history(type="skinCluster") for jnt in skin.inputs(type="joint")}
+    
+pm.select(jnt_list)

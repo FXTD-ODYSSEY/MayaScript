@@ -11,9 +11,9 @@ https://stackoverflow.com/questions/29708445/how-do-i-make-a-contextmanager-with
 from maya import cmds
 import traceback
 
-def loop(seq):
+def loop(seq,title=''):
     cmds.progressWindow(	
-        title="test" ,
+        title=title ,
         progress=0.0,
         isInterruptable=True )
     total = len(seq)

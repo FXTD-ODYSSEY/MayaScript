@@ -174,6 +174,7 @@ class SceneGraphModel(QAbstractItemModel):
         else:
             parentNode = parent.internalPointer()
 
+        print ("childCount",parentNode.childCount())
         return parentNode.childCount()
 
     """INPUTS: QModelIndex"""
@@ -191,21 +192,19 @@ class SceneGraphModel(QAbstractItemModel):
         node = index.internalPointer()
 
         if role == Qt.DisplayRole or role == Qt.EditRole:
-            if index.column() == 0:
-                return node.name()
+            return node.name()
             
         if role == Qt.DecorationRole:
-            if index.column() == 0:
-                typeInfo = node.typeInfo()
-                
-                if typeInfo == "LIGHT":
-                    return QIcon(QPixmap(":/Light.png"))
-                
-                if typeInfo == "TRANSFORM":
-                    return QIcon(QPixmap(":/Transform.png"))
-                
-                if typeInfo == "CAMERA":
-                    return QIcon(QPixmap(":/Camera.png"))
+            typeInfo = node.typeInfo()
+            
+            if typeInfo == "LIGHT":
+                return QIcon(QPixmap(":/Light.png"))
+            
+            if typeInfo == "TRANSFORM":
+                return QIcon(QPixmap(":/Transform.png"))
+            
+            if typeInfo == "CAMERA":
+                return QIcon(QPixmap(":/Camera.png"))
 
 
 
