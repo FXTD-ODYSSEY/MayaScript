@@ -13,18 +13,18 @@ import pymel.core as pm
 import pymel.core.nodetypes as nt
 import json
 
-def hierarchy2json(parents,tree=None,init=True):
+def hierarchy2json(parents,dump2json=True,tree=None,init=True,):
     parents = parents if isinstance(parents,list) else [parents]
     _tree = {str(p):{} if isinstance(p,nt.Transform) else p.type() for p in parents} if not isinstance(tree,dict) else tree
 
     for parent in parents:
         tree = _tree[str(parent)] if init else _tree
-        for child in parent.getChildren(ni=1):
+        for child in parent.getChildren():
             tree[str(child)] = {} if isinstance(child,nt.Transform) else child.type()
-            hierarchy2json(child,tree[str(child)],False)
+            hierarchy2json(child,tree=tree[str(child)],init=False)
 
     if init:
-        return json.dumps(_tree)
+        return json.dumps(_tree) if dump2json else _tree
 
 # for sel in pm.selected():
 #     print(json.dumps(hierarchy2json(sel)))
