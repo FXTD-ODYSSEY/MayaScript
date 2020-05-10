@@ -52,19 +52,22 @@ def test_mesh_intersection(current_mesh, target_mesh):
         
         current_mesh_om = om.MFnMesh(pynode_to_api2(current_mesh))
         edge_vector = end_point - sour_point
+        edge_len = edge_vector.length()
+        edge_vector.normalize()
         speedup_param = current_mesh_om.autoUniformGridParams()
         hitPoints, _, hit_faces, _, _, _ = current_mesh_om.allIntersections(
             om.MFloatPoint(sour_point),  # 射线起点
             om.MFloatVector(edge_vector),  # 射线方向
             om.MSpace.kWorld,  # 世界空间
-            edge_vector.length(),  # 测试距离，超出此距离的命中不算
-            True,  # 不进行双向测试
+            edge_len,  # 测试距离，超出此距离的命中不算
+            False,  # 不进行双向测试
             accelParams=speedup_param  # 加速参数
         )
 
         all_hit_points.extend(hitPoints)
         all_hit_faces.extend([current_mesh.f[face_id] for face_id in hit_faces])
 
+    # TODO locator 生成位置不对
     # [pm.spaceLocator(p=(pt.x,pt.y,pt.z)) for pt in all_hit_points]
     return all_hit_faces
 
