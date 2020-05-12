@@ -11,7 +11,10 @@ __date__ = '2020-05-02 21:16:58'
 
 import os
 import sys
+import json
 import shutil
+import hashlib
+import tempfile
 import traceback
 
 from maya import cmds
@@ -22,12 +25,13 @@ try:
     from Qt import QtGui
     from Qt import QtCore
     from Qt import QtWidgets
-    from Qt.QtCompat import wrapInstance
+    from Qt.QtCompat import wrapInstance,QFileDialog
 except:
     from PySide2 import QtGui
     from PySide2 import QtCore
     from PySide2 import QtWidgets
     from shiboken2 import wrapInstance
+    from PySide2.QtWidgets import QFileDialog
 
 from textwrap import dedent
 
@@ -67,6 +71,304 @@ def SetFbxParameter():
     mel.eval('FBXExportBakeResampleAnimation -v false')
     mel.eval('FBXExportSkeletonDefinitions -v true')
 
+class FileListWidget(QtWidgets.QListWidget):
+    def addItem(self,item):
+        _item = item.text() if type(item) is QtWidgets.QListWidgetItem else item
+        if not self.findItems(_item, QtCore.Qt.MatchContains):
+            super(FileListWidget,self).addItem(item)
+
+class AnimBatcherWin(QtWidgets.QWidget):
+
+    old_md5_data = {}
+    new_md5_data = {}
+
+    def __init__(self):
+        super(AnimBatcherWin, self).__init__()
+
+        self.File_List = FileListWidget(self)
+        self.File_List.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.File_List.setSelectionMode(
+            QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.File_List.customContextMenuRequested.connect(
+            self.fileItemRightClickEvent)
+
+        self.File_List.setAcceptDrops(True)
+        self.File_List.dropEvent = self.listDropEvent
+        self.File_List.dragMoveEvent = self.listDragMoveEvent
+        self.File_List.dragEnterEvent = self.listDropEnterEvent
+        
+        self.Root_BTN = QtWidgets.QPushButton(u'获取Maya文件目录路径', self)
+        self.Root_BTN.clicked.connect(self.handleSetDirectory)
+        self.File_BTN = QtWidgets.QPushButton(u'获取Maya文件', self)
+        self.File_BTN.clicked.connect(self.getMayaFiles)
+        self.Current_BTN = QtWidgets.QPushButton(u'获取当前打开的Maya文件', self)
+        self.Current_BTN.clicked.connect(self.getCurrent)
+
+        self.Button_Layout = QtWidgets.QHBoxLayout()
+        self.Button_Layout.addWidget(self.Root_BTN)
+        self.Button_Layout.addWidget(self.File_BTN)
+        self.Button_Layout.addWidget(self.Current_BTN)
+
+        self.export = QtWidgets.QPushButton(u'批量导出动画文件', self)
+        # self.export.clicked.connect(self.batchReplace)
+
+        self.Main_Layout = QtWidgets.QVBoxLayout()
+        self.Main_Layout.addWidget(self.File_List)
+        self.Main_Layout.addLayout(self.Button_Layout)
+        self.Main_Layout.addWidget(self.export)
+        self.Main_Layout.setContentsMargins(0, 0, 0, 0)
+        self.Main = QtWidgets.QWidget()
+        self.Main.setLayout(self.Main_Layout)
+
+        # NOTE 添加文件监视器功能
+        self.watcher = QtCore.QFileSystemWatcher(self)
+        self.watcher.directoryChanged.connect(self.handleDirectoryChanged)
+        self.timer = QtCore.QTimer(self)
+        self.timer.setInterval(500)
+        self.timer.timeout.connect(self.handleTimer)
+
+        self.Exclude_Array = [".history", ".git", ".vscode"]
+
+        # NOTE 添加启动的路径为搜索路径
+        path = os.path.dirname(pm.sceneName()) if pm.sceneName() else os.path.dirname(__file__)
+        self.handleSetDirectory(directory=path)
+
+        # NOTE 添加 UI
+        self.setLayout(QtWidgets.QVBoxLayout())
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        self.layout().setSpacing(0)
+        self.layout().addWidget(self.Main)
+
+        self.loadJson()
+
+    def saveJson(self):
+        
+        data = {
+            "path_list":[self.File_List.item(i).toolTip() for i in range(self.File_List.count())],
+        }
+
+        json_path = os.path.join(tempfile.gettempdir(),"RF_Watcher.json")
+
+        with open(json_path,'w') as f:
+            # json.dump(data,f,ensure_ascii=False)
+            json.dump(data,f)
+        
+    def loadJson(self):
+
+        json_path = os.path.join(tempfile.gettempdir(),"RF_Watcher.json")
+
+        if not os.path.exists(json_path):
+            return
+
+        try:
+            with open(json_path,'r') as f:
+                data = json.load(f,encoding="utf-8")
+        except:
+            os.remove(json_path)
+            return
+        
+        for path in data["path_list"]:
+            self.addItem(path)
+
+    def fileItemRightClickEvent(self):
+        self.menu = QtWidgets.QMenu(self)
+        remove_action = QtWidgets.QAction(u'删除选择', self)
+        remove_action.triggered.connect(self.fileRemoveItem)
+        clear_action = QtWidgets.QAction(u'清空全部', self)
+        clear_action.triggered.connect(self.itemClear)
+
+        self.menu.addAction(remove_action)
+        self.menu.addAction(clear_action)
+        self.menu.popup(QtGui.QCursor.pos())
+    
+    def itemClear(self):
+        self.File_List.clear()
+        self.saveJson()
+
+    def fileRemoveItem(self):
+        # NOTE 如果没有选择 直接删除当前项
+        for item in self.File_List.selectedItems():
+            row = self.File_List.row(item)
+            item = self.File_List.takeItem(row)
+            path = item.toolTip()
+            if self.old_md5_data.has_key(path):
+                del self.old_md5_data[path]
+        self.saveJson()
+
+    def getRefFile(self):
+        path, _ = QFileDialog().getOpenFileName(
+            self, caption=u"获取Maya文件", filter="Maya Scene (*.ma *.mb);;所有文件 (*)")
+        
+        self.saveJson()
+
+    def getMayaFiles(self):
+        path_list, _ = QFileDialog().getOpenFileNames(
+            self, caption=u"获取Maya文件", filter="Maya Scene (*.ma *.mb);;所有文件 (*)")
+
+        for path in path_list:
+            self.addItem(path)
+
+        self.saveJson()
+
+    def getCurrent(self):
+        path = cmds.file(q=1,sn=1)
+        if os.path.exists(path):
+            _, maya_file = os.path.split(path)
+            item = QtWidgets.QListWidgetItem(maya_file)
+            item.setToolTip(path)
+            self.File_List.addItem(item)
+
+    def addItem(self,path):
+        _, file_name = os.path.split(path)
+        matches = self.File_List.findItems(file_name, QtCore.Qt.MatchExactly)
+        if not matches:
+            item = QtWidgets.QListWidgetItem(file_name)
+            item.setToolTip(path)
+            self.File_List.addItem(item)
+        else:
+            for match in matches:
+                if path == match.toolTip():
+                    break
+            else:
+                item = QtWidgets.QListWidgetItem(path)
+                item.setToolTip(path)
+                self.File_List.addItem(item)
+
+    def listDropEvent(self,event):
+        u'''
+        listDropEvent 拖拽文件添加item
+        
+        # Note https://stackoverflow.com/questions/4151637/pyqt4-drag-and-drop-files-into-qlistwidget
+        参考上述网址的 drag and drop 实现图片拖拽加载效果
+        
+        Arguments:
+            event {QDropEvent} -- dropEvent 固定的事件参数
+        
+        '''
+        # Note 获取拖拽文件的地址
+        if event.mimeData().hasUrls:
+            event.setDropAction(QtCore.Qt.CopyAction)
+            event.accept()
+            for url in event.mimeData().urls():
+                path = str(url.toLocalFile())
+                # Note 过滤已有的路径
+                if path.split(".")[-1] in ["ma","mb"]:
+                    self.addItem(path)
+            self.saveJson()
+            
+        else:
+            event.ignore()
+ 
+    def listDragMoveEvent(self,event):
+        u'''
+        listDragMoveEvent 文件拖拽的移动事件
+        
+        # Note https://stackoverflow.com/questions/4151637/pyqt4-drag-and-drop-files-into-qlistwidget
+        参考上述网址的 drag and drop 实现图片拖拽加载效果
+        
+        Arguments:
+            event {QDragMoveEvent} --  dragMoveEvent 固定的事件参数
+        
+        '''
+        if event.mimeData().hasUrls:
+            event.setDropAction(QtCore.Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+    def listDropEnterEvent(self,event):
+        u'''
+        listDropEnterEvent 文件拖拽的进入事件
+        
+        # Note https://stackoverflow.com/questions/4151637/pyqt4-drag-and-drop-files-into-qlistwidget
+        参考上述网址的 drag and drop 实现图片拖拽加载效果
+        
+        Arguments:
+            event {QDragEnterEvent} --  dropEnterEvent 固定的事件参数
+        
+        '''
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def handleDirectoryChanged(self):
+        """handleDirectoryChanged 路径下的文件发生了变化执行更新"""
+        self.timer.stop()
+        self._changed = True
+        self.timer.start()
+
+    def handleSetDirectory(self, directory=None):
+        directory = directory if directory else QtWidgets.QFileDialog.getExistingDirectory(
+            self)
+        if directory:
+            self.timer.stop()
+            directories = self.watcher.directories()
+            if directories:
+                self.watcher.removePaths(directories)
+
+            self._changed = False
+            self.watcher.addPath(directory)
+            self.updateList()
+            self.timer.start()
+
+    def handleTimer(self):
+        if self._changed:
+            self._changed = False
+            self.updateList()
+
+    def updateList(self):
+        """updateList 更新列表"""
+        self.new_md5_data = {}
+        for directory in self.watcher.directories():
+            for root, _, files in os.walk(directory):
+                root = root.replace("\\", "/")
+                # Note 过滤目录
+                check = [x for x in root.split("/") if x in self.Exclude_Array]
+                if len(check) > 0:
+                    continue
+
+                for item in progressWin(files,title=root,status=root):
+                    if item.endswith(".mb") or item.endswith(".ma"):
+                        file_path = os.path.join(root, item).replace("\\", "/")
+                        hash_value = self.get_md5(file_path)
+                        self.new_md5_data[file_path] = hash_value
+
+                        # Note 检查文件是否存在，如果不存在则添加新的路径
+                        if self.old_md5_data.has_key(file_path):
+                            # Note 根据md5 检查文件是否被修改
+                            if self.old_md5_data[file_path] != hash_value:
+                                self.old_md5_data[file_path] = hash_value
+                                target_item = self.File_List.findItems(
+                                    os.path.split(file_path)[1], QtCore.Qt.MatchContains)[0]
+                                target_item.setText(item)
+                                target_item.setToolTip(file_path)
+                        else:
+                            self.old_md5_data[file_path] = hash_value
+                            self.addItem(file_path)
+                            self.saveJson()
+
+
+        # Note 检查文件是否被删除，被删除的从列表中去掉
+        if len(self.new_md5_data) != len(self.old_md5_data):
+            for key in self.old_md5_data:
+                if not self.new_md5_data.has_key(key):
+                    item = self.File_List.findItems(
+                        os.path.split(key)[1], QtCore.Qt.MatchContains)
+                    self.File_List.takeItem(self.File_List.row(item[0]))
+                    del self.old_md5_data[key]
+                    self.saveJson()
+
+
+    def get_md5(self, file_path):
+        BLOCKSIZE = 65536
+        hl = hashlib.md5()
+        with open(file_path, 'r') as f:
+            buf = f.read(BLOCKSIZE)
+            while len(buf) > 0:
+                hl.update(buf)
+                buf = f.read(BLOCKSIZE)
+        return hl.hexdigest()
+
 def errorLog(func):
     def wrapper(*args, **kwargs):
         res = None
@@ -102,16 +404,17 @@ class ExportRigWindow(QtWidgets.QWidget):
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
 
-        anim_btn = QtWidgets.QPushButton(u'导出动画',self)
-        anim_btn.clicked.connect(self.genereateAnim)
+        batcher = AnimBatcherWin()
+        batcher.export.clicked.connect(lambda *args:self.batchExportDirectory([batcher.File_List.item(i).toolTip() for i in range(batcher.File_List.count())]))
+        # anim_btn = QtWidgets.QPushButton(u'导出动画',self)
+        # anim_btn.clicked.connect(self.genereateAnim)
 
-        batch_btn = QtWidgets.QPushButton(u'导出动画目录',self)
-        batch_btn.clicked.connect(self.batchExportDirectory)
+        # batch_btn = QtWidgets.QPushButton(u'导出动画目录',self)
+        # batch_btn.clicked.connect(self.batchExportDirectory)
 
         layout.addWidget(rig_btn)
         layout.addWidget(self.line)
-        layout.addWidget(anim_btn)
-        layout.addWidget(batch_btn)
+        layout.addWidget(batcher)
     
     @errorLog
     def preExport(self):
@@ -162,6 +465,7 @@ class ExportRigWindow(QtWidgets.QWidget):
         [ref.importContents(True) for ref in pm.listReferences()]
             
         mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
+        mesh_list = mesh_list if mesh_list else pm.ls(pm.pickWalk(d="down"),ni=1,dag=1,type="mesh")
         # # NOTE 删除非变形器历史
         # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
         jnt_list = self.getJntList(mesh_list)
@@ -227,6 +531,7 @@ class ExportRigWindow(QtWidgets.QWidget):
         
         # NOTE 获取场景中所有可见的模型
         mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
+        mesh_list = mesh_list if mesh_list else pm.ls(pm.pickWalk(d="down"),ni=1,dag=1,type="mesh")
         # # NOTE 删除非变形器历史
         # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
         jnt_list = self.getJntList(mesh_list)
@@ -320,14 +625,15 @@ class ExportRigWindow(QtWidgets.QWidget):
         # NOTE 重新打开当前文件
         pm.openFile(pm.sceneName(),f=1)
 
-    def batchExportDirectory(self):
-        path = QtWidgets.QFileDialog.getExistingDirectory(self,dir=pm.sceneName().dirname())
-        dir_list = os.listdir(path)
+    def batchExportDirectory(self,dir_list):
+        # if dir_list is None:
+            # path = QtWidgets.QFileDialog.getExistingDirectory(self,dir=pm.sceneName().dirname())
+            # dir_list = os.listdir(path)
         err_list = []
-        for file_name in progressWin(dir_list,u"批量导出动画"):
-            if not file_name.endswith(".ma") and not  file_name.endswith(".mb"):
+        # for file_path in progressWin(dir_list,u"批量导出动画"):
+        for file_path in dir_list:
+            if not file_path.endswith(".ma") and not  file_path.endswith(".mb"):
                 continue
-            file_path = os.path.join(path,file_name)
             pm.openFile(file_path,f=1)
             try:
                 self.genereateAnim(False)
@@ -336,7 +642,10 @@ class ExportRigWindow(QtWidgets.QWidget):
                 continue
         
         if err_list:
-            QtWidgets.QMessageBox.warning(self,u"警告","下列文件输出失败\n%s" % u"\n".join(err_list))
+            QtWidgets.QMessageBox.warning(self,u"警告",u"下列文件输出失败\n%s" % u"\n".join(err_list))
+        else:
+            QtWidgets.QMessageBox.information(self,u"恭喜你",u"输出成功")
+
 
     def mayaShow(self,name=None):
         name = self.__class__.__name__ if name is None else name
@@ -624,7 +933,8 @@ def createModFolder(module):
             {module}.qInitResources()
         '''.format(module=module)))
     
-    shutil.copy(__file__,os.path.join(scripts,"%s.py" % module))
+    DIR = os.path.dirname(__file__)
+    shutil.copy(os.path.join(DIR,"%s.py" % module),os.path.join(scripts,"%s.py" % module))
 
     mod = os.path.join(MAYA_APP_DIR,"modules","filmSkin2GameSkinMod.mod")
     with open(mod,'w') as f:
