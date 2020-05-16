@@ -1,5 +1,6 @@
-# github 开源仓库关注
 
+
+# 我的关注汇总
 
 ## 教程
 
@@ -10,11 +11,12 @@
 
 [pw_MultiScriptEditor](https://github.com/paulwinex/pw_MultiScriptEditor)
 
-## 发布
+## 流程管理
 
 [pylish](https://pyblish.com/)
 [tik_manager](https://github.com/masqu3rad3/tik_manager)
 [prism](https://prism-pipeline.com/)
+[stalker](https://github.com/eoyilmaz/anima)
 
 ## Maya 工具
 
@@ -77,3 +79,10 @@
 [elrond79](https://github.com/elrond79)
 [theodox](https://github.com/theodox)
 [sonictk](https://github.com/sonictk)
+
+
+# 博客汇总
+
+[fundza | Maya & osl & Houdini & 算法](http://www.fundza.com/alphabetical.html)
+
+

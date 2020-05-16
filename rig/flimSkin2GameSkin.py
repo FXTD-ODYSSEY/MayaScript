@@ -195,20 +195,12 @@ class AnimBatcherWin(QtWidgets.QWidget):
                 del self.old_md5_data[path]
         self.saveJson()
 
-    def getRefFile(self):
-        path, _ = QFileDialog().getOpenFileName(
-            self, caption=u"获取Maya文件", filter="Maya Scene (*.ma *.mb);;所有文件 (*)")
-        
-        self.saveJson()
-
     def getMayaFiles(self):
         path_list, _ = QFileDialog().getOpenFileNames(
             self, caption=u"获取Maya文件", filter="Maya Scene (*.ma *.mb);;所有文件 (*)")
 
         for path in path_list:
             self.addItem(path)
-
-        self.saveJson()
 
     def getCurrent(self):
         path = cmds.file(q=1,sn=1)
@@ -233,6 +225,7 @@ class AnimBatcherWin(QtWidgets.QWidget):
                 item = QtWidgets.QListWidgetItem(path)
                 item.setToolTip(path)
                 self.File_List.addItem(item)
+        self.saveJson()
 
     def listDropEvent(self,event):
         u'''
@@ -462,6 +455,10 @@ class ExportRigWindow(QtWidgets.QWidget):
         export_path = export_path.replace('\\','/')
 
         # NOTE 导入所有的 reference
+        ref_list = pm.listReferences()
+        if len(ref_list) > 1:
+            raise RuntimeError("动画文件包含多个引用文件")
+
         [ref.importContents(True) for ref in pm.listReferences()]
             
         mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
@@ -618,12 +615,12 @@ class ExportRigWindow(QtWidgets.QWidget):
         pm.dagPose(bp=1,s=1)
         # mel.eval('moveJointsMode 0;')
         
-        # NOTE 导出文件
-        mel.eval('FBXExport -f "' + export_path + '" -s')
-        os.startfile(os.path.dirname(export_path))
+        # # NOTE 导出文件
+        # mel.eval('FBXExport -f "' + export_path + '" -s')
+        # os.startfile(os.path.dirname(export_path))
 
-        # NOTE 重新打开当前文件
-        pm.openFile(pm.sceneName(),f=1)
+        # # NOTE 重新打开当前文件
+        # pm.openFile(pm.sceneName(),f=1)
 
     def batchExportDirectory(self,dir_list):
         # if dir_list is None:
@@ -638,6 +635,11 @@ class ExportRigWindow(QtWidgets.QWidget):
             try:
                 self.genereateAnim(False)
             except:
+                print("=====================================\n")
+                print(file_path + "\n")
+                print("=====================================\n")
+                import traceback
+                traceback.print_exc()
                 err_list.append(file_path)
                 continue
         
