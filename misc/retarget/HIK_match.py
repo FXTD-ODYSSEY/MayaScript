@@ -3,42 +3,68 @@ from maya import mel
  
 
 # NOTE 导入 reference
-pm.createReference(r"C:\Users\timmyliang\Desktop\test\jnt.mb",r=1,namespace="jnt")
-pm.createReference(r"C:\Users\timmyliang\Desktop\test\Male_rig_poss.mb",r=1,namespace="new")
+pm.createReference(r"X:\Characters\Fight\jnt.mb",r=1,namespace="jnt")
+pm.createReference(r"X:\Characters\Fight\Rig\Darius_rig.mb",r=1,namespace="new")
 
 org_namespace = "Darius_rig:"
 src_namespace = "jnt:"
 dst_namespace = "new:"
 
 # NOTE 改为 FK 模式
-# switch_list = ["LfArm_Switch",
-# "RtArm_Switch",
-# "LfLeg_Switch",
-# "RtLeg_Switch",]
+switch_list = ["LfArm_Switch",
+"RtArm_Switch",
+"LfLeg_Switch",
+"RtLeg_Switch",]
 
-# for switch in switch_list:
-#     switch = pm.PyNode(dst_namespace + switch)
-#     switch.IKFK.set(0)
-
-keyframe_match = {
-    "LfArm_Switch" : "LfArm_Switch",
-    "RtArm_Switch" : "RtArm_Switch",
-    "LfLeg_Switch" : "LfLeg_Switch",
-    "RtLeg_Switch" : "RtLeg_Switch",
-}
-
-start = pm.playbackOptions(q=1,min=1)
-end = pm.playbackOptions(q=1,max=1)
-
-for src,dst in keyframe_match.items():
-    dst = dst_namespace + dst
-    src = src_namespace + src
-    src = pm.PyNode(src)
-    dst = pm.PyNode(dst)
-    pm.copyKey( src,time=(start,end) )
-    pm.pasteKey(dst)
+for switch in switch_list:
+    switch = pm.PyNode(dst_namespace + switch)
+    switch.IKFK.set(0)
 
 
+# NOTE 匹配骨骼位置
+for fbx_jnt in pm.ls(src_namespace+":root",dag=1,ni=1):
+    fbx_base = fbx_jnt.split(':')[1]
+    skin_jnt = dst_namespace + ':' + fbx_base
+    if pm.objExists(skin_jnt):
+        # change jointOrientX and key it
+        for tmp in 'XYZ':
+            pm.setKeyframe('%s.jointOrient%s'%(fbx_jnt,tmp))
+            or_value = pm.getAttr('%s.jointOrient%s'%(skin_jnt,tmp))
+            pm.setAttr('%s.jointOrient%s'%(fbx_jnt,tmp),or_value)
+        for trs in 'trs':
+            for xyz in 'xyz':
+                attr = trs + xyz
+                try:
+                    v = pm.getAttr(skin_jnt + '.' + attr)
+                    fbx_anim_node = pm.findKeyframe(fbx_jnt, curve=True, at=attr)
+                    if not fbx_anim_node:
+                        #key
+                        pm.setKeyframe('%s.%s'%(fbx_jnt,attr))
+
+                    # key it first
+                    #pm.setKeyframe('pCube1.scaleX')
+                    pm.setAttr(fbx_jnt + '.' + attr, v)
+                except BaseException:
+                    print("error",skin_jnt)
+                    pass
+
+# keyframe_match = {
+#     "LfArm_Switch" : "LfArm_Switch",
+#     "RtArm_Switch" : "RtArm_Switch",
+#     "LfLeg_Switch" : "LfLeg_Switch",
+#     "RtLeg_Switch" : "RtLeg_Switch",
+# }
+
+# start = pm.playbackOptions(q=1,min=1)
+# end = pm.playbackOptions(q=1,max=1)
+
+# for src,dst in keyframe_match.items():
+#     dst = dst_namespace + dst
+#     src = org_namespace + src
+#     src = pm.PyNode(src)
+#     dst = pm.PyNode(dst)
+#     pm.copyKey( src,time=(start,end) )
+#     pm.pasteKey(dst)
 
 jnt_ctrl_match = {
     "Lf_clavicle1_jnt_skin" : "Lf_shoulder" ,
@@ -104,10 +130,11 @@ jnt_ctrl_match = {
 }
 
 
+dst_namespace = "Male_rig:"
 
 for src,dst in jnt_ctrl_match.items():
     dst = dst_namespace + dst
-    src = src_namespace + src
+    # src = src_namespace + src
     src = pm.PyNode(src)
     dst = pm.PyNode(dst)
     t_list = []
@@ -135,6 +162,7 @@ for src,dst in jnt_ctrl_match.items():
         r_list.append('z')  
     if not r_list:
         r_list = "none"
+    
     pm.parentConstraint(src,dst,skipTranslate=t_list,skipRotate=r_list,mo=1)
 
 # NOTE 约束武器
@@ -143,25 +171,24 @@ org_wp = org_namespace + wp
 dst_wp = dst_namespace + wp
 pm.parentConstraint(org_wp,dst_wp,mo=0)
 
-# NOTE HIK 
+# # NOTE HIK 
+# for i,item in enumerate(pm.optionMenuGrp("hikCharacterList",q=1,itemListLong=1),1):
+#     label = pm.menuItem(item,q=1,label=1).strip()
+#     if label.startswith("jnt:"):
+#         pm.optionMenuGrp("hikCharacterList",e=1,select=i)
+#         break
 
-for i,item in enumerate(pm.optionMenuGrp("hikCharacterList",q=1,itemListLong=1),1):
-    label = pm.menuItem(item,q=1,label=1).strip()
-    if label.startswith("jnt:"):
-        pm.optionMenuGrp("hikCharacterList",e=1,select=i)
-        break
+# mel.eval("hikUpdateCurrentCharacterFromUI(); hikUpdateContextualUI()")
 
-mel.eval("hikUpdateCurrentCharacterFromUI(); hikUpdateContextualUI()")
-
-for i,item in enumerate(pm.optionMenuGrp("hikSourceList",q=1,itemListLong=1),1):
-    label = pm.menuItem(item,q=1,label=1).strip()
-    if label.startswith("Darius_rig:"):
-        pm.optionMenuGrp("hikSourceList",e=1,select=i)
-        break
+# for i,item in enumerate(pm.optionMenuGrp("hikSourceList",q=1,itemListLong=1),1):
+#     label = pm.menuItem(item,q=1,label=1).strip()
+#     if label.startswith("Darius_rig:"):
+#         pm.optionMenuGrp("hikSourceList",e=1,select=i)
+#         break
     
-mel.eval("hikUpdateCurrentCharacterFromUI(); hikUpdateContextualUI()")
+# mel.eval("hikUpdateCurrentSourceFromUI(); hikUpdateContextualUI();")
 
 
 
-import pymel.core as pm
-pm.select([ dst_namespace+ctrl for ctrl in jnt_ctrl_match.values()])
+# import pymel.core as pm
+# pm.select([ dst_namespace+ctrl for ctrl in jnt_ctrl_match.values()])

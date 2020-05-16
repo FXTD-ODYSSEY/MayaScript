@@ -3,6 +3,10 @@ from maya import mel
 import os
 import time
 from functools import partial
+animation_path = r"X:\Characters\Fight\90302_Darius"
+retarget_dir = r"X:\Characters\Fight\90302_Darius\FBX"
+hik_rig = r"X:\Characters\Fight\jnt.mb"
+
 def SetFbxParameter():
     if not pm.pluginInfo('fbxmaya', q=True, loaded=True):
         pm.loadPlugin('fbxmaya')
@@ -33,10 +37,6 @@ def exportFBX(file_path):
     hikUpdateCurrentSourceFromUI(); hikUpdateContextualUI();
     """)
 
-    retarget_dir = r"X:\Characters\Fight\retarget"
-
-    
-
     base_name = os.path.splitext(os.path.basename(file_path))[0]
     export_path = os.path.join(retarget_dir,base_name+".fbx").replace("\\","/")
     print ("export_path",export_path)
@@ -59,7 +59,7 @@ def exportFBX(file_path):
 def batchExport(file_path):
     
     # NOTE 导入 reference
-    ref = pm.createReference(r"C:\Users\timmyliang\Desktop\test\jnt.mb",r=1,namespace="jnt")
+    ref = pm.createReference(hik_rig,r=1,namespace="jnt")
     ref.importContents(True)
 
     # org_namespace = "Darius_rig_:"
@@ -69,14 +69,14 @@ def batchExport(file_path):
 
     pm.evalDeferred(lambda:exportFBX(file_path))
 
-def loadFile(file_path):
+def loadFile(file_path,open_file=True):
     # NOTE 打开文件
-    pm.openFile(file_path,f=1)
+    if open_file:
+        pm.openFile(file_path,f=1)
     batchExport(file_path)
 
 
 mel.eval("ToggleCharacterControls;")
-animation_path = r"X:\Characters\Fight\Animation"
 
 for i,file_name in enumerate(os.listdir(animation_path)):
     if not file_name.endswith(".mb") and not file_name.endswith(".ma"):
@@ -89,3 +89,6 @@ for i,file_name in enumerate(os.listdir(animation_path)):
     # if i > 3:
     #     break
 
+# NOTE 单个文件处理
+# file_path = pm.sceneName()
+# pm.evalDeferred( partial (loadFile,file_path,False) ,lowestPriority=1)

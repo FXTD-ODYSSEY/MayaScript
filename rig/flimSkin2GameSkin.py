@@ -20,7 +20,10 @@ import traceback
 from maya import cmds
 from maya import mel
 import pymel.core as pm
+import pymel.core.nodetypes as nt
+
 from maya import OpenMayaUI
+
 try:
     from Qt import QtGui
     from Qt import QtCore
@@ -390,7 +393,7 @@ class ExportRigWindow(QtWidgets.QWidget):
         self.setWindowTitle(u"导出引擎工具")
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
-        rig_btn = QtWidgets.QPushButton(u'导出绑定',self)
+        rig_btn = QtWidgets.QPushButton(u'导出当前绑定',self)
         rig_btn.clicked.connect(self.genereateRig)
 
         self.line = QtWidgets.QFrame(self)
@@ -424,7 +427,7 @@ class ExportRigWindow(QtWidgets.QWidget):
     @errorLog
     def getJntList(self,mesh_list):
         
-        jnt_list = {jnt for mesh in mesh_list for skin in mesh.history(type="skinCluster") for jnt in skin.inputs(type="joint")}
+        jnt_list = {jnt for mesh in mesh_list for skin in mesh.history( type="skinCluster") for jnt in skin.inputs(type="joint")}
         if not jnt_list:
             raise RuntimeError(u"当前文件找不到可输出的蒙皮骨骼")
         return jnt_list
@@ -445,7 +448,17 @@ class ExportRigWindow(QtWidgets.QWidget):
                 parent = pm.PyNode(hi_tree.pop())
             jnt_parent[jnt] = parent if parent != root else parent
         return jnt_parent
-        
+
+    @errorLog
+    def getMeshList(self):
+        # TODO 定义模型组名称
+        mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
+        # NOTE 获取选择的模型
+        mesh_list = mesh_list if mesh_list else pm.ls(pm.pickWalk(d="down"),ni=1,dag=1,type="mesh")
+        # NOTE 获取根目录下的模型
+        mesh_list = mesh_list if mesh_list else [mesh for mesh in pm.ls(assemblies=1) if type(mesh.getShape()) is nt.Mesh]
+        return mesh_list
+
     def genereateAnim(self,reopen=True):
         # export_path,_ = self.getFilename()
         Scene = self.preExport()
@@ -460,48 +473,49 @@ class ExportRigWindow(QtWidgets.QWidget):
             raise RuntimeError("动画文件包含多个引用文件")
 
         [ref.importContents(True) for ref in pm.listReferences()]
-            
-        mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
-        mesh_list = mesh_list if mesh_list else pm.ls(pm.pickWalk(d="down"),ni=1,dag=1,type="mesh")
-        # # NOTE 删除非变形器历史
-        # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
-        jnt_list = self.getJntList(mesh_list)
 
-        pm.select(cl=1)
-        root = pm.joint(n="root")
+        # NOTE 如果找不到 root 骨骼则自动生成一套 root 骨骼
+        root_list = pm.ls("root",dag=1,type="joint")
+        mesh_list = self.getMeshList()
+        if not root_list:
+            # # NOTE 删除非变形器历史
+            # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
+            jnt_list = self.getJntList(mesh_list)
 
-        jnt_parent = self.getRelParent(jnt_list,root)
-
-        anim_parent = {}
-        for jnt in jnt_list:
             pm.select(cl=1)
-            anim_jnt = pm.joint(n="%s_bind"%jnt)
-            pm.parentConstraint(jnt,anim_jnt,mo=0)
-            pm.scaleConstraint(jnt,anim_jnt,mo=0)
-            parent = jnt_parent[jnt]
-            anim_parent[anim_jnt] = "%s_bind" % parent if parent != root else root
+            root = pm.joint(n="root")
 
-        jnt_transform = {}
-        for anim_jnt,parent in anim_parent.items():
-            anim_jnt.setParent(parent)
-            # NOTE 删除骨骼缩放修正组
-            transform = anim_jnt.getParent()
-            if transform != parent:
-                pm.ungroup(transform)
+            jnt_parent = self.getRelParent(jnt_list,root)
+
+            anim_parent = {}
+            for jnt in jnt_list:
+                pm.select(cl=1)
+                anim_jnt = pm.joint(n="%s_bind"%jnt)
+                pm.parentConstraint(jnt,anim_jnt,mo=0)
+                pm.scaleConstraint(jnt,anim_jnt,mo=0)
+                parent = jnt_parent[jnt]
+                anim_parent[anim_jnt] = "%s_bind" % parent if parent != root else root
+
+            jnt_transform = {}
+            for anim_jnt,parent in anim_parent.items():
+                anim_jnt.setParent(parent)
+                # NOTE 删除骨骼缩放修正组
+                transform = anim_jnt.getParent()
+                if transform != parent:
+                    pm.ungroup(transform)
+            
+            root_list = anim_parent.keys()
 
         # NOTE bake 关键帧
         start_time = pm.playbackOptions(q=1,min=1)
         end_time = pm.playbackOptions(q=1,max=1)
         pm.bakeResults(
-            anim_parent.keys(),
+            root_list,
             simulation=1, 
             t=(start_time,end_time)
         )
 
-        # NOTE 删除 root 骨骼下的所有约束
-        pm.delete(pm.ls(root,dag=1,ni=1,type="constraint"))
-
-        pm.select(root)
+        pm.select(root_list)
 
         # NOTE 导出文件
         mel.eval('FBXExport -f "' + export_path + '" -s')
@@ -526,101 +540,102 @@ class ExportRigWindow(QtWidgets.QWidget):
         # NOTE 导入所有的 reference
         [ref.importContents(True) for ref in pm.listReferences()]
         
-        # NOTE 获取场景中所有可见的模型
-        mesh_list = pm.ls("MODEL",ni=1,dag=1,type="mesh")
-        mesh_list = mesh_list if mesh_list else pm.ls(pm.pickWalk(d="down"),ni=1,dag=1,type="mesh")
-        # # NOTE 删除非变形器历史
-        # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
-        jnt_list = self.getJntList(mesh_list)
+        root = pm.ls("root")
+        mesh_list = self.getMeshList()
+        if not root:
+            # # NOTE 删除非变形器历史
+            # pm.bakePartialHistory( mesh_list,prePostDeformers=True )
+            jnt_list = self.getJntList(mesh_list)
 
-        pm.select(cl=1)
-        root = pm.joint(n="root")
+            pm.select(cl=1)
+            root = pm.joint(n="root")
 
-        jnt_parent = self.getRelParent(jnt_list,root)
+            jnt_parent = self.getRelParent(jnt_list,root)
 
-        mel.eval('moveJointsMode 1;')
-        # # NOTE 删除所有 Blendshape
-        # pm.delete(pm.ls(type="ikEffector"))
-        pm.delete(pm.ls(type="blendShape"))
+            mel.eval('moveJointsMode 1;')
+            # # NOTE 删除所有 Blendshape
+            # pm.delete(pm.ls(type="ikEffector"))
+            pm.delete(pm.ls(type="blendShape"))
 
-        jnt_transform = {}
-        for jnt,pos in {jnt:pm.xform(jnt,q=1,ws=1,t=1) for jnt in jnt_list}.iteritems():
-            jnt.tx.setLocked(0)
-            jnt.ty.setLocked(0)
-            jnt.tz.setLocked(0)
-            jnt.rx.setLocked(0)
-            jnt.ry.setLocked(0)
-            jnt.rz.setLocked(0)
-            jnt.sx.setLocked(0)
-            jnt.sy.setLocked(0)
-            jnt.sz.setLocked(0)
+            jnt_transform = {}
+            for jnt,pos in {jnt:pm.xform(jnt,q=1,ws=1,t=1) for jnt in jnt_list}.iteritems():
+                jnt.tx.setLocked(0)
+                jnt.ty.setLocked(0)
+                jnt.tz.setLocked(0)
+                jnt.rx.setLocked(0)
+                jnt.ry.setLocked(0)
+                jnt.rz.setLocked(0)
+                jnt.sx.setLocked(0)
+                jnt.sy.setLocked(0)
+                jnt.sz.setLocked(0)
 
-            jnt.tx.showInChannelBox(1)
-            jnt.ty.showInChannelBox(1)
-            jnt.tz.showInChannelBox(1)
-            jnt.rx.showInChannelBox(1)
-            jnt.ry.showInChannelBox(1)
-            jnt.rz.showInChannelBox(1)
-            jnt.sx.showInChannelBox(1)
-            jnt.sy.showInChannelBox(1)
-            jnt.sz.showInChannelBox(1)
+                jnt.tx.showInChannelBox(1)
+                jnt.ty.showInChannelBox(1)
+                jnt.tz.showInChannelBox(1)
+                jnt.rx.showInChannelBox(1)
+                jnt.ry.showInChannelBox(1)
+                jnt.rz.showInChannelBox(1)
+                jnt.sx.showInChannelBox(1)
+                jnt.sy.showInChannelBox(1)
+                jnt.sz.showInChannelBox(1)
 
-            mel.eval('CBdeleteConnection %s' % jnt.tx)
-            mel.eval('CBdeleteConnection %s' % jnt.ty)
-            mel.eval('CBdeleteConnection %s' % jnt.tz)
-            mel.eval('CBdeleteConnection %s' % jnt.rx)
-            mel.eval('CBdeleteConnection %s' % jnt.ry)
-            mel.eval('CBdeleteConnection %s' % jnt.rz)
-            mel.eval('CBdeleteConnection %s' % jnt.sx)
-            mel.eval('CBdeleteConnection %s' % jnt.sy)
-            mel.eval('CBdeleteConnection %s' % jnt.sz)
+                mel.eval('CBdeleteConnection %s' % jnt.tx)
+                mel.eval('CBdeleteConnection %s' % jnt.ty)
+                mel.eval('CBdeleteConnection %s' % jnt.tz)
+                mel.eval('CBdeleteConnection %s' % jnt.rx)
+                mel.eval('CBdeleteConnection %s' % jnt.ry)
+                mel.eval('CBdeleteConnection %s' % jnt.rz)
+                mel.eval('CBdeleteConnection %s' % jnt.sx)
+                mel.eval('CBdeleteConnection %s' % jnt.sy)
+                mel.eval('CBdeleteConnection %s' % jnt.sz)
 
-            jnt.setParent(root)
-            jnt.rename("%s_bind" % jnt)
-            parent = jnt.getParent()
-            if parent.name() == root:
-                jnt.t.set(pos)
-            else:
-                jnt_transform[jnt] = parent
+                jnt.setParent(root)
+                jnt.rename("%s_bind" % jnt)
+                parent = jnt.getParent()
+                if parent.name() == root:
+                    jnt.t.set(pos)
+                else:
+                    jnt_transform[jnt] = parent
 
-        # NOTE clear jnt transform node
-        for jnt,parent in jnt_transform.items():
-            pm.xform(parent, piv=pm.xform(jnt,q=1,ws=1,t=1), ws=1)
-            # jnt.s.set(parent.s.get())
-            # parent.s.set(1,1,1)
-            pm.ungroup(parent)
-        
-        
-        # NOTE delete unrelated node
-        [pm.delete(node) for jnt in jnt_list for node in jnt.getChildren()]
-        
-        # NOTE reparent hierarchy
-        jnt_transform = {}
-        for jnt,parent in jnt_parent.items():
-            jnt.setParent(parent)
-            transform = jnt.getParent()
-            if transform != parent:
-                jnt_transform[jnt] = transform
+            # NOTE clear jnt transform node
+            for jnt,parent in jnt_transform.items():
+                pm.xform(parent, piv=pm.xform(jnt,q=1,ws=1,t=1), ws=1)
+                # jnt.s.set(parent.s.get())
+                # parent.s.set(1,1,1)
+                pm.ungroup(parent)
+            
+            
+            # NOTE delete unrelated node
+            [pm.delete(node) for jnt in jnt_list for node in jnt.getChildren()]
+            
+            # NOTE reparent hierarchy
+            jnt_transform = {}
+            for jnt,parent in jnt_parent.items():
+                jnt.setParent(parent)
+                transform = jnt.getParent()
+                if transform != parent:
+                    jnt_transform[jnt] = transform
 
-        for jnt,parent in jnt_transform.items():
-            pm.xform(parent, piv=pm.xform(jnt,q=1,ws=1,t=1), ws=1)
-            # NOTE 避免意外扭动
-            jnt.s.set(1,1,1)
-            parent.s.set(1,1,1)
-            pm.ungroup(parent)
+            for jnt,parent in jnt_transform.items():
+                pm.xform(parent, piv=pm.xform(jnt,q=1,ws=1,t=1), ws=1)
+                # NOTE 避免意外扭动
+                jnt.s.set(1,1,1)
+                parent.s.set(1,1,1)
+                pm.ungroup(parent)
 
-        [mesh.getParent().setParent(w=1) for mesh in mesh_list]
+            [mesh.getParent().setParent(w=1) for mesh in mesh_list]
+            
         pm.select(root,mesh_list)
         pm.delete(pm.ls(type="dagPose"))
         pm.dagPose(bp=1,s=1)
         # mel.eval('moveJointsMode 0;')
         
-        # # NOTE 导出文件
-        # mel.eval('FBXExport -f "' + export_path + '" -s')
-        # os.startfile(os.path.dirname(export_path))
+        # NOTE 导出文件
+        mel.eval('FBXExport -f "' + export_path + '" -s')
+        os.startfile(os.path.dirname(export_path))
 
-        # # NOTE 重新打开当前文件
-        # pm.openFile(pm.sceneName(),f=1)
+        # NOTE 重新打开当前文件
+        pm.openFile(pm.sceneName(),f=1)
 
     def batchExportDirectory(self,dir_list):
         # if dir_list is None:
