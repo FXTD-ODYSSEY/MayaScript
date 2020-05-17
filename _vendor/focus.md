@@ -24,6 +24,16 @@
 [CNCGToolKit](https://github.com/cineuse/CNCGToolKit)
 [zfused_outsource](https://github.com/zhoulh0322/zfused_outsource)
 
+[mayawindowswitcher](https://github.com/tm8r/MayaWindowSwitcher)
+[MirageYM Maya](https://github.com/MirageYM/Maya)
+[maya-capture](https://github.com/abstractfactory/maya-capture)
+[mayaTaskServer](https://github.com/chrisevans3d/mayaTaskServer)
+[softIkSolver](https://github.com/Toolchefs/softIkSolver)
+[DynaEditor](https://github.com/AlexanderBerx/DynaEditor)
+[QtGrab](https://github.com/AlexanderBerx/QtGrab)
+[glade](https://github.com/eddiehoyle/glade)
+
+
 ## 绑定
 
 [mgear](http://www.mgear-framework.com/)
@@ -33,15 +43,8 @@
 
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
 [screenspace](https://github.com/eddiehoyle/screenspace)
-
-## 辅助插件
-
-[mayawindowswitcher](https://github.com/tm8r/MayaWindowSwitcher)
-[MirageYM Maya](https://github.com/MirageYM/Maya)
-[maya-capture](https://github.com/abstractfactory/maya-capture)
-[mayaTaskServer](https://github.com/chrisevans3d/mayaTaskServer)
-[softIkSolver](https://github.com/Toolchefs/softIkSolver)
 [jsRadial](https://github.com/scorza/jsRadial)
+
 
 ### convex hull 
 

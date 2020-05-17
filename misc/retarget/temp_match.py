@@ -1,3 +1,14 @@
+# coding:utf-8
+from __future__ import division,print_function
+
+__author__ =  'timmyliang'
+__email__ =  '820472580@qq.com'
+__date__ = '2020-05-17 10:48:04'
+
+"""
+批量 HumanIK 重定向
+"""
+
 import pymel.core as pm
 from maya import mel
 import os
