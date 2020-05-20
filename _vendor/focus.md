@@ -16,9 +16,12 @@
 [pylish](https://pyblish.com/)
 [tik_manager](https://github.com/masqu3rad3/tik_manager)
 [prism](https://prism-pipeline.com/)
-[stalker](https://github.com/eoyilmaz/anima)
+[stalker](https://github.com/eoyilmaz/stalker)
+[cgru](https://github.com/CGRU/cgru)
 
 ## Maya 工具
+
+[studiolibrary](https://github.com/krathjen/studiolibrary)
 
 [cosmos](https://http://cosmos.toolsfrom.space)
 [CNCGToolKit](https://github.com/cineuse/CNCGToolKit)
@@ -33,24 +36,37 @@
 [QtGrab](https://github.com/AlexanderBerx/QtGrab)
 [glade](https://github.com/eddiehoyle/glade)
 
+[SiShelf](https://github.com/mochio326/SiShelf)
+[MayaNodeInterface](https://github.com/alfsici/MayaNodeInterface)
+
+[OBB](https://github.com/chrisdevito/OBB)
+[fitVertex](https://github.com/nrtkbb/fitVertex)
+
+## Maya C++ 
+
+[MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
+[screenspace](https://github.com/eddiehoyle/screenspace)
+[jsRadial](https://github.com/scorza/jsRadial)
+[JiggleDeformer](https://github.com/tenghaowang/JiggleDeformer)
+
+[mayaPolyQuickHull](https://github.com/RKSimon/mayaPolyQuickHull)
+
+## Maya GO
+
+[go-mayaascii](https://github.com/nrtkbb/go-mayaascii)
+[go-MEL](https://github.com/nrtkbb/go-MEL)
 
 ## 绑定
 
 [mgear](http://www.mgear-framework.com/)
 [hyperdrive](https://github.com/timlehr/hyperdrive)
 
-## C++ API
-
-[MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
-[screenspace](https://github.com/eddiehoyle/screenspace)
-[jsRadial](https://github.com/scorza/jsRadial)
-
-
 ### convex hull 
 
 [Quick Collider](https://gumroad.com/l/Iirpn)
 [mayaPolyQuickHull](https://github.com/RKSimon/mayaPolyQuickHull)
 [DDConvexHull](https://github.com/digitaldestructo/DDConvexHull)
+[ConvexOutliner](https://github.com/chrisdevito/ConvexOutliner)
 
 ## osl 学习资料
 
@@ -82,6 +98,9 @@
 [elrond79](https://github.com/elrond79)
 [theodox](https://github.com/theodox)
 [sonictk](https://github.com/sonictk)
+[nrtkbb](https://github.com/nrtkbb)
+[Dan Bradham](https://github.com/danbradham)
+[chrisdevito](https://github.com/chrisdevito)
 
 
 # 博客汇总
@@ -89,3 +108,6 @@
 [fundza | Maya & osl & Houdini & 算法](http://www.fundza.com/alphabetical.html)
 
 
+## Houdini
+
+[Houdini pipeline and learning database ](https://github.com/kiryha/Houdini)

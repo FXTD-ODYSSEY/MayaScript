@@ -6,9 +6,9 @@ from maya import mel
 pm.createReference(r"X:\Characters\Fight\jnt.mb",r=1,namespace="jnt")
 pm.createReference(r"X:\Characters\Fight\Rig\Darius_rig.mb",r=1,namespace="new")
 
-org_namespace = "Darius_rig:"
+org_namespace = "Ahri_rig:"
 src_namespace = "jnt:"
-dst_namespace = "new:"
+dst_namespace = "Ahri_rig:"
 
 # NOTE 改为 FK 模式
 switch_list = ["LfArm_Switch",
@@ -130,11 +130,11 @@ jnt_ctrl_match = {
 }
 
 
-dst_namespace = "Darius_rig:"
+dst_namespace = "Ahri_rig:"
 
 for dst,src in jnt_ctrl_match.items():
     dst = dst_namespace + dst
-    # src = src_namespace + src
+    src = src_namespace + src
     src = pm.PyNode(src)
     dst = pm.PyNode(dst)
 

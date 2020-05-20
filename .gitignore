@@ -7,3 +7,6 @@ project/
 
 cef/
 cefapp/
+build/
+dist/
+spec/
