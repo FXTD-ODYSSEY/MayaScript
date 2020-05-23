@@ -479,10 +479,10 @@ class UI(object):
             
             curve_length = pm.arclen(anim_curve,ch=0)
             plane,plane_node = pm.polyPlane( n=sel+"_follow_plane",sx=20, sy=3, w=curve_length, h=20 )
-
+            plane_grp = pm.group(plane,n=plane+"_grp")
             # NOTE 创建运动路径跟随
             motion_path = pm.pathAnimation(
-                plane,
+                plane_grp,
                 anim_curve,
                 fractionMode=1,
                 follow=1 ,
@@ -497,7 +497,7 @@ class UI(object):
                 endTimeU=endTime,
             )
             motion_path = pm.PyNode(motion_path)
-            flow_node,ffd_node,lattice_node,ffd_base =pm.flow( plane,dv=(100, 2, 2))
+            flow_node,ffd_node,lattice_node,ffd_base =pm.flow( plane_grp,dv=(100, 2, 2))
 
             # NOTE 设置外部影响
             ffd_node.outsideLattice.set(1)
@@ -509,12 +509,15 @@ class UI(object):
 
             # NOTE 设置 Parametric Length 匹配位置
             motion_path.fractionMode.set(0)
+            # NOTE 设置为 normal 朝向确保不会翻转
+            motion_path.worldUpType.set(4)
+
             animCurve = motion_path.listConnections(type="animCurve")[0]
             # NOTE 关键帧设置为线性
             animCurve.setTangentTypes(range(animCurve.numKeys()),inTangentType="linear",outTangentType="linear")
 
             # NOTE 打组
-            pm.group(lattice_node,ffd_base,plane,anim_curve,n=sel+"_follow_grp")
+            pm.group(lattice_node,ffd_base,plane_grp,anim_curve,n=sel+"_follow_grp")
             pm.select(plane)
 
 
@@ -527,6 +530,7 @@ def onMayaDroppedPythonFile(*args):
         MODULE = r"{DIR}"
         sys.path.insert(0,MODULE) if MODULE not in sys.path else None
         import VertexAnimationTools
+        reload(VertexAnimationTools)
         VertexAnimationTools.UI()
     """.format(DIR=DIR)))
 
@@ -534,6 +538,7 @@ def onMayaDroppedPythonFile(*args):
     MODULE = DIR
     sys.path.insert(0,MODULE) if MODULE not in sys.path else None
     import VertexAnimationTools
+    reload(VertexAnimationTools)
     VertexAnimationTools.UI()
 
 # import sys

@@ -52,6 +52,7 @@ def exportFBX(file_path):
     export_path = os.path.join(retarget_dir,base_name+".fbx").replace("\\","/")
     print ("export_path",export_path)
 
+    # NOTE bake 关键帧
     timeStart = pm.playbackOptions(q=1,min=1)
     timeEnd = pm.playbackOptions(q=1,max=1)
     pm.bakeResults(
@@ -86,17 +87,18 @@ def loadFile(file_path,open_file=True):
         pm.openFile(file_path,f=1)
     batchExport(file_path)
 
+if __name__ == "__main__":
+    # NOTE 启动 HumanIK 
+    mel.eval("ToggleCharacterControls;")
 
-mel.eval("ToggleCharacterControls;")
-
-for i,file_name in enumerate(os.listdir(animation_path)):
-    if not file_name.endswith(".mb") and not file_name.endswith(".ma"):
-        continue
-    print("file_name",file_name)
-    file_path = os.path.join(animation_path,file_name)
-    
-    pm.evalDeferred( partial (loadFile,file_path) ,lowestPriority=1)
-    
+    for i,file_name in enumerate(os.listdir(animation_path)):
+        if not file_name.endswith(".mb") and not file_name.endswith(".ma"):
+            continue
+        print("file_name",file_name)
+        file_path = os.path.join(animation_path,file_name)
+        
+        pm.evalDeferred( partial (loadFile,file_path) ,lowestPriority=1)
+        
     # if i > 3:
     #     break
 
