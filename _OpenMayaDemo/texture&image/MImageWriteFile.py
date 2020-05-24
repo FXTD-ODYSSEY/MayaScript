@@ -1,3 +1,14 @@
+# coding:utf-8
+from __future__ import unicode_literals,division,print_function
+
+__author__ =  'timmyliang'
+__email__ =  '820472580@qq.com'
+__date__ = '2020-05-24 10:35:32'
+
+"""
+MImage 无法存储浮点数(8bit) | 存储格式也有限制 不支持 exr
+"""
+
 import maya.api.OpenMaya as om
 import maya.api.OpenMayaUI as omui
 import maya.api.OpenMayaRender as omr

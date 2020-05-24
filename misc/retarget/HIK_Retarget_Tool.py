@@ -3,7 +3,7 @@ from __future__ import division,print_function
 
 __author__ =  'timmyliang'
 __email__ =  '820472580@qq.com'
-__date__ = '2020-05-02 21:16:58'
+__date__ = '2020-5-23 20:46:22'
 
 """
 将本文件拖拽到 Maya 视窗即可完成安装
@@ -200,11 +200,6 @@ class FileListWidget(QtWidgets.QListWidget):
             event.accept()
         else:
             event.ignore()
-
-    # def addItem(self,item):
-    #     _item = item.text() if type(item) is QtWidgets.QListWidgetItem else item
-    #     if not self.findItems(_item, QtCore.Qt.MatchContains):
-    #         super(FileListWidget,self).addItem(item)
 
 class IFileWatcherList(QtWidgets.QWidget):
 
@@ -477,7 +472,7 @@ class HIKBatchRetargetWin(QtWidgets.QWidget):
         pm.loadPlugin("OneClick") if not pm.pluginInfo("OneClick",q=1,l=1) else None
         pm.mel.source("hikInputSourceUtils")
 
-        self.setWindowTitle(u"HumanIK 批量重定向工具")
+        self.setWindowTitle(u"HumanIK 批量重定向工具 - timmyliang & 820472580@qq.com")
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
         
@@ -800,43 +795,6 @@ def qCleanupResources():
 
 qInitResources()
 
-def createModFolder(module):
-
-    MAYA_APP_DIR = os.environ["MAYA_APP_DIR"]
-    folder_name = module+"Mod"
-    
-    # NOTE 构建 Mod 
-    mod_path = os.path.join(MAYA_APP_DIR,folder_name)
-    shutil.rmtree(mod_path) if os.path.exists(mod_path) else None
-    os.mkdir(mod_path)
-    
-    scripts = os.path.join(mod_path,"scripts")
-    os.mkdir(scripts) if not os.path.exists(scripts) else None
-    userSetup = os.path.join(scripts,"userSetup.py")
-    with open(userSetup,'w') as f:
-        f.write(dedent('''
-            import {module}
-            {module}.qInitResources()
-        '''.format(module=module)))
-    
-    DIR = os.path.dirname(__file__)
-    sys.path.insert(0,DIR) if DIR not in sys.path else None
-    shutil.copy(os.path.join(DIR,"%s.py" % module),os.path.join(scripts,"%s.py" % module))
-
-    mod = os.path.join(MAYA_APP_DIR,"modules",folder_name + ".mod")
-    with open(mod,'w') as f:
-        f.write(dedent('''
-        + MAYAVERSION:2014 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2015 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2016 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2017 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2018 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2019 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2020 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2021 {folder_name} 1.1.0 {path}
-        + MAYAVERSION:2022 {folder_name} 1.1.0 {path}
-        '''.format(path=mod_path,folder_name=folder_name)))
-
 def onMayaDroppedPythonFile(*args):
     qInitResources()
     parentTab = mel.eval('''global string $gShelfTopLevel;string $shelves = `tabLayout -q -selectTab $gShelfTopLevel`;''')
@@ -864,7 +822,42 @@ def onMayaDroppedPythonFile(*args):
         import traceback
         traceback.print_exc()
 
+def createModFolder(module):
+
+    MAYA_APP_DIR = os.environ["MAYA_APP_DIR"]
+    folder_name = module+"Mod"
     
+    # NOTE 构建 Mod 
+    mod_path = os.path.join(MAYA_APP_DIR,folder_name)
+    shutil.rmtree(mod_path) if os.path.exists(mod_path) else None
+    os.mkdir(mod_path)
+    
+    scripts = os.path.join(mod_path,"scripts")
+    os.mkdir(scripts) if not os.path.exists(scripts) else None
+    userSetup = os.path.join(scripts,"userSetup.py")
+    with open(userSetup,'w') as f:
+        f.write(dedent('''
+            import {module}
+            {module}.qInitResources()
+        '''.format(module=module)))
+    
+    DIR = os.path.dirname(__file__)
+    sys.path.insert(0,DIR) if DIR not in sys.path else None
+    shutil.copy(os.path.join(DIR,"%s.py" % module),os.path.join(scripts,"%s.py" % module))
+
+    mod = os.path.join(MAYA_APP_DIR,"modules",folder_name + ".mod")
+    with open(mod,'w') as f:
+        f.write(dedent('''
+        + MAYAVERSION:2014 {module} 1.1.0 {path}
+        + MAYAVERSION:2015 {module} 1.1.0 {path}
+        + MAYAVERSION:2016 {module} 1.1.0 {path}
+        + MAYAVERSION:2017 {module} 1.1.0 {path}
+        + MAYAVERSION:2018 {module} 1.1.0 {path}
+        + MAYAVERSION:2019 {module} 1.1.0 {path}
+        + MAYAVERSION:2020 {module} 1.1.0 {path}
+        + MAYAVERSION:2021 {module} 1.1.0 {path}
+        + MAYAVERSION:2022 {module} 1.1.0 {path}
+        '''.format(path=mod_path,module=module)))
 
 if __name__ == "__main__":
     try:
