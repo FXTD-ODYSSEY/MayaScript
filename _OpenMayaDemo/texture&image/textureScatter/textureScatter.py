@@ -37,20 +37,21 @@ def placeObjects(filename, duplicates=5):
         uvUtil.createFromList(uv,2)
         uvPoint = uvUtil.asFloat2Ptr()
 
+        # NOTE 获取随机 UV 的颜色
         rgb = getRGBatUV(filename,uv)
-        if rgb <= [0.4,0.4,0.4]:
-            pass
-        else:
+        if rgb > [0.4,0.4,0.4]:
             meshIter = om.MItMeshPolygon(meshObject)
             outPoint = om.MPoint()
             space = om.MSpace.kWorld
-
+            
             while not meshIter.isDone():
                 faceId = meshIter.index()
 
                 try:
+                    # NOTE 获取模型在 UV 上的点 | 获取失败直接报错跳过
                     parentFn.getPointAtUV(faceId,outPoint,uvPoint,space)
 
+                    # NOTE 复制第二个选择的物体
                     name = meshPath.fullPathName()
                     dupName = "%s_dup%s" % (name,count+1)
                     dgMod.commandToExecute('duplicate -n "%s" "%s"' % (dupName,name))
@@ -65,6 +66,7 @@ def placeObjects(filename, duplicates=5):
 
                     transform = om.MFnTransform(dupMeshPath)
 
+                    # NOTE 根据法线计算旋转角度
                     faceNormal = om.MVector()
                     dupObjVector = om.MVector(0,1,0)
                     meshIter.getNormal(faceNormal)
@@ -80,6 +82,7 @@ def placeObjects(filename, duplicates=5):
 
                     tXYZ = om.MVector(outPoint.x,outPoint.y,outPoint.z)
 
+                    # NOTE 设置位置和角度
                     transform.setTranslation(tXYZ,om.MSpace.kWorld)
                     transform.setRotation(quat,om.MSpace.kWorld)
 
@@ -93,10 +96,12 @@ def placeObjects(filename, duplicates=5):
 
 
 def getRGBatUV(filename,uv=[0,0]):
+    # NOTE file 节点名称
     texutreFileName = filename
     uCoord = uv[0]
     vCoord = uv[1]
 
+    # NOTE 获取输入的 UV
     uUtil = om.MScriptUtil(uCoord)
     vUtil = om.MScriptUtil(vCoord)
     uPtr = uUtil.asFloatPtr()
@@ -104,11 +109,13 @@ def getRGBatUV(filename,uv=[0,0]):
     uCoord = om.MDoubleArray(uPtr,1)
     vCoord = om.MDoubleArray(vPtr,1)
 
+    # NOTE file 节点的 MObject
     textureList = om.MSelectionList()
     om.MGlobal.getSelectionListByName(texutreFileName,textureList)
     textureObject = om.MObject()
     textureList.getDependNode(0,textureObject)
 
+    # NOTE 获取纹理颜色采样
     resultColor = om.MVectorArray()
     resultAlpha = om.MDoubleArray()
     omr.MRenderUtil.eval2dTexture(textureObject,uCoord,vCoord,resultColor,resultAlpha)
