@@ -64,9 +64,10 @@ for w in range(width):
         pixels[pos+3] = 255
 
 img = om.MImage()
-img.setFloatPixels(pixels, width, height)
+img.setPixels(pixels, width, height)
 img.writeToFile(os.path.join(DIR,"MImage.png"), 'png')
 
+# NOTE 无法执行 update 修改像素数据 _(:з」∠)_
 # texture.update(pixels,False,rowPitch)
 manager.saveTexture(texture,os.path.join(DIR,"MTexture.png"))
 
