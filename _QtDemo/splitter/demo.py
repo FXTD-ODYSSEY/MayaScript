@@ -1,7 +1,7 @@
 import sys
-from PyQt5 import QtGui
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
+from Qt import QtGui
+from Qt import QtCore
+from Qt import QtWidgets
 
 class Example(QtWidgets.QWidget):
 
@@ -32,7 +32,7 @@ class Example(QtWidgets.QWidget):
         hbox.addWidget(splitter2)
             
         self.setLayout(hbox)
-        # QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create('Cleanlooks'))
+        QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create('windowsvista'))
             
         self.setGeometry(300, 300, 300, 200)
         self.setWindowTitle('QSplitter demo')

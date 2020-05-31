@@ -42,6 +42,8 @@
 [OBB](https://github.com/chrisdevito/OBB)****
 [fitVertex](https://github.com/nrtkbb/fitVertex)
 
+[maya-ml-rivet](https://github.com/lopezmauro/maya-ml-rivet)
+
 ## Maya C++ 
 
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)
