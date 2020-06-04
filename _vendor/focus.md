@@ -94,6 +94,7 @@
 ## 编程规范
 
 [TA_101](https://github.com/theodox/ta_101)
+[awesome-cg-vfx-pipeline](https://github.com/cgwire/awesome-cg-vfx-pipeline)
 
 ## github 账户
 
