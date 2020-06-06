@@ -8,6 +8,7 @@ __date__ = '2020-04-30 19:27:02'
 
 """
 https://gumroad.com/l/skinningTools_PL
+自动查询相邻的顶点
 """
 
 """ KDTree implementation.

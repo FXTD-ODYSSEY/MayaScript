@@ -7,6 +7,7 @@ __date__ = '2020-04-30 19:26:41'
 
 """
 http://www.janpijpers.com/finding-vertex-groups-in-maya/
+可以自动对选择的相邻顶点 - 自动分组
 """
 
 import maya.OpenMaya as oldOpenMaya

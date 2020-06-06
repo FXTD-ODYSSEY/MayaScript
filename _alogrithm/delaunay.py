@@ -7,6 +7,8 @@ __date__ = '2020-04-30 19:22:18'
 
 """
 https://github.com/pinkwerks/Maya-Scripts/blob/master/scripts/delaunay.py
+根据输入的顶点生成拓扑结构
+https://baike.baidu.com/item/Delaunay三角剖分算法
 """
 
 ##
@@ -35,7 +37,7 @@ import datetime
 ### TLDR;Usage
 """
 from pymel.core import *
-execfile(r"C:\Users\pink\Documents\GitHub\maya\scripts\delaunay.py")
+execfile(r"C:/Users/pink/Documents/GitHub/maya/scripts/delaunay.py")
 import random
 
 locatorNames = []
