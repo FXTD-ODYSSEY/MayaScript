@@ -44,4 +44,6 @@ class TestDict(unittest.TestCase):
             value = d.empty
 
 if __name__ == '__main__':
+    import pdb
+    pdb.set_trace()
     unittest.main()
