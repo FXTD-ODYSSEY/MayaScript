@@ -54,28 +54,42 @@
     
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)    
 [screenspace](https://github.com/eddiehoyle/screenspace)    
-[jsRadial](https://github.com/scorza/jsRadial)    
 [JiggleDeformer](https://github.com/tenghaowang/JiggleDeformer)    
     
-[mayaPolyQuickHull](https://github.com/RKSimon/mayaPolyQuickHull)    
-    
-## Maya GO    
-    
-[go-mayaascii](https://github.com/nrtkbb/go-mayaascii)    
-[go-MEL](https://github.com/nrtkbb/go-MEL)    
-    
-## 绑定    
-    
-[mgear](http://www.mgear-framework.com/)    
-[hyperdrive](https://github.com/timlehr/hyperdrive)    
-    
+[weightDriver](https://github.com/IngoClemens/weightDriver)    
+[jsRadial](https://github.com/scorza/jsRadial)    
+[hrbf](https://github.com/elrnv/hrbf)    
+[HRBF](https://github.com/likangning93/HRBF-Skin)    
+
+[蒙皮解算讲解](http://rodolphe-vaillant.fr/?e=31)    
+[EA delta mush](https://github.com/2TallTim/direct-delta-mush)    
+
 ### convex hull     
     
 [Quick Collider](https://gumroad.com/l/Iirpn)    
 [mayaPolyQuickHull](https://github.com/RKSimon/mayaPolyQuickHull)    
 [DDConvexHull](https://github.com/digitaldestructo/DDConvexHull)    
 [ConvexOutliner](https://github.com/chrisdevito/ConvexOutliner)    
+
+## Maya GO    
     
+[go-mayaascii](https://github.com/nrtkbb/go-mayaascii)    
+[go-MEL](https://github.com/nrtkbb/go-MEL)    
+
+
+## 绑定    
+    
+[mgear](http://www.mgear-framework.com/)    
+[hyperdrive](https://github.com/timlehr/hyperdrive)    
+
+    
+## Houdini 工具    
+    
+[houdini_markingmenu](https://github.com/dchow1992/houdini_markingmenu)    
+[radialMenu](https://github.com/tristan-north/radialMenu)    
+
+
+
 ## osl 学习资料    
     
 [Arnold官方文档](https://docs.arnoldrenderer.com/display/A5AFMUG/Using+the+HalfTone+OSL+Shader+with+Toon)    
@@ -93,7 +107,7 @@
 [fun-with-graphics](https://github.com/FancyVin/fun-with-graphics)    
 [rendering-papers](https://github.com/ganeshbelgur/rendering-papers)    
     
-## C++    
+## C++ python  
     
 [maya_python_c_extension](https://github.com/sonictk/maya_python_c_extension)    
     
@@ -119,3 +133,8 @@
 ## Houdini    
     
 [Houdini pipeline and learning database ](https://github.com/kiryha/Houdini)
+
+
+## 机器学习
+
+[Machine-Learning-In-VFX](https://github.com/MahmoudHesham/Machine-Learning-In-VFX)
