@@ -28,6 +28,7 @@
     
 [studiolibrary](https://github.com/krathjen/studiolibrary)    
     
+[launcher](https://github.com/getavalon/launcher)    
 [cosmos](https://http://cosmos.toolsfrom.space)    
 [CNCGToolKit](https://github.com/cineuse/CNCGToolKit)    
 [zfused_outsource](https://github.com/zhoulh0322/zfused_outsource)    
@@ -49,7 +50,10 @@
     
 [maya-ml-rivet](https://github.com/lopezmauro/maya-ml-rivet)    
 [instanceAlongCurve](https://github.com/mmerchante/instanceAlongCurve)    
-    
+
+[silhouettepolisher](https://github.com/luckylyk/silhouettepolisher)    
+[maya-scenefile-parser](https://github.com/mottosso/maya-scenefile-parser)    
+
 ## Maya C++     
     
 [MayaWrapDeformer](https://github.com/nyotis/MayaWrapDeformer)    
@@ -79,7 +83,7 @@
 
 ## 绑定    
     
-[mgear](http://www.mgear-framework.com/)    
+[mgear](http://www.mgear-xframework.com/)    
 [hyperdrive](https://github.com/timlehr/hyperdrive)    
 
     
@@ -132,9 +136,14 @@
     
 ## Houdini    
     
-[Houdini pipeline and learning database ](https://github.com/kiryha/Houdini)
+[Houdini pipeline and learning database](https://github.com/kiryha/Houdini)    
+[HoudiniHowtos](https://github.com/jhorikawa/HoudiniHowtos)    
 
 
 ## 机器学习
 
-[Machine-Learning-In-VFX](https://github.com/MahmoudHesham/Machine-Learning-In-VFX)
+[Machine-Learning-In-VFX](https://github.com/MahmoudHesham/Machine-Learning-In-VFX)    
+
+## Unreal
+
+[UnrealCookbook](https://github.com/neil3d/UnrealCookbook)    
