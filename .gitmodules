@@ -1,3 +1,9 @@
 [submodule "_vendor/Qt"]
 	path = _vendor/Qt
 	url = git@github.com:mottosso/Qt.py.git
+[submodule "_vendor/dayu_path"]
+	path = _vendor/dayu_path
+	url = git@github.com:phenom-films/dayu_path.git
+[submodule "_vendor/dayu_widgets"]
+	path = _vendor/dayu_widgets
+	url = git@github.com:phenom-films/dayu_widgets.git
