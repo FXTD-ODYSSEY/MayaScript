@@ -45,7 +45,7 @@
 [SiShelf](https://github.com/mochio326/SiShelf)    
 [MayaNodeInterface](https://github.com/alfsici/MayaNodeInterface)    
     
-[OBB](https://github.com/chrisdevito/OBB)****    
+[OBB](https://github.com/chrisdevito/OBB)    
 [fitVertex](https://github.com/nrtkbb/fitVertex)    
     
 [maya-ml-rivet](https://github.com/lopezmauro/maya-ml-rivet)    
@@ -53,6 +53,8 @@
 
 [silhouettepolisher](https://github.com/luckylyk/silhouettepolisher)    
 [maya-scenefile-parser](https://github.com/mottosso/maya-scenefile-parser)    
+
+[Coder2](https://github.com/shiningdesign/Coder2)    
 
 ## Maya C++     
     
@@ -64,6 +66,8 @@
 [jsRadial](https://github.com/scorza/jsRadial)    
 [hrbf](https://github.com/elrnv/hrbf)    
 [HRBF](https://github.com/likangning93/HRBF-Skin)    
+
+[CageDeformerMaya](https://github.com/shizuo-kaji/CageDeformerMaya)    
 
 [蒙皮解算讲解](http://rodolphe-vaillant.fr/?e=31)    
 [EA delta mush](https://github.com/2TallTim/direct-delta-mush)    
