@@ -2,6 +2,17 @@
     
 # 我的关注汇总    
 
+
+
+## Python
+
+[practical-python](https://github.com/dabeaz-course/practical-python)    
+
+## Qt C++
+
+[QWidgetDemo](https://github.com/feiyangqingyun/QWidgetDemo)    
+
+
 ## awesome 列表
 
 [awesome-cg-vfx-pipeline](https://github.com/cgwire/awesome-cg-vfx-pipeline)    
