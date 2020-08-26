@@ -25,6 +25,7 @@
 ## CG跨平台代码编辑器    
     
 [pw_MultiScriptEditor](https://github.com/paulwinex/pw_MultiScriptEditor)    
+[PythonEditor](https://github.com/plasmax/PythonEditor)    
     
 ## 流程管理    
     
