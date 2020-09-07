@@ -7,6 +7,7 @@
 ## Python
 
 [practical-python](https://github.com/dabeaz-course/practical-python)    
+[如何让Python代码加速运行](https://mp.weixin.qq.com/s/f3VWjCu_0ZHuGdg9mtuh4w)    
 
 ## Qt C++
 
@@ -38,6 +39,7 @@
     
 ## Maya 工具    
     
+[hot_reload](https://sonictk.github.io/maya_hot_reload_example_public/demo/)    
 [studiolibrary](https://github.com/krathjen/studiolibrary)    
     
 [launcher](https://github.com/getavalon/launcher)    
