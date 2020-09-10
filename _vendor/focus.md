@@ -36,11 +36,15 @@
 [stalker](https://github.com/eoyilmaz/stalker)    
 [cgru](https://github.com/CGRU/cgru)    
 [sal_pipeline](https://github.com/Shayen/sal_pipeline)    
+[strack3](https://github.com/cine-use/strack3)    
     
 ## Maya 工具    
     
 [hot_reload](https://sonictk.github.io/maya_hot_reload_example_public/demo/)    
+
 [studiolibrary](https://github.com/krathjen/studiolibrary)    
+[vptools](https://github.com/azagoruyko/vptools)    
+[blaster](https://github.com/SmartPipeline/blaster)    
     
 [launcher](https://github.com/getavalon/launcher)    
 [cosmos](https://http://cosmos.toolsfrom.space)    

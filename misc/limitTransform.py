@@ -8,6 +8,8 @@ __date__ = '2019-11-29 09:31:24'
 锁定 Transform 在 -1 到 1 的范围
 """
 
+import pymel.core as pm
+
 def limitTranform(objType="nurbsCurve",limits=['t'],maxVal=1,minVal=-1):
     """transformLimit 锁定目标的移动范围
     
@@ -30,26 +32,26 @@ def limitTranform(objType="nurbsCurve",limits=['t'],maxVal=1,minVal=-1):
         
         for limit in limits:
             if limit == 't' or limit == 'translate':
-                pm.transformLimits(transform,tx=(minVal,maxVal),etx=(1,0))
-                pm.transformLimits(transform,ty=(minVal,maxVal),ety=(1,0))
-                pm.transformLimits(transform,tz=(minVal,maxVal),etz=(1,0))
-                pm.transformLimits(transform,tx=(minVal,maxVal),etx=(1,1))
-                pm.transformLimits(transform,ty=(minVal,maxVal),ety=(1,1))
-                pm.transformLimits(transform,tz=(minVal,maxVal),etz=(1,1))
-            elif limit == 'r' or limit == 'rotate:
-                pm.transformLimits(transform,rx=(minVal,maxVal),erx=(1,0))
-                pm.transformLimits(transform,ry=(minVal,maxVal),ery=(1,0))
-                pm.transformLimits(transform,rz=(minVal,maxVal),erz=(1,0))
-                pm.transformLimits(transform,rx=(minVal,maxVal),erx=(1,1))
-                pm.transformLimits(transform,ry=(minVal,maxVal),ery=(1,1))
-                pm.transformLimits(transform,rz=(minVal,maxVal),erz=(1,1))
-            elif limit == 's' or limit == 'scale :
-                pm.transformLimits(transform,sx=(minVal,maxVal),esx=(1,0))
-                pm.transformLimits(transform,sy=(minVal,maxVal),esy=(1,0))
-                pm.transformLimits(transform,sz=(minVal,maxVal),esz=(1,0))
-                pm.transformLimits(transform,sx=(minVal,maxVal),esx=(1,1))
-                pm.transformLimits(transform,sy=(minVal,maxVal),esy=(1,1))
-                pm.transformLimits(transform,sz=(minVal,maxVal),esz=(1,1))
+                pm.transformLimits(sel,tx=(minVal,maxVal),etx=(1,0))
+                pm.transformLimits(sel,ty=(minVal,maxVal),ety=(1,0))
+                pm.transformLimits(sel,tz=(minVal,maxVal),etz=(1,0))
+                pm.transformLimits(sel,tx=(minVal,maxVal),etx=(1,1))
+                pm.transformLimits(sel,ty=(minVal,maxVal),ety=(1,1))
+                pm.transformLimits(sel,tz=(minVal,maxVal),etz=(1,1))
+            elif limit == 'r' or limit == 'rotate':
+                pm.transformLimits(sel,rx=(minVal,maxVal),erx=(1,0))
+                pm.transformLimits(sel,ry=(minVal,maxVal),ery=(1,0))
+                pm.transformLimits(sel,rz=(minVal,maxVal),erz=(1,0))
+                pm.transformLimits(sel,rx=(minVal,maxVal),erx=(1,1))
+                pm.transformLimits(sel,ry=(minVal,maxVal),ery=(1,1))
+                pm.transformLimits(sel,rz=(minVal,maxVal),erz=(1,1))
+            elif limit == 's' or limit == 'scale':
+                pm.transformLimits(sel,sx=(minVal,maxVal),esx=(1,0))
+                pm.transformLimits(sel,sy=(minVal,maxVal),esy=(1,0))
+                pm.transformLimits(sel,sz=(minVal,maxVal),esz=(1,0))
+                pm.transformLimits(sel,sx=(minVal,maxVal),esx=(1,1))
+                pm.transformLimits(sel,sy=(minVal,maxVal),esy=(1,1))
+                pm.transformLimits(sel,sz=(minVal,maxVal),esz=(1,1))
 
 
 if __name__ == "__main__":
