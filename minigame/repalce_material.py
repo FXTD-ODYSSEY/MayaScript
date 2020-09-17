@@ -18,9 +18,8 @@ for sel in pm.ls(sl=1):
     shape = sel.getShape()
     for shading in shape.shadingGroups():
         for mat in shading.connections():
-            if not isinstance(mat,nt.Phong):
+            if not isinstance(mat,nt.ShadingDependNode):
                 continue
-            print(mat)
             f = mat.color.connections()
             if not f:
                 continue
