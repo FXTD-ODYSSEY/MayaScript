@@ -38,7 +38,7 @@ def SetFbxParameter():
     mel.eval('FBXExportEmbeddedTextures -v false')
     mel.eval('FBXExportCameras -v false')
     mel.eval('FBXExportBakeResampleAnimation -v false')
-    mel.eval('FBXExportSkeletonDefinitions -v true')
+    mel.eval('FBXExportSkeletonDefinitions -v true')Browse_BTN
     
 for root, dirs, files in os.walk(path, topdown=False):
     folder = os.path.basename(root)

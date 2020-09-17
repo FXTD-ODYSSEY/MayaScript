@@ -50,6 +50,9 @@
 [cosmos](https://http://cosmos.toolsfrom.space)    
 [CNCGToolKit](https://github.com/cineuse/CNCGToolKit)    
 [zfused_outsource](https://github.com/zhoulh0322/zfused_outsource)    
+
+[maya_normaltranslatortools](https://github.com/yiyangchenbuffalo/maya_normaltranslatortools)    
+[maya-rmbmenuhook](https://github.com/bohdon/maya-rmbmenuhook)    
     
 [mayawindowswitcher](https://github.com/tm8r/MayaWindowSwitcher)    
 [MirageYM Maya](https://github.com/MirageYM/Maya)    
