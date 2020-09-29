@@ -34,9 +34,9 @@ def error_log(func):
 def main():
         
     export_dir = r"D:\_minigame\_scene\test"
-    mtl_list = [mtl for mtl in pm.ls(materials=1) if isinstance(mtl,nt.Phong)]
-    # m = pm.PyNode('bas_ca_wall_stone_3m_00_mat1')
-    # mtl_list = [m]
+    # mtl_list = [mtl for mtl in pm.ls(materials=1) if isinstance(mtl,nt.Phong)]
+    m = pm.PyNode('bas_ca_wall_stone_12m_00_mat_wet')
+    mtl_list = [m]
 
     for i,mtl in enumerate(mtl_list):
 
@@ -54,7 +54,7 @@ def main():
         grp = pm.group(obj_list,n="EXPORT_#",w=1)
         data = defaultdict(list)
         for mesh in obj_list:
-            data[mesh.numVertices()].append(mesh)
+            data[mesh.numTriangles()].append(mesh)
         # NOTE 清空小于等于 1 的模型
         obj_list = [data.pop(verts) for verts,m_list in data.items() if len(m_list) <= 1]
         # if not obj_list:
@@ -73,9 +73,12 @@ def main():
 
                 loc_list = []
                 for i,mesh in enumerate(mesh_list):
+                    # NOTE 居中轴心
+                    pm.parent(mesh,w=1)
+                    pm.xform(mesh,cp=1)
                     loc = pm.spaceLocator(n="SOCKET_#")
-                    con = pm.parentConstraint(mesh,loc,mo=0)
-                    pm.delete(con)
+                    pm.parentConstraint(mesh,loc,mo=0)
+                    pm.scaleConstraint(mesh,loc,mo=0)
                     loc_list.append(loc)
                 
                 m = mesh
@@ -89,7 +92,7 @@ def main():
                 path = os.path.join(export_dir,"%s.fbx" % m_name)
                 pm.mel.FBXExport(f=path,s=None)
                 
-                pm.delete(mesh_list)
+                # pm.delete(mesh_list)
                 
                 tri = pm.polyCreateFacet( ch=0,p=[(0.0, 0.0, 0.0), (0.10, 0.0, 0.0), (0.10, 0.10, 0.0)],n="LocContainer")[0]
                 pm.parent(loc_list,tri)
@@ -97,7 +100,7 @@ def main():
                 pm.hyperShade( assign=mtl )
                 path = os.path.join(export_dir,"%s_loc.fbx" % m_name)
                 pm.mel.FBXExport(f=path,s=None)
-                pm.delete(tri)
+                # pm.delete(tri)
             except:
                 print("fail",mesh_list)
                 continue

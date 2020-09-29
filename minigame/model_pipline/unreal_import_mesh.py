@@ -38,7 +38,7 @@ def buildImportTask(filename='', destination_path=''):
 
 def main():
     
-    path = r"G:\_minigame\scene\test"
+    path = r"D:\_minigame\_scene\test"
     export_path = '/Game/Map'
     for i,fbx in enumerate(os.listdir(path)):
         if not fbx.endswith(".fbx"):
