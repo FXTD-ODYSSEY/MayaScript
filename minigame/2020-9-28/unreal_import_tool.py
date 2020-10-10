@@ -31,7 +31,7 @@ class MyWidget(QtWidgets.QWidget):
         for asset in unreal.EditorUtilityLibrary.get_selected_assets():
             label = QtWidgets.QLabel()
             data = "".join([chr(v) for v in py_lib.get_thumbnial(asset)])
-            image = QtGui.QImage(data, 256, 256, QtGui.QImage.Format_RGB32)
+            image = QtGui.QImage(data, 128, 128, QtGui.QImage.Format_RGB32)
             label.setPixmap(QtGui.QPixmap.fromImage(image).scaled(256, 256))
             self.layout.addWidget(label)
             

@@ -88,6 +88,9 @@ class MinigameExporterBase(object):
         self.Playblast_BTN = QtWidgets.QPushButton(Form)
         self.Playblast_BTN.setObjectName("Playblast_BTN")
         self.verticalLayout.addWidget(self.Playblast_BTN)
+        self.Export_FBX_BTN = QtWidgets.QPushButton(Form)
+        self.Export_FBX_BTN.setObjectName("Export_FBX_BTN")
+        self.verticalLayout.addWidget(self.Export_FBX_BTN)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
 
@@ -99,6 +102,7 @@ class MinigameExporterBase(object):
         self.label.setText(QtWidgets.QApplication.translate("Form", "输出路径", None, -1))
         self.Output_BTN.setText(QtWidgets.QApplication.translate("Form", "选择路径", None, -1))
         self.Export_BTN.setText(QtWidgets.QApplication.translate("Form", "选择物体导出", None, -1))
+        self.Export_FBX_BTN.setText(QtWidgets.QApplication.translate("Form", "导出 FBX 文件", None, -1))
         self.Transparent_BTN.setText(QtWidgets.QApplication.translate("Form", "修复材质透明", None, -1))
         self.Center_BTN.setText(QtWidgets.QApplication.translate("Form", "原点居中", None, -1))
         self.Playblast_BTN.setText(QtWidgets.QApplication.translate("Form", "批量拍屏截图", None, -1))
@@ -114,6 +118,8 @@ class MinigameExporter(MinigameExporterBase,mayaMixin.MayaQWidgetBaseMixin,QtWid
         self.Transparent_BTN.clicked.connect(self.transparent_material)
         self.Center_BTN.clicked.connect(self.center_model)
         self.Playblast_BTN.clicked.connect(self.batch_playblast)
+        
+        self.Export_FBX_BTN.clicked.connect(self.export_fbx)
         
 
     def show(self):
@@ -229,6 +235,21 @@ class MinigameExporter(MinigameExporterBase,mayaMixin.MayaQWidgetBaseMixin,QtWid
                         compression="png",
                         quality=100,
                         forceOverwrite=1)
+
+    def export_fbx(self):
+        file_list,_ = QFileDialog.getOpenFileNames(self)
+        if not file_list:
+            return
+        export_path = os.path.dirname(file_list[0])
+        for ma in file_list:
+            f = ma.lower()
+            if not f.endswith(".ma"):
+                continue
+            cmds.file(ma,o=1,f=1)
+            
+            base = os.path.basename(ma)
+            name = os.path.splitext(base)[0]
+            pm.mel.FBXExport(f= os.path.join(export_path,name))
 
 @errorLog
 def onMayaDroppedPythonFile(*args):

@@ -24,7 +24,7 @@ def hierarchyTree(parent, tree):
     else:
         del tree
 
-def retrive2Jnt(tree,jnt_list=[]):
+def retrieve2Jnt(tree,jnt_list=[]):
     for parent, data in tree.items():
 
         parent_jnt = "%s_jnt" % parent
@@ -42,7 +42,7 @@ def retrive2Jnt(tree,jnt_list=[]):
             cmds.delete(cmds.parentConstraint(child,child_jnt))
             cmds.parent(child_jnt,parent_jnt)
             
-        retrive2Jnt(child_tree,jnt_list)
+        retrieve2Jnt(child_tree,jnt_list)
   
 
 def main():
@@ -54,7 +54,7 @@ def main():
         return
 
     jnt_obj_list = []
-    retrive2Jnt(hierarchy_tree,jnt_obj_list)
+    retrieve2Jnt(hierarchy_tree,jnt_obj_list)
     # print(jnt_obj_list)
 
 if __name__ == "__main__":
