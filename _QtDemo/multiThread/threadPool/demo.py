@@ -1,16 +1,20 @@
-# coding:utf-8
-
-__author__ =  'timmyliang'
-__email__ =  '820472580@qq.com'
-__date__ = '2020-02-03 19:58:54'
-
-"""
-# NOTE https://www.learnpyqt.com/courses/concurrent-execution/multithreading-pyqt-applications-qthreadpool/
+# -*- coding: utf-8 -*-
 """
 
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+"""
+
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+
+__author__ = 'timmyliang'
+__email__ = '820472580@qq.com'
+__date__ = '2020-10-29 15:57:27'
+
+
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+from PySide2.QtCore import *
 
 import time
 import traceback, sys
@@ -35,10 +39,12 @@ class WorkerSignals(QObject):
         `int` indicating % progress 
 
     '''
-    finished = pyqtSignal()
-    error = pyqtSignal(tuple)
-    result = pyqtSignal(object)
-    progress = pyqtSignal(int)
+    finished = Signal()
+    error = Signal(tuple)
+    result = Signal(object)
+    progress = Signal(int)
+
+
 
 
 class Worker(QRunnable):
@@ -67,7 +73,7 @@ class Worker(QRunnable):
         # Add the callback to our kwargs
         self.kwargs['progress_callback'] = self.signals.progress        
 
-    @pyqtSlot()
+    @Slot()
     def run(self):
         '''
         Initialise the runner function with passed args, kwargs.
@@ -84,10 +90,11 @@ class Worker(QRunnable):
             self.signals.result.emit(result)  # Return the result of the processing
         finally:
             self.signals.finished.emit()  # Done
-        
+
 
 
 class MainWindow(QMainWindow):
+
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -137,12 +144,13 @@ class MainWindow(QMainWindow):
     def oh_no(self):
         # Pass the function to execute
         worker = Worker(self.execute_this_fn) # Any other args, kwargs are passed to the run function
-        # worker.signals.result.connect(self.print_output)
-        # worker.signals.finished.connect(self.thread_complete)
-        # worker.signals.progress.connect(self.progress_fn)
+        worker.signals.result.connect(self.print_output)
+        worker.signals.finished.connect(self.thread_complete)
+        worker.signals.progress.connect(self.progress_fn)
         
         # Execute
         self.threadpool.start(worker) 
+
         
     def recurring_timer(self):
         self.counter +=1

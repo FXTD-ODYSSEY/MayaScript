@@ -1,30 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-进度条
-"""
-
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-
-__author__ = 'timmyliang'
-__email__ = '820472580@qq.com'
-__date__ = '2020-06-09 22:41:49'
-
-
-import threading
-
-try:
-    import tkinter as tk
-    from tkinter import ttk
-    from tkinter import filedialog, messagebox
-except:
-    import ttk
-    import Tkinter as tk
-    import tkFileDialog as filedialog
-    import tkMessageBox as messagebox
-
-
 class ProgressDialog(tk.Toplevel):
 
     canceled = False
@@ -59,9 +32,3 @@ class ProgressDialog(tk.Toplevel):
             self.update()
         
         self.destroy()
-        
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    tk.Button(root, text = 'Start', command = lambda : [i for _,i in ProgressDialog.loop(range(9900))]).pack(pady = 10) 
-    root.mainloop()

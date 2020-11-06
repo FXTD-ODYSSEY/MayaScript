@@ -16,6 +16,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class TaskManager(QtCore.QObject):
     messageChanged = QtCore.Signal(str)
     numbersTaskRunningChanged = QtCore.Signal(int)
+    finished = QtCore.Signal()
 
     def __init__(self, parent=None):
         super(TaskManager, self).__init__(parent)
@@ -71,6 +72,9 @@ class TaskManager(QtCore.QObject):
         self._numbers_task_running -= 1
         self.numbersTaskRunningChanged.emit(self._numbers_task_running)
         self.call_task()
+        print(self._numbers_task_running)
+        if self._numbers_task_running == 0:
+            self.finished.emit()
 
     def on_started(self):
         process = self.sender()
@@ -84,7 +88,7 @@ class Widget(QtWidgets.QWidget):
         super(Widget, self).__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
         manager = TaskManager(self)
-        task_list = []
+        task_list = ['subst','ipconfig','taskkill','cscript']
         for task in task_list:
             manager.appendTask(task)
 
@@ -97,6 +101,7 @@ class Widget(QtWidgets.QWidget):
         spinBox.setValue(3)
         textEdit = QtWidgets.QTextEdit()
         manager.messageChanged.connect(textEdit.append)
+        manager.finished.connect(lambda:sys.stdout.write('complete'))
 
         lay = QtWidgets.QVBoxLayout(self)
         lay.addWidget(spinBox)
