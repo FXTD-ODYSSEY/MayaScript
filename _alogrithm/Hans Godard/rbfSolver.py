@@ -12,8 +12,6 @@ __email__ = '820472580@qq.com'
 __date__ = '2020-11-10 14:12:22'
 
 
-# coding: utf-8
-
 import math
 from maya import OpenMaya, OpenMayaMPx
 
