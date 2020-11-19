@@ -13,7 +13,6 @@ __date__ = '2020-09-08 15:34:00'
 
 
 from maya import cmds
-import json
 
 def hierarchyTree(parent, tree):
     children = cmds.listRelatives(parent, c=True, type='transform')
@@ -32,14 +31,16 @@ def retrieve2Jnt(tree,jnt_list=[]):
             cmds.select(cl=1)
             parent_jnt = cmds.joint(n=parent_jnt)
             jnt_list.append((parent_jnt,parent))
-            cmds.delete(cmds.parentConstraint(parent,parent_jnt))
+            # cmds.delete(cmds.parentConstraint(parent,parent_jnt))
+            cmds.parentConstraint(parent,parent_jnt)
             
         children, child_tree = data
         for child in children:
             cmds.select(cl=1)
             child_jnt = cmds.joint(n="%s_jnt" % child)
             jnt_list.append((child_jnt,child))
-            cmds.delete(cmds.parentConstraint(child,child_jnt))
+            # cmds.delete(cmds.parentConstraint(child,child_jnt))
+            cmds.parentConstraint(child,child_jnt)
             cmds.parent(child_jnt,parent_jnt)
             
         retrieve2Jnt(child_tree,jnt_list)

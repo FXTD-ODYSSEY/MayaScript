@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-材质拓扑一直的模型进行实例替换
+材质拓扑一致的模型进行实例替换
 """
 
 from __future__ import division
@@ -34,9 +34,9 @@ def error_log(func):
 def main():
         
     export_dir = r"D:\_minigame\_scene\test"
-    # mtl_list = [mtl for mtl in pm.ls(materials=1) if isinstance(mtl,nt.Phong)]
-    m = pm.PyNode('bas_ca_wall_stone_12m_00_mat_wet')
-    mtl_list = [m]
+    mtl_list = [mtl for mtl in pm.ls(materials=1) if isinstance(mtl,nt.Phong)]
+    # m = pm.PyNode('bas_ca_wall_stone_12m_00_mat_wet')
+    # mtl_list = [m]
 
     for i,mtl in enumerate(mtl_list):
 
