@@ -50,7 +50,7 @@ from Qt.QtGui import *
 from Qt.QtCore import *
 from Qt.QtWidgets import *
 
-class MovementTransition(QEventTransition):
+# class MovementTransition(QEventTransition):
 class MovementTransition(QEventTransition):
     def __init__(self, window):
         super(MovementTransition, self).__init__(window, QEvent.KeyPress)

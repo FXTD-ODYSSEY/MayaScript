@@ -2,8 +2,6 @@
     
 # 我的关注汇总    
 
-
-
 ## Python
 
 [practical-python](https://github.com/dabeaz-course/practical-python)    
@@ -12,11 +10,6 @@
 ## Qt C++
 
 [QWidgetDemo](https://github.com/feiyangqingyun/QWidgetDemo)    
-
-
-## awesome 列表
-
-[awesome-cg-vfx-pipeline](https://github.com/cgwire/awesome-cg-vfx-pipeline)    
 
 ## 教程    
     
@@ -37,6 +30,7 @@
 [cgru](https://github.com/CGRU/cgru)    
 [sal_pipeline](https://github.com/Shayen/sal_pipeline)    
 [strack3](https://github.com/cine-use/strack3)    
+[TACTIC-Handler](https://github.com/listyque/TACTIC-Handler)    
     
 ## Maya 工具    
     
@@ -90,9 +84,6 @@
 
 [CageDeformerMaya](https://github.com/shizuo-kaji/CageDeformerMaya)    
 
-[蒙皮解算讲解](http://rodolphe-vaillant.fr/?e=31)    
-[EA delta mush](https://github.com/2TallTim/direct-delta-mush)    
-
 ### convex hull     
     
 [Quick Collider](https://gumroad.com/l/Iirpn)    
@@ -100,13 +91,17 @@
 [DDConvexHull](https://github.com/digitaldestructo/DDConvexHull)    
 [ConvexOutliner](https://github.com/chrisdevito/ConvexOutliner)    
 
-## Maya GO    
+#### C++ python  
+    
+[maya_python_c_extension](https://github.com/sonictk/maya_python_c_extension)    
+
+### Maya GO    
     
 [go-mayaascii](https://github.com/nrtkbb/go-mayaascii)    
 [go-MEL](https://github.com/nrtkbb/go-MEL)    
 
 
-## 绑定    
+### 绑定    
     
 [mgear](http://www.mgear-xframework.com/)    
 [hyperdrive](https://github.com/timlehr/hyperdrive)    
@@ -136,28 +131,21 @@
 [fun-with-graphics](https://github.com/FancyVin/fun-with-graphics)    
 [rendering-papers](https://github.com/ganeshbelgur/rendering-papers)    
     
-## C++ python  
+## 算法
+
+[蒙皮解算讲解](http://rodolphe-vaillant.fr/?e=31)    
+[EA delta mush](https://github.com/2TallTim/direct-delta-mush)    
     
-[maya_python_c_extension](https://github.com/sonictk/maya_python_c_extension)    
-    
-## 编程规范    
+## 规范    
     
 [TA_101](https://github.com/theodox/ta_101)    
+[Gamemakin UE4工程规范](https://github.com/Allar/ue4-style-guide)    
     
-## github 账户    
-    
-[elrond79](https://github.com/elrond79)    
-[theodox](https://github.com/theodox)    
-[sonictk](https://github.com/sonictk)    
-[nrtkbb](https://github.com/nrtkbb)    
-[Dan Bradham](https://github.com/danbradham)    
-[chrisdevito](https://github.com/chrisdevito)    
-    
-    
+---
+
 # 博客汇总    
     
 [fundza | Maya & osl & Houdini & 算法](http://www.fundza.com/alphabetical.html)    
-    
     
 ## Houdini    
     
@@ -172,3 +160,29 @@
 ## Unreal
 
 [UnrealCookbook](https://github.com/neil3d/UnrealCookbook)    
+
+---
+
+# awesome 列表
+
+[awesome-cg-vfx-pipeline](https://github.com/cgwire/awesome-cg-vfx-pipeline)    
+
+---
+
+# 杂项
+
+[程序员如何优雅的挣零花钱？](https://github.com/easychen/howto-make-more-money)    
+[自学是门手艺](https://github.com/selfteaching/the-craft-of-selfteaching)    
+[定投改变命运](https://github.com/xiaolai/regular-investing-in-box)    
+
+---
+
+# github 账户    
+    
+[elrond79](https://github.com/elrond79)    
+[theodox](https://github.com/theodox)    
+[sonictk](https://github.com/sonictk)    
+[nrtkbb](https://github.com/nrtkbb)    
+[Dan Bradham](https://github.com/danbradham)    
+[chrisdevito](https://github.com/chrisdevito)    
+    

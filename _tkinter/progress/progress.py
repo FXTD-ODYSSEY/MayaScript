@@ -24,18 +24,13 @@ except:
     import tkFileDialog as filedialog
     import tkMessageBox as messagebox
 
-def take_parm(kwargs,key,default = None):
-    res = kwargs.get(key,default)
-    if key in kwargs:
-        del kwargs[key]
-    return res
 
 class ProgressDialog(tk.Toplevel):
 
     canceled = False
 
     def __init__(self, *args, **kwargs):
-        self.parent = take_parm(kwargs,'parent')
+        self.parent = kwargs.pop('parent',None)
         tk.Toplevel.__init__(self, self.parent,*args, **kwargs)
 
         # NOTE 阻断其他窗口
@@ -54,7 +49,7 @@ class ProgressDialog(tk.Toplevel):
             if self.canceled:break
             
             try:
-                yield item  # with body executes here
+                yield i,item  # with body executes here
             except:
                 import traceback
                 traceback.print_exc()
@@ -68,5 +63,5 @@ class ProgressDialog(tk.Toplevel):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    tk.Button(root, text = 'Start', command = lambda : [i for i in ProgressDialog.loop(range(9900))]).pack(pady = 10) 
+    tk.Button(root, text = 'Start', command = lambda : [i for _,i in ProgressDialog.loop(range(9900))]).pack(pady = 10) 
     root.mainloop()

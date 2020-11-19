@@ -32,28 +32,28 @@ class IntegerField(Field):
 class ModelMetaclass(type):
 
     def __new__(cls, name, bases, attrs):
-        cls.test = 'test'
-        # if name=='Model':
-        #     return type.__new__(cls, name, bases, attrs)
-        # print('Found model: %s' % name)
-        # mappings = dict()
-        # for k, v in attrs.iteritems():
-        #     if isinstance(v, Field):
-        #         print('Found mapping: %s ==> %s' % (k, v))
-        #         mappings[k] = v
-        # for k in mappings.iterkeys():
-        #     attrs.pop(k)
-        # attrs['__mappings__'] = mappings # 保存属性和列的映射关系
-        # attrs['__table__'] = name # 假设表名和类名一致
+        # cls.test = 'test'
+        if name=='Model':
+            return type.__new__(cls, name, bases, attrs)
+        print('Found model: %s' % name)
+        mappings = dict()
+        for k, v in attrs.iteritems():
+            if isinstance(v, Field):
+                print('Found mapping: %s ==> %s' % (k, v))
+                mappings[k] = v
+        for k in mappings.iterkeys():
+            attrs.pop(k)
+        attrs['__mappings__'] = mappings # 保存属性和列的映射关系
+        attrs['__table__'] = name # 假设表名和类名一致
         return type.__new__(cls, name, bases, attrs)
 
 class Model(dict):
     __metaclass__ = ModelMetaclass
     
-    def __new__(cls,*args,**kwargs):
-        print ("test attr",cls.test)
-        print("__new__():",cls,args,kwargs)
-        return 'A'
+    # def __new__(cls,*args,**kwargs):
+    #     print ("test attr",cls.test)
+    #     print("__new__():",cls,args,kwargs)
+    #     return 'A'
         # return super(Model, cls).__new__(cls,*args,**kwargs)
 
     def __init__(self, **kw):
@@ -90,3 +90,4 @@ class User(Model):
 
 u = User(id=12345, name='Michael', email='test@orm.org', password='my-pwd')
 print (u)
+print (dir(u))
