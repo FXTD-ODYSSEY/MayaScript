@@ -22,8 +22,8 @@ from maya import OpenMayaUI as omui
 
 class MyTestWidget(mayaMixin.MayaQWidgetBaseMixin,QtWidgets.QWidget):
     def __init__(self, parent=None):
-        # mainWindowPtr = omui.MQtUtil.mainWindow()
-        # parent = wrapInstance(long(mainWindowPtr), QtWidgets.QMainWindow)
+        mainWindowPtr = omui.MQtUtil.mainWindow()
+        parent = wrapInstance(long(mainWindowPtr), QtWidgets.QMainWindow)
         # parent = parent if parent else QtWidgets.QApplication.activeWindow()
         super(MyTestWidget, self).__init__(parent = parent)
 
@@ -73,16 +73,16 @@ def main():
     return window
     
 
-import sys
-MODULE = r"G:\tencent_git\OP\MFT_DATA\scripts\test_load_ui"
-sys.path.insert(0,MODULE) if MODULE not in sys.path else None
-import test_load
-reload(test_load)
-from test_load import MyTestWidget
-window = MyTestWidget()
-window.show()
-print(window.Edit)
-print(window.TestEdit)
-print(window.Edit.text())
-print(window.TestEdit.text())
 
+# import sys
+# MODULE = r"F:\MayaTecent\MayaScript\_maya_batch\test_load_ui"
+# sys.path.insert(0,MODULE) if MODULE not in sys.path else None
+# import test_load
+# reload(test_load)
+# from test_load import MyTestWidget
+# window = MyTestWidget()
+# window.show()
+# print(window.Edit)
+# print(window.TestEdit)
+# print(window.Edit.text())
+# print(window.TestEdit.text())
