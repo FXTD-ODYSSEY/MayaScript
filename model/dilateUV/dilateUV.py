@@ -122,12 +122,13 @@ def main():
         pm.progressWindow(e=1, progress=i / total * 100)
         # NOTES(timmyliang) 如果 uv 不在 0,1 象限则跳过
         x,y = sel.getUV(uv)
+        
         if not 0 < x < 1 or not 0 < y < 1:
             continue
 
         pm.select(sel.map[uv])
         pm.polySelectConstraint(uv=1, bo=0, m=2)
-        uv_list = pm.polySelectConstraint(t=0x0010, uv=0, bo=1, m=2, rs=1)
+        uv_list = pm.polySelectConstraint(t=0x0010, uv= 0, bo=1, m=2, rs=1)
         uv_list = [_uv.currentItemIndex() for _uv in pm.ls(uv_list, fl=1)]
         pos_list = {uv: sel.getUV(uv) for uv in uv_list}
         x = sum([pos[0] for pos in pos_list.values()]) / len(pos_list)
@@ -174,10 +175,10 @@ def main():
     face_list = pm.polyUVOverlap( sel.faces,oc=True )    
     pm.undoInfo(cck=1)
     
-    pm.undo()
-    pm.selectType(facet=1,ocm=1)
-    pm.hilite()
-    pm.select(face_list)
+    # pm.undo()
+    # pm.selectType(facet=1,ocm=1)
+    # pm.hilite()
+    # pm.select(face_list)
 
 
 def get_pt(pos,pos1,pos2,vec1,vec2,distant,reverse=False):
