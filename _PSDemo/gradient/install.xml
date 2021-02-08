@@ -1,0 +1,20 @@
+<ActionFile key="atn.atn" file="__cwd__/atn.atn">
+  <ActionSet version="16" name="魔方 PS 动作库" expanded="true" count="2">
+    <Action key="1" name="选择两个图层 - 生成渐变" expanded="true" count="1">
+      <ActionItem key="TEXT" expanded="true" enabled="true" withDialog="false" dialogOptions="0" identifier="TEXT" event="AdobeScriptAutomation Scripts" name="½Å±¾" hasDescriptor="true">
+        <ActionDescriptor key="AdobeScriptAutomation Scripts" count="2">
+          <DescValueType.ALIASTYPE key="1785938804" id="1785938804" symname="javaScript" sym="javaScript" path="__cwd__/gradient.jsx"/>
+          <DescValueType.STRINGTYPE key="1785941363" id="1785941363" symname="javaScriptMessage" sym="javaScriptMessage" string="0"/>
+        </ActionDescriptor>
+      </ActionItem>
+    </Action>
+    <Action key="2" name="渐变映射" expanded="true" count="1">
+      <ActionItem key="TEXT" expanded="true" enabled="true" withDialog="false" dialogOptions="0" identifier="TEXT" event="AdobeScriptAutomation Scripts" name="½Å±¾" hasDescriptor="true">
+        <ActionDescriptor key="AdobeScriptAutomation Scripts" count="2">
+          <DescValueType.ALIASTYPE key="1785938804" id="1785938804" symname="javaScript" sym="javaScript" path="__cwd__/gradientmap.jsx"/>
+          <DescValueType.STRINGTYPE key="1785941363" id="1785941363" symname="javaScriptMessage" sym="javaScriptMessage" string="[ActionDescriptor]"/>
+        </ActionDescriptor>
+      </ActionItem>
+    </Action>
+  </ActionSet>
+</ActionFile>

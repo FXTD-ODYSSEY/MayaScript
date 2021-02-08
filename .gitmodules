@@ -7,3 +7,6 @@
 [submodule "_vendor/dayu_widgets"]
 	path = _vendor/dayu_widgets
 	url = git@github.com:phenom-films/dayu_widgets.git
+[submodule "_vendor/weightDriver"]
+	path = _vendor/weightDriver
+	url = git@github.com:IngoClemens/weightDriver.git
