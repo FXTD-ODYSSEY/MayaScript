@@ -237,7 +237,7 @@ if __name__ == '__main__':
 
     t3 = state3.addTransition(button.clicked, state1)
     t3.addAnimation(QtCore.QPropertyAnimation(box, 'geometry', state3))
-    t3.addAnimation(QtCore.QPropertyAnimation(widget, 'geometry', state3))
+    t3.addAnimation(QtCore. (widget, 'geometry', state3))
     t3.addAnimation(QtCore.QPropertyAnimation(p1, 'pos', state3))
     t3.addAnimation(QtCore.QPropertyAnimation(p2, 'pos', state3))
     t3.addAnimation(QtCore.QPropertyAnimation(p3, 'pos', state3))
