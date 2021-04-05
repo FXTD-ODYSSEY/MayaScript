@@ -25,30 +25,27 @@ from Qt import QtCore, QtWidgets, QtGui
 from Qt.QtCompat import load_ui
 
 
-class ResizeEventFilter(QtCore.QObject):
+class QOverlay(QtWidgets.QWidget):
 
     resized = QtCore.Signal(QtCore.QEvent)
-
-    def eventFilter(self, obj, event):
-        if event.type() == QtCore.QEvent.Resize:
-            self.resized.emit(event)
-        return super().eventFilter(obj, event)
-
-
-class QOverlay(QtWidgets.QWidget):
+    painted = QtCore.Signal(QtCore.QEvent)
 
     DIRECTION = namedtuple("Direction", "E S W N")(0, 1, 2, 3)
     STRETCH = namedtuple("Stretch", "NoStretch Vertical Horizontal Center Auto")(
         0, 1, 2, 3, 4
     )
-    
 
     def __init__(self, parent=None):
         super(QOverlay, self).__init__(parent=parent)
         QtCore.QTimer.singleShot(0, self.initialize)
         self.stretch = self.STRETCH.Auto
-        # TODO https://stackoverflow.com/q/27855137
-        # self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
+
+    def eventFilter(self, obj, event):
+        if event.type() == QtCore.QEvent.Resize:
+            self.resized.emit(event)
+        if event.type() == QtCore.QEvent.Paint:
+            self.painted.emit(event)
+        return super(QOverlay, self).eventFilter(obj, event)
 
     def traverse_layout(self, layout):
 
@@ -74,35 +71,50 @@ class QOverlay(QtWidgets.QWidget):
         if not info:
             return
 
-        # NOTE 从 layout 中提取出来
         parent_layout, index = info
+        # NOTE 根据方向获取依附组件
         direction = self.property("direction")
         direction = direction.upper() if isinstance(direction, str) else ""
         direction = self.DIRECTION._asdict().get(direction, 0)
         value = 1 if direction <= 1 else -1
         item = parent_layout.itemAt(index - value)
-        assert item,"%s wrong overlay direction" % (self)
-        parent_layout.takeAt(index)
-        
+        assert item, "%s wrong overlay direction" % (self)
+
         stretch = self.property("stretch")
         stretch = self.STRETCH._asdict().get(stretch)
         stretch and self.setStretch(stretch)
 
         parent_widget = parent_layout.parentWidget()
-        filter = ResizeEventFilter(self)
-        parent_widget.installEventFilter(filter)
-        # NOTE 强制更新位置
+        parent_widget.installEventFilter(self)
         data = {
+            "index": index,
             "direction": direction,
             "item": item,
-            "geometry": item.geometry(),
+            # "geometry": item.geometry(),
             "layout": parent_layout,
-            "original_pos": self.pos(),
+            # "original_pos": self.pos(),
         }
-        filter.resized.connect(partial(self.resize_overlay, data))
-        QtWidgets.QApplication.processEvents()
-        self.resize_overlay(data, None)
-        self.resize_overlay(data, None)
+
+        # NOTE 在 Tab 组件下 确保显示状态才去 生成 Overlay
+        self.painted.connect(partial(self.init_resize, data))
+
+    def init_resize(self, data, event):
+        # NOTE 注销 init_resize
+        self.painted.disconnect()
+        self.painted.connect(self.update_mask)
+
+        layout = data.get("layout")
+        index = data.get("index")
+        item = data.get("item")
+
+        layout.takeAt(index)
+
+        data["geometry"] = item.geometry()
+        data["original_pos"] = self.pos()
+
+        self.resized.connect(partial(self.resize_overlay, data))
+        # NOTE 更新界面
+        QtCore.QTimer.singleShot(0, lambda: self.resize_overlay(data, None))
 
     def resize_overlay(self, data, event):
         direction = data.get("direction")
@@ -148,9 +160,16 @@ class QOverlay(QtWidgets.QWidget):
         elif self.stretch == self.STRETCH.Vertical:
             self.setFixedHeight(new_geometry.height())
         elif self.stretch == self.STRETCH.Center:
-            self.move(original_pos )
+            self.move(original_pos)
             self.setFixedWidth(new_geometry.width())
             self.setFixedHeight(new_geometry.height())
+
+    def update_mask(self):
+        # NOTE https://stackoverflow.com/q/27855137
+        reg = QtGui.QRegion(self.frameGeometry())
+        reg -= QtGui.QRegion(self.geometry())
+        reg += self.childrenRegion()
+        self.setMask(reg)
 
     def setStretch(self, stretch):
         self.stretch = stretch

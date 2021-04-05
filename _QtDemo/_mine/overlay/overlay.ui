@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -310,6 +310,9 @@
          <layout class="QVBoxLayout" name="verticalLayout_60">
           <item>
            <widget class="QLabel" name="label_3">
+            <property name="styleSheet">
+             <string notr="true">background:red</string>
+            </property>
             <property name="text">
              <string>Seperator</string>
             </property>
@@ -387,6 +390,9 @@
          </item>
          <item>
           <widget class="QOverlay" name="Overlay_10" native="true">
+           <property name="styleSheet">
+            <string notr="true">background:red</string>
+           </property>
            <property name="direction" stdset="0">
             <string>N</string>
            </property>
@@ -745,7 +751,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_37">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_38">
           <property name="leftMargin">
            <number>11</number>
@@ -814,7 +820,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_40">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_41">
           <property name="leftMargin">
            <number>11</number>
@@ -883,7 +889,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_43">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_17">
           <property name="leftMargin">
            <number>11</number>
@@ -952,7 +958,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_46">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_18">
           <property name="leftMargin">
            <number>11</number>
@@ -1021,13 +1027,58 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_49">
        <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Seperator</string>
+        <widget class="QOverlay" name="widget_2" native="true">
+         <property name="stretch" stdset="0">
+          <string>Center</string>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+         <property name="direction" stdset="0">
+          <string>N</string>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_61">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Seperator</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="listWidget_23">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>新建项目</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>新建项目</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>新建项目</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>新建项目</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -1038,7 +1089,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_50">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_51">
           <property name="leftMargin">
            <number>11</number>
@@ -1067,6 +1118,9 @@
           </item>
           <item>
            <widget class="QOverlay" name="Overlay_17" native="true">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="direction" stdset="0">
              <string>N</string>
             </property>
@@ -1105,7 +1159,28 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_52">
             <item>
-             <widget class="QListWidget" name="listWidget_18"/>
+             <widget class="QListWidget" name="listWidget_18">
+              <item>
+               <property name="text">
+                <string>新建项目</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>新建项目</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>新建项目</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>新建项目</string>
+               </property>
+              </item>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1133,7 +1208,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_53">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_54">
           <property name="leftMargin">
            <number>11</number>
@@ -1241,7 +1316,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_22">
           <property name="leftMargin">
            <number>11</number>
@@ -1323,7 +1398,7 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_23">
        <item>
-        <widget class="QWidget" name="" native="true">
+        <widget class="QWidget" name="widget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_24">
           <property name="leftMargin">
            <number>11</number>
