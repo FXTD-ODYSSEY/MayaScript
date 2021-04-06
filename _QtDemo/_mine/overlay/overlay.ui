@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -398,11 +398,17 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
-             <widget class="QPushButton" name="pushButton_42">
-              <property name="text">
-               <string>PushButton</string>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-             </widget>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
              <widget class="QPushButton" name="pushButton_43">
@@ -431,7 +437,28 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_31">
            <item>
-            <widget class="QListWidget" name="listWidget_11"/>
+            <widget class="QListWidget" name="listWidget_11">
+             <item>
+              <property name="text">
+               <string>1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4</string>
+              </property>
+             </item>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1162,22 +1189,22 @@
              <widget class="QListWidget" name="listWidget_18">
               <item>
                <property name="text">
-                <string>新建项目</string>
+                <string>1</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>新建项目</string>
+                <string>2</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>新建项目</string>
+                <string>3</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>新建项目</string>
+                <string>4</string>
                </property>
               </item>
              </widget>
@@ -1500,5 +1527,38 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>tabWidget_3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>420</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget_3</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>tabWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>422</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>502</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

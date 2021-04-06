@@ -6,7 +6,6 @@
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
-from functools import partial
 
 __author__ = "timmyliang"
 __email__ = "820472580@qq.com"
@@ -17,7 +16,6 @@ import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 import os
-import sys
 from functools import partial
 from collections import namedtuple
 
@@ -37,8 +35,9 @@ class QOverlay(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(QOverlay, self).__init__(parent=parent)
-        QtCore.QTimer.singleShot(0, self.initialize)
+        QtCore.QTimer.singleShot(0, self._initialize)
         self.stretch = self.STRETCH.Auto
+        self.direction = self.DIRECTION.E
 
     def eventFilter(self, obj, event):
         if event.type() == QtCore.QEvent.Resize:
@@ -47,13 +46,13 @@ class QOverlay(QtWidgets.QWidget):
             self.painted.emit(event)
         return super(QOverlay, self).eventFilter(obj, event)
 
-    def traverse_layout(self, layout):
+    def _traverse_layout(self, layout):
 
         target = None
         for i in range(layout.count()):
             item = layout.itemAt(i)
             if isinstance(item, QtWidgets.QLayout):
-                target = self.traverse_layout(item)
+                target = self._traverse_layout(item)
                 if target:
                     break
             elif isinstance(item, QtWidgets.QWidgetItem) and item.widget() is self:
@@ -62,46 +61,46 @@ class QOverlay(QtWidgets.QWidget):
 
         return target
 
-    def initialize(self):
+    def _initialize(self):
         # NOTE 将组件放到最上面 https://stackoverflow.com/a/31197643
         self.raise_()
 
-        layout = self.parentWidget().layout()
-        info = self.traverse_layout(layout)
-        if not info:
-            return
+        stretch = self.property("stretch")
+        stretch = self.STRETCH._asdict().get(stretch)
+        if not stretch is None and self.stretch == self.STRETCH.Auto:
+            self.set_stretch(stretch)
 
-        parent_layout, index = info
         # NOTE 根据方向获取依附组件
         direction = self.property("direction")
         direction = direction.upper() if isinstance(direction, str) else ""
-        direction = self.DIRECTION._asdict().get(direction, 0)
-        value = 1 if direction <= 1 else -1
+        direction = self.DIRECTION._asdict().get(direction)
+        if not direction is None and self.direction == self.DIRECTION.E:
+            self.set_direction(direction)
+
+        layout = self.parentWidget().layout()
+        info = self._traverse_layout(layout)
+        assert info, "%s cannot find layout" % (self)
+
+        parent_layout, index = info
+        value = 1 if self.direction <= 1 else -1
         item = parent_layout.itemAt(index - value)
         assert item, "%s wrong overlay direction" % (self)
-
-        stretch = self.property("stretch")
-        stretch = self.STRETCH._asdict().get(stretch)
-        stretch and self.setStretch(stretch)
 
         parent_widget = parent_layout.parentWidget()
         parent_widget.installEventFilter(self)
         data = {
             "index": index,
-            "direction": direction,
             "item": item,
-            # "geometry": item.geometry(),
             "layout": parent_layout,
-            # "original_pos": self.pos(),
         }
 
         # NOTE 在 Tab 组件下 确保显示状态才去 生成 Overlay
-        self.painted.connect(partial(self.init_resize, data))
+        self.painted.connect(partial(self._init_resize, data))
 
-    def init_resize(self, data, event):
+    def _init_resize(self, data, event):
         # NOTE 注销 init_resize
         self.painted.disconnect()
-        self.painted.connect(self.update_mask)
+        self.painted.connect(self._update_mask)
 
         layout = data.get("layout")
         index = data.get("index")
@@ -112,12 +111,11 @@ class QOverlay(QtWidgets.QWidget):
         data["geometry"] = item.geometry()
         data["original_pos"] = self.pos()
 
-        self.resized.connect(partial(self.resize_overlay, data))
+        self.resized.connect(partial(self._resize_overlay, data))
         # NOTE 更新界面
-        QtCore.QTimer.singleShot(0, lambda: self.resize_overlay(data, None))
+        QtCore.QTimer.singleShot(0, lambda: self._resize_overlay(data, None))
 
-    def resize_overlay(self, data, event):
-        direction = data.get("direction")
+    def _resize_overlay(self, data, event):
         item = data.get("item")
         geometry = data.get("geometry")
         layout = data.get("layout")
@@ -135,23 +133,23 @@ class QOverlay(QtWidgets.QWidget):
 
         x = 0
         y = 0
-        if direction == self.DIRECTION.W:
+        if self.direction == self.DIRECTION.W:
             x = delta_x + width + spacing
             y = delta_y
-        elif direction == self.DIRECTION.E:
+        elif self.direction == self.DIRECTION.E:
             x = delta_width + delta_x - width - spacing
             y = delta_y
-        elif direction == self.DIRECTION.N:
+        elif self.direction == self.DIRECTION.N:
             x = delta_x
             y = delta_y + height + spacing
-        elif direction == self.DIRECTION.S:
+        elif self.direction == self.DIRECTION.S:
             x = delta_x
             y = delta_height + delta_y - height - spacing
 
         self.move(original_pos + QtCore.QPoint(x, y))
 
         if self.stretch == self.STRETCH.Auto:
-            if direction in [1, 3]:
+            if self.direction in [1, 3]:
                 self.setFixedWidth(new_geometry.width())
             else:
                 self.setFixedHeight(new_geometry.height())
@@ -164,15 +162,18 @@ class QOverlay(QtWidgets.QWidget):
             self.setFixedWidth(new_geometry.width())
             self.setFixedHeight(new_geometry.height())
 
-    def update_mask(self):
+    def _update_mask(self):
         # NOTE https://stackoverflow.com/q/27855137
         reg = QtGui.QRegion(self.frameGeometry())
         reg -= QtGui.QRegion(self.geometry())
         reg += self.childrenRegion()
         self.setMask(reg)
 
-    def setStretch(self, stretch):
+    def set_stretch(self, stretch):
         self.stretch = stretch
+
+    def set_direction(self, direction):
+        self.direction = direction
 
 
 class OverlayBase(QtWidgets.QWidget):
@@ -181,7 +182,8 @@ class OverlayBase(QtWidgets.QWidget):
         DIR, file_name = os.path.split(__file__)
         file_name = os.path.splitext(file_name)[0]
         load_ui(os.path.join(DIR, "%s.ui" % file_name), self)
-        # self.Overlay.setStretch(self.Overlay.STRETCH.Center)
+        for btn in self.findChildren(QtWidgets.QPushButton):
+            btn.clicked.connect(partial(print, btn.objectName()))
 
 
 def main():
