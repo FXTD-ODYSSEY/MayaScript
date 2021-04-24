@@ -27,29 +27,46 @@ class MeshData(rd.MeshFormat):
     name = ""
 
 
+formatChars = {}
+#                                012345678
+formatChars[rd.CompType.UInt] = "xBHxIxxxL"
+formatChars[rd.CompType.SInt] = "xbhxixxxl"
+formatChars[rd.CompType.Float] = "xxexfxxxd"  # only 2, 4 and 8 are valid
+
+# These types have identical decodes, but we might post-process them
+formatChars[rd.CompType.UNorm] = formatChars[rd.CompType.UInt]
+formatChars[rd.CompType.UScaled] = formatChars[rd.CompType.UInt]
+formatChars[rd.CompType.SNorm] = formatChars[rd.CompType.SInt]
+formatChars[rd.CompType.SScaled] = formatChars[rd.CompType.SInt]
+
+nested_dict = lambda: defaultdict(nested_dict)
+vertexFormat = nested_dict()
+# fmt.compCount 234
+# fmt.compByteWidth 124
+for compCount in [2, 3, 4]:
+    for compType in formatChars:
+        for compByteWidth in [1, 2, 4]:
+            vertexFormat[compCount][compType][compByteWidth] = struct.Struct(
+                str(compCount) + formatChars[compType][compByteWidth]
+            ).unpack_from
+            # vertexFormat[compCount][compType][compByteWidth] = str(compCount) + formatChars[compType][compByteWidth]
+
 def unpackData(fmt, data):
     # We don't handle 'special' formats - typically bit-packed such as 10:10:10:2
     if fmt.Special():
         raise RuntimeError("Packed formats are not supported!")
 
-    formatChars = {}
-    #                                 012345678
-    formatChars[rd.CompType.UInt] = "xBHxIxxxL"
-    formatChars[rd.CompType.SInt] = "xbhxixxxl"
-    formatChars[rd.CompType.Float] = "xxexfxxxd"  # only 2, 4 and 8 are valid
-
-    # These types have identical decodes, but we might post-process them
-    formatChars[rd.CompType.UNorm] = formatChars[rd.CompType.UInt]
-    formatChars[rd.CompType.UScaled] = formatChars[rd.CompType.UInt]
-    formatChars[rd.CompType.SNorm] = formatChars[rd.CompType.SInt]
-    formatChars[rd.CompType.SScaled] = formatChars[rd.CompType.SInt]
+    # print("fmt.compCount",fmt.compCount,type(fmt.compCount))
+    # print("fmt.compType",fmt.compType,type(fmt.compType))
+    # print("fmt.compByteWidth",fmt.compByteWidth,type(fmt.compByteWidth))
 
     # We need to fetch compCount components
-    vertexFormat = str(fmt.compCount) + formatChars[fmt.compType][fmt.compByteWidth]
-
-    # Unpack the data
-    value = struct.unpack_from(vertexFormat, data, 0)
-
+    # vertexFormat = str(fmt.compCount) + formatChars[fmt.compType][fmt.compByteWidth]
+    # print(vertexFormat)
+    unpack_from = vertexFormat[fmt.compCount][fmt.compType][fmt.compByteWidth]
+    value = unpack_from(data)
+    print(value)
+    
     # If the format needs post-processing such as normalisation, do that now
     if fmt.compType == rd.CompType.UNorm:
         divisor = float((2 ** (fmt.compByteWidth * 8)) - 1)
@@ -125,6 +142,9 @@ def get_data(meshInputs, controller):
     value_dict = defaultdict(list)
     vertex_data = defaultdict(OrderedDict)
     for i, idx in enumerate(indices):
+        print("\n\n===================================\n\n")
+        if i > 20:
+            raise RuntimeError
         for attr in meshInputs:
             value = unpack(controller, attr, idx)
             idx_dict[attr.name].append(idx)
@@ -132,13 +152,13 @@ def get_data(meshInputs, controller):
             if idx not in vertex_data[attr.name]:
                 vertex_data[attr.name][idx] = value
 
-    print(len(value_dict))
+    print(dict(vertex_data["ATTRIBUTE5"]))
 
 
 def main():
 
     state = pyrenderdoc.CurPipelineState()
-
+    manager = pyrenderdoc.Extensions()
     # Get the index & vertex buffers, and fixed vertex inputs
     ib = state.GetIBuffer()
     vbs = state.GetVBuffers()
