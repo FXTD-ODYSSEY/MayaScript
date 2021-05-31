@@ -11,7 +11,9 @@ function delete_action(action){
     try {
         executeAction(idDlt, desc231, DialogModes.NO);
     } catch (error) {
+        return false
     }
+    return true
 }
 
 function install() {

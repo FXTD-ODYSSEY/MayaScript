@@ -19,7 +19,6 @@ def clear_uv(output_file):
     manager, scene = FbxCommon.InitializeSdkObjects()
     result = FbxCommon.LoadScene(manager, scene, output_file)
     if not result:
-        toast('找不到 FBX %s' % output_file)
         return
     nodes = scene.GetRootNode()
     mesh = nodes.GetChild(0).GetMesh()

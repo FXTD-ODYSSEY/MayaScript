@@ -9,6 +9,7 @@ https://www.adobe.com/devnet/photoshop/sdk.html
 
 # script 
 
+https://github.com/Trevor-/CSTK
 https://github.com/kynd/photoshopScripts
 http://ps-scripts.sourceforge.net/
 http://www.tranberry.com/photoshop/photoshop_scripting/tips/photoshopforgeeks2.html

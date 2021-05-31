@@ -1,4 +1,4 @@
-a|                                    FbxProperty                                                                   | FbxDataType |
+|                                    FbxProperty                                                                   | FbxDataType |
 |------------------------------------------------------------------------------------------------------------------|-------------|
 |  Impot                                                                                                           | KString     |
 |  Import\|FirstTimeRunNotice                                                                                      | KString     |
