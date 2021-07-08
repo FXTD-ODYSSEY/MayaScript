@@ -9,6 +9,8 @@
 """
 
 import sys
+MODULE = r"C:\Magician\python\2.7"
+sys.path.insert(0,MODULE) if MODULE not in sys.path else None
 
 SAMPLE_FILENAME = "Layers.fbx"
 BACKGROUND_IMAGE_NAME = "Spotty"
