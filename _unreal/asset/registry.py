@@ -1,4 +1,5 @@
 
+import unreal
 asset_tool = unreal.AssetToolsHelpers.get_asset_tools()
 asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
 path = '/Game/ArtResources/Characters/Roles/Actor/Sanji01/BluePrints/Actor/90065_A.90065_A'
