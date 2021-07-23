@@ -38,10 +38,26 @@ class MTreeExpandHook(QtCore.QObject):
             index = self.tree.indexAt(pos)
             if not self.tree.isExpanded(index):
                 # NOTE expand all child
-                self.tree.expandRecursively(index)
+                # self.tree.expandRecursively(index)
+                self.recursive_expand(index)
                 return True
         return super(MTreeExpandHook, self).eventFilter(self.tree, event)
     
+    def recursive_expand(self, index):
+        """
+        Recursively expands/collpases all the children of index.
+        """
+        childCount = index.internalPointer().get_child_count()
+        expand = self.isExpanded(index)
+        for childNo in range(0, childCount):
+            childIndex = index.child(childNo, 0)
+            if expand: #if expanding, do that first (wonky animation otherwise)
+                self.setExpanded(childIndex, expand)
+            subChildCount = childIndex.internalPointer().get_child_count()
+            if subChildCount > 0:
+                self.recursive_expand(childIndex)
+            if not expand: #if collapsing, do it last (wonky animation otherwise)
+                self.setExpanded(childIndex, expand)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

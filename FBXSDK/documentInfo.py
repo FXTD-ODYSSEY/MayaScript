@@ -31,7 +31,7 @@ from fbx import FbxNodeAttribute
 def main():
     # FbxLayerElementMaterial
     # fbx_path = os.path.join(DIR, "Layers.fbx")
-    fbx_path = r"X:\Characters\Roles\Actor\Mihawk01\Combine\Rig\SK_Mihawk01_L.fbx"
+    fbx_path = r"X:\Characters\Roles\Actor\Nami02a\Combine\Rig\SK_Nami02a_St_face01.fbx"
 
     manager, scene = FbxCommon.InitializeSdkObjects()
     result = FbxCommon.LoadScene(manager, scene, fbx_path)
