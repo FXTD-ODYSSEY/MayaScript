@@ -10,3 +10,6 @@
 [submodule "_vendor/weightDriver"]
 	path = _vendor/weightDriver
 	url = git@github.com:IngoClemens/weightDriver.git
+[submodule "shader/batch2Convert2fxo"]
+	path = shader/batch2Convert2fxo
+	url = git@github.com:FXTD-ODYSSEY/batchConvert2fxo.git
