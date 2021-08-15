@@ -17,11 +17,7 @@ import unreal
 
 @unreal.uclass()
 class OnAssetSaveValidator(unreal.EditorValidatorBase):
-    
-    @unreal.ufunction(override=True)
-    def validate_loaded_asset(self,asset,validation_errors):
-        print("validate_loaded_asset",asset)
-        
+
     @unreal.ufunction(override=True)
     def can_validate_asset(self,asset):
         print("can_validate_asset",asset)
