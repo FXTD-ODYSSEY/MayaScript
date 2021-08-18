@@ -7,14 +7,15 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-__author__ = "timmyliang"
-__email__ = "820472580@qq.com"
-__date__ = "2021-08-11 23:17:48"
+__author__ = 'timmyliang'
+__email__ = '820472580@qq.com'
+__date__ = '2021-08-18 17:16:54'
+
+
 
 import unreal
 from functools import partial
 from Qt import QtCore
-from unreal import EditorStaticMeshLibrary as static_mesh_lib
 
 red_lib = unreal.RedArtToolkitBPLibrary
 render_lib = unreal.RenderingLibrary

@@ -24,3 +24,5 @@ call = lambda fn, t=0, d=0, m=5, end=None: (
     if d < m
     else callable(end) and end()
 )
+
+call
