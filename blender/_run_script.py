@@ -15,6 +15,5 @@ import os
 from codecs import open
 os.system("cls")
 
-script_path = r"E:\MayaTecent\MayaScript\Blender\remove_lod.py"
-script_path = r"E:\MayaTecent\MayaScript\Blender\import\import_fbx.py"
+script_path = r"E:\MayaTecent\MayaScript\Blender\_tmp.py"
 exec(open(script_path,'r',encoding="utf-8").read())

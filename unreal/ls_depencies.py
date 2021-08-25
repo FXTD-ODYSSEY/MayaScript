@@ -29,6 +29,6 @@ def ls_referencers(path, data=None):
     return refs if refs else []
 
 asset, = unreal.EditorUtilityLibrary.get_selected_assets()
-depend =ls_dependencies(asset.get_path_name())
+depend =ls_referencers(asset.get_path_name())
 print(depend)
 

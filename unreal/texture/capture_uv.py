@@ -37,7 +37,6 @@ for actor in level_lib.get_all_level_actors():
     actor.set_is_temporarily_hidden_in_editor(True)
 
 # NOTE 蓝图生成到场景里面
-
 uv_material = unreal.load_asset("/Game/Test/NewFolder9/M_UVCapture.M_UVCapture")
 
 
