@@ -13,3 +13,6 @@
 [submodule "shader/batch2Convert2fxo"]
 	path = shader/batch2Convert2fxo
 	url = git@github.com:FXTD-ODYSSEY/batchConvert2fxo.git
+[submodule ".\\_vendor\\subins-toolkits"]
+	path = .\\_vendor\\subins-toolkits
+	url = git@github.com:subing85/subins-toolkits.git
