@@ -7,17 +7,16 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-__author__ = 'timmyliang'
-__email__ = '820472580@qq.com'
-__date__ = '2021-07-19 22:29:57'
-
-from Qt import QtWidgets
-from Qt.QtCompat import wrapInstance
+__author__ = "timmyliang"
+__email__ = "820472580@qq.com"
+__date__ = "2021-07-19 22:29:57"
 
 
 class MayaShowMixin(object):
     @classmethod
     def maya_show(cls, win_name=""):
+        from Qt import QtWidgets
+        from Qt.QtCompat import wrapInstance
         from maya import cmds, OpenMayaUI
 
         def maya_to_qt(name):
