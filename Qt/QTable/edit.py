@@ -7,16 +7,16 @@ __date__ = '2020-01-14 14:43:59'
 """
 NOTE https://stackoverflow.com/questions/39290017/how-to-intercept-key-events-when-editing-a-cell-in-qtablewidget-qtableview
 """
-from PyQt5 import QtGui
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
+from PySide2 import QtGui
+from PySide2 import QtCore
+from PySide2 import QtWidgets
 # from PyQt5.QtGui import *
 # from PyQt5.QtCore import *
 # from PyQt5.QtWidgets import *
 
 class LineEditDelegate(QtWidgets.QStyledItemDelegate):
 
-    moveCurrentCellBy = QtCore.pyqtSignal(int, int)
+    moveCurrentCellBy = QtCore.Signal(int, int)
 
     def __init__(self, parent=None):
         super(LineEditDelegate, self).__init__(parent)
@@ -32,8 +32,8 @@ class LineEditDelegate(QtWidgets.QStyledItemDelegate):
         editor.setText(value)
 
     def setModelData(self, editor, model, index):
-        print "setModelData"
-        print index
+        # print "setModelData"
+        # print index
         value = editor.text()
         model.setData(index, value, QtCore.Qt.EditRole)
 

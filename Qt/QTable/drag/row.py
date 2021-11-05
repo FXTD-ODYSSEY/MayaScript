@@ -1,8 +1,8 @@
 import sys
 
-from Qt.QtCore import Qt
-from Qt.QtGui import QDropEvent
-from Qt.QtWidgets import QTableWidget, QAbstractItemView, QTableWidgetItem, QWidget, QHBoxLayout, \
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QDropEvent
+from PySide2.QtWidgets import QTableWidget, QAbstractItemView, QTableWidgetItem, QWidget, QHBoxLayout, \
     QApplication
 
 
