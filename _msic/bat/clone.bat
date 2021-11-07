@@ -1,5 +1,6 @@
 @echo off
 @REM 输入 github 仓库会自动 clone 并等待 1s 用 vscode 打开这个路径
+@REM 如果 cmd 找不到 powershell 请将  %SYSTEMROOT%\System32\WindowsPowerShell\v1.0\ 加到 %PATH% 
 
 @REM 获取粘贴板的信息
 set cliptext=%temp%\__clone_cliptext__
