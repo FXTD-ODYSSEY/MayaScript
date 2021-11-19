@@ -24,9 +24,12 @@ import subprocess
 
 
 DIR = os.path.dirname(__file__)
-
+MAYA_DIRECTORY = r''
 
 def get_maya_directory():
+    if os.path.exists(MAYA_DIRECTORY):
+        return MAYA_DIRECTORY
+    
     for drive in string.ascii_uppercase:
         for path in glob.iglob(r"%s:\**\bin\maya.exe" % drive, recursive=True):
             uic = os.path.join(path, "..", "pyside2-uic")
@@ -34,12 +37,12 @@ def get_maya_directory():
             if os.path.exists(uic) and os.path.exists(maya_dir):
                 return maya_dir
 
-
+    raise RuntimeError('Maya Directory not Found')
 class CompileUI(object):
     # def __init__(self):
     #     pass
 
-    def get_maya_dir(self):
+    def get_maya_py(self):
         temp_dir = tempfile.gettempdir()
         config = os.path.join(temp_dir, "compile_ui_maya_dir.json")
         maya_dir = ""
@@ -60,7 +63,7 @@ class CompileUI(object):
         return maya_py
 
     def launch_mayapy_process(self):
-        maya_py = self.get_maya_dir()
+        maya_py = self.get_maya_py()
         subprocess.call([maya_py, __file__, "watch"], shell=True)
 
     def watch_file(self):

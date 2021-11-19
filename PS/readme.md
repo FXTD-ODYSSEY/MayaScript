@@ -7,6 +7,8 @@ https://www.adobe.com/devnet/photoshop/scripting.html
 
 https://www.adobe.com/devnet/photoshop/sdk.html
 
+https://github.com/sonictk/ps_cpp_recipes
+
 # script 
 
 https://github.com/Trevor-/CSTK

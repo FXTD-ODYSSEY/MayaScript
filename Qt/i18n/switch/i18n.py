@@ -19,7 +19,7 @@ from Qt import QtGui
 from Qt import QtCore
 from Qt import QtWidgets
 
-DIR = os.path.dirname(__file__)
+DIR = os.path.abspath(os.path.dirname(__file__))
 
 class Demo(QtWidgets.QWidget):
     def __init__(self):

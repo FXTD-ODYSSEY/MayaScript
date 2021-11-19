@@ -1,0 +1,788 @@
+<PySide2.QtWidgets.QWidget(0x127a84a50e0, name="outlinerPanel47") at 0x00000127ABE89F08> 
+    <PySide2.QtWidgets.QVBoxLayout(0x127a80ac980, name = "outlinerPanel47") at 0x00000127ABE89C08> 
+    <PySide2.QtWidgets.QWidget(0x127a84a4560, name="outlinerPanel47") at 0x00000127ABE89A08> 
+        <PySide2.QtWidgets.QLayout(0x127a8482ad0, name = "outlinerPanel47") at 0x00000127ABE89748> 
+        <PySide2.QtWidgets.QWidget(0x127a84a45a0, name="outlinerPanel47") at 0x00000127ABE89508> 
+            <PySide2.QtWidgets.QVBoxLayout(0x127ad74c6f0, name = "outlinerPanel47") at 0x00000127ABE89648> 
+            <PySide2.QtWidgets.QWidget(0x127a84a4b60, name="mayaLayoutInternalWidget") at 0x00000127ABE89B88> 
+                <PySide2.QtWidgets.QSplitter(0x127a84a5120, name="mayaLayoutInternalWidget") at 0x00000127ABE89148> 
+                <PySide2.QtWidgets.QSplitter(0x127a84a48a0, name="mayaLayoutInternalWidget") at 0x00000127ABE89EC8> 
+            <PySide2.QtWidgets.QSplitter(0x127a84a46e0, name="mayaLayoutInternalWidget") at 0x00000127ABE897C8> 
+                <PySide2.QtWidgets.QWidget(0x1275d515bb0, name="outlinerPanel47Secondary") at 0x00000127ABE89EC8> 
+                    <PySide2.QtWidgets.QScrollBar(0x127a84a6e60) at 0x00000127ABE89BC8> 
+                    <PySide2.QtWidgets.QScrollBar(0x127a84a6320) at 0x00000127ABE89988> 
+                    <PySide2.QtCore.QObject(0x127a7c65810) at 0x00000127ABE8E508> 
+                    <PySide2.QtWidgets.QRubberBand(0x127a84a6720) at 0x00000127ABE8E808> 
+                    <PySide2.QtCore.QTimer(0x127a80af110) at 0x00000127ABE8EB08> 
+                    <PySide2.QtWidgets.QMenu(0x127a848acd0, name="outlinerPanel47SecondaryPopup") at 0x00000127ABE8E388> 
+                        <PySide2.QtWidgets.QAction(0x127a81b8820 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E8C8> 
+                        <PySide2.QtCore.QObject(0x127a81b8460) at 0x00000127ABE8E7C8> 
+                        <PySide2.QtCore.QObject(0x127a7c99260) at 0x00000127ABE8E188> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a818af40 text="Show" toolTip="Show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E088> Show
+                        <PySide2.QtWidgets.QWidget(0x127a8483a70) at 0x00000127ABE8E688> 
+                        <PySide2.QtWidgets.QMenu(0x127a84aef60, name="menuItem17070") at 0x00000127ABE8E308> 
+                            <PySide2.QtWidgets.QAction(0x127a81b85a0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EE48> 
+                            <PySide2.QtCore.QObject(0x127a81b8340) at 0x00000127ABE8ECC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818cfa0 text="Objects" toolTip="Objects" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EDC8> Objects
+                            <PySide2.QtWidgets.QWidget(0x127a848bd10) at 0x00000127ABE8E448> 
+                            <PySide2.QtWidgets.QMenu(0x127a84ae320, name="FilterUIObjectFilterSubMenu") at 0x00000127ABE8E0C8> 
+                                <PySide2.QtWidgets.QAction(0x127a81b8f60 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F088> 
+                                <PySide2.QtCore.QObject(0x127a81b8f00) at 0x00000127ABE8F188> 
+                                <PySide2.QtCore.QObject(0x127a7c98ea0) at 0x00000127ABE8F288> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8190260 text="Clear Below" toolTip="Turn off all objects entries" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F7C8> Clear Below
+                                    <PySide2.QtCore.QObject(0x127a8167540) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848bf40) at 0x00000127ABE8F6C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81932f0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FE08> 
+                                <PySide2.QtWidgets.QWidget(0x127a848bfe0) at 0x00000127ABE8F3C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81933d0 text="Asset" toolTip="Asset" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> Asset
+                                    <PySide2.QtCore.QObject(0x127a8167f60) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848bc70) at 0x00000127ABE8F048> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8192d40 text="Geometry" toolTip="Geometry" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F308> Geometry
+                                    <PySide2.QtCore.QObject(0x127a8167ff0) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c5d0) at 0x00000127ABE8F348> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8191d80 text="NURBS Objects" toolTip="NURBS Objects" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F588> NURBS Objects
+                                    <PySide2.QtCore.QObject(0x127a8168980) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c030) at 0x00000127ABE8F488> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81924f0 text="Polygon Objects" toolTip="Polygon Objects" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F608> Polygon Objects
+                                    <PySide2.QtCore.QObject(0x127a81674b0) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c490) at 0x00000127ABE8F448> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8194a20 text="Subdiv Objects" toolTip="Subdiv Objects" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Subdiv Objects
+                                    <PySide2.QtCore.QObject(0x127a816a750) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848cdf0) at 0x00000127ABE8F548> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8194cc0 text="GPU Cache" toolTip="GPU Cache" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F848> GPU Cache
+                                    <PySide2.QtCore.QObject(0x127a816afc0) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c1c0) at 0x00000127ABE8F708> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8194d30 text="Cameras" toolTip="Cameras" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F688> Cameras
+                                    <PySide2.QtCore.QObject(0x127a8168e00) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c080) at 0x00000127ABE8F788> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8194ef0 text="Joints" toolTip="Joints" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F8C8> Joints
+                                    <PySide2.QtCore.QObject(0x127a816a000) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c0d0) at 0x00000127ABE8F988> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8196230 text="IkHandles" toolTip="IkHandles" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F908> IkHandles
+                                    <PySide2.QtCore.QObject(0x127a81691f0) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c580) at 0x00000127ABE8FEC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8196690 text="Characters" toolTip="Characters" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FA88> Characters
+                                    <PySide2.QtCore.QObject(0x127a816b050) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c300) at 0x00000127ABE8FF08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81962a0 text="Clips" toolTip="Clips" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FF48> Clips
+                                    <PySide2.QtCore.QObject(0x127a8168e90) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848c670) at 0x00000127ABE8FC48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8196a80 text="Partitions" toolTip="Partitions" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FD48> Partitions
+                                    <PySide2.QtCore.QObject(0x127a8169af0) at 0x00000127ABE90CC8> 
+                                <PySide2.QtWidgets.QWidget(0x127a848bbd0) at 0x00000127ABE8FCC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8195ba0 text="Sets" toolTip="Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FC88> Sets
+                                    <PySide2.QtCore.QObject(0x127a8168ce0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848de30) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8197dc0 text="Cluster Sets" toolTip="Cluster Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x000001272059FBC8> Cluster Sets
+                                    <PySide2.QtCore.QObject(0x127a81698b0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d340) at 0x0000012741675408> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81977a0 text="Deformer Sets" toolTip="Deformer Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012724D4E948> Deformer Sets
+                                    <PySide2.QtCore.QObject(0x127a81694c0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e1f0) at 0x0000012724D4EEC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8198060 text="Lattice Sets" toolTip="Lattice Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x000001272055FAC8> Lattice Sets
+                                    <PySide2.QtCore.QObject(0x127a8168a10) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848df70) at 0x000001272060FDC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81986f0 text="Non Linear Sets" toolTip="Non Linear Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012708BE3188> Non Linear Sets
+                                    <PySide2.QtCore.QObject(0x127a8169280) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d020) at 0x00000127416A8BC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8197340 text="Skin Cluster Sets" toolTip="Skin Cluster Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744E95548> Skin Cluster Sets
+                                    <PySide2.QtCore.QObject(0x127a8169e50) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d4d0) at 0x0000012744D2D948> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819a590 text="Joint Cluster Sets" toolTip="Joint Cluster Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D2D488> Joint Cluster Sets
+                                    <PySide2.QtCore.QObject(0x127a816a240) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848cfd0) at 0x00000127ABE88D88> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a8198fb0 text="Lights" toolTip="Lights" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88F88> Lights
+                                    <PySide2.QtCore.QObject(0x127a8169310) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e2e0) at 0x00000127ABE88F08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819a130 text="Optical FX" toolTip="Optical FX" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88EC8> Optical FX
+                                    <PySide2.QtCore.QObject(0x127a81693a0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d1b0) at 0x00000127ABE88AC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819a1a0 text="Lights and Light Sets" toolTip="Lights and Light Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88C88> Lights and Light Sets
+                                    <PySide2.QtCore.QObject(0x127a816a6c0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d200) at 0x00000127ABE88E88> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819b390 text="Light Sets" toolTip="Light Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88C08> Light Sets
+                                    <PySide2.QtCore.QObject(0x127a81695e0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d390) at 0x00000127ABE88908> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819b4e0 text="Lights: Illum. Linked Objects" toolTip="Lights: Illum. Linked Objects" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88BC8> Lights: Illum. Linked Objects
+                                    <PySide2.QtCore.QObject(0x127a816a870) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d750) at 0x00000127ABE88888> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819c270 text="Lights: Illum. by Default" toolTip="Lights: Illum. by Default" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE888C8> Lights: Illum. by Default
+                                    <PySide2.QtCore.QObject(0x127a816a900) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ded0) at 0x00000127ABE88F48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819ba20 text="Renderable Object Sets" toolTip="Renderable Object Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88A48> Renderable Object Sets
+                                    <PySide2.QtCore.QObject(0x127a816a3f0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d660) at 0x00000127ABE88988> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819c0b0 text="Renderable Objects" toolTip="Renderable Objects" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88208> Renderable Objects
+                                    <PySide2.QtCore.QObject(0x127a8168f20) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d7a0) at 0x00000127ABE885C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819ca50 text="Shading Groups" toolTip="Shading Groups" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88588> Shading Groups
+                                    <PySide2.QtCore.QObject(0x127a816aa20) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d160) at 0x00000127ABE88408> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819c580 text="Bake Sets" toolTip="Bake Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88788> Bake Sets
+                                    <PySide2.QtCore.QObject(0x127a816aea0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e150) at 0x00000127ABE88848> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819cdd0 text="Render Pass Sets" toolTip="Render Pass Sets" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88608> Render Pass Sets
+                                    <PySide2.QtCore.QObject(0x127a816abd0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848dbb0) at 0x00000127ABE88808> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819d310 text="Render Passes" toolTip="Render Passes" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88648> Render Passes
+                                    <PySide2.QtCore.QObject(0x127a816ac60) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d7f0) at 0x00000127ABE886C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819f290 text="Materials" toolTip="Materials" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88708> Materials
+                                    <PySide2.QtCore.QObject(0x127a81690d0) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d570) at 0x00000127ABE88688> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819f370 text="Textures" toolTip="Textures" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88448> Textures
+                                    <PySide2.QtCore.QObject(0x127a8169160) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d840) at 0x00000127ABE884C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819e9d0 text="2D Textures" toolTip="2D Textures" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88508> 2D Textures
+                                    <PySide2.QtCore.QObject(0x127a81699d0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e060) at 0x00000127ABE88488> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819e490 text="3D Textures" toolTip="3D Textures" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88248> 3D Textures
+                                    <PySide2.QtCore.QObject(0x127a8169ee0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d890) at 0x00000127ABE882C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a819f760 text="Texture Placements" toolTip="Texture Placements" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88308> Texture Placements
+                                    <PySide2.QtCore.QObject(0x127a816af30) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e240) at 0x00000127ABE88288> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a10c0 text="All mental ray Shaders" toolTip="All mental ray Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88088> All mental ray Shaders
+                                    <PySide2.QtCore.QObject(0x127a8169ca0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848d9d0) at 0x00000127ABE88108> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a0480 text="mental ray Materials" toolTip="mental ray Materials" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE88148> mental ray Materials
+                                    <PySide2.QtCore.QObject(0x127a816b440) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e0b0) at 0x00000127ABE880C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a0f00 text="mental ray Shadow Shaders" toolTip="mental ray Shadow Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012724991AC8> mental ray Shadow Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c2e0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e1a0) at 0x0000012720272A48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a0020 text="mental ray Volume Shaders" toolTip="mental ray Volume Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D30348> mental ray Volume Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c9a0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e880) at 0x0000012744D30248> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a2470 text="mental ray Displacement Shaders" toolTip="mental ray Displacement Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D30F48> mental ray Displacement Shaders
+                                    <PySide2.QtCore.QObject(0x127a816d0f0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f000) at 0x0000012744D30408> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a1c90 text="mental ray Photon Shaders" toolTip="mental ray Photon Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D30648> mental ray Photon Shaders
+                                    <PySide2.QtCore.QObject(0x127a816ca30) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ed30) at 0x0000012744D30688> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a2e80 text="mental ray Photon Volume Shaders" toolTip="mental ray Photon Volume Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D30548> mental ray Photon Volume Shaders
+                                    <PySide2.QtCore.QObject(0x127a816bdd0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ece0) at 0x0000012744D30508> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a81a2940 text="mental ray Texture Shaders" toolTip="mental ray Texture Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D30F88> mental ray Texture Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c250) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f370) at 0x0000012744D39308> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a84d8970 text="mental ray Environment Shaders" toolTip="mental ray Environment Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012744D39348> mental ray Environment Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c7f0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f140) at 0x0000012744D39148> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d6120 text="mental ray Light Shaders" toolTip="mental ray Light Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x0000012708BBB9C8> mental ray Light Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c6d0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ed80) at 0x0000012708BBB788> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d5240 text="mental ray Photon Emitter Shaders" toolTip="mental ray Photon Emitter Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127204CF908> mental ray Photon Emitter Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c520) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848eb00) at 0x00000127204CF048> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d67b0 text="mental ray Lightmap Shaders" toolTip="mental ray Lightmap Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x000001275FD83488> mental ray Lightmap Shaders
+                                    <PySide2.QtCore.QObject(0x127a816d180) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f230) at 0x00000127ABE7A888> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d59b0 text="mental ray Lens Shaders" toolTip="mental ray Lens Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AEC8> mental ray Lens Shaders
+                                    <PySide2.QtCore.QObject(0x127a816d450) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f460) at 0x00000127ABE7AE08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d7150 text="mental ray Output Shaders" toolTip="mental ray Output Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AA48> mental ray Output Shaders
+                                    <PySide2.QtCore.QObject(0x127a816b320) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e420) at 0x00000127ABE7AC08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d7070 text="mental ray Geometry Shaders" toolTip="mental ray Geometry Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AAC8> mental ray Geometry Shaders
+                                    <PySide2.QtCore.QObject(0x127a816b950) at 0x00000127ABE90C88> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e3d0) at 0x00000127ABE7AF48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d7cb0 text="mental ray Contour Store Shaders" toolTip="mental ray Contour Store Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AC88> mental ray Contour Store Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c490) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848eba0) at 0x00000127ABE7AE48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d7bd0 text="mental ray Contour Contrast Shaders" toolTip="mental ray Contour Contrast Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AE88> mental ray Contour Contrast Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c5b0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f780) at 0x00000127ABE7ADC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d7850 text="mental ray Contour Shaders" toolTip="mental ray Contour Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AD88> mental ray Contour Shaders
+                                    <PySide2.QtCore.QObject(0x127a816bc20) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f5f0) at 0x00000127ABE7AD08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d89d0 text="mental ray Output Shaders" toolTip="mental ray Output Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AD48> mental ray Output Shaders
+                                    <PySide2.QtCore.QObject(0x127a816b170) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f640) at 0x00000127ABE7AB08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d8ea0 text="mental ray Sample Compositing Shaders" toolTip="mental ray Sample Compositing Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AB88> mental ray Sample Compositing Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c640) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f3c0) at 0x00000127ABE7ABC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d8b90 text="mental ray Data Conversion Shaders" toolTip="mental ray Data Conversion Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE7AB48> mental ray Data Conversion Shaders
+                                    <PySide2.QtCore.QObject(0x127a816c370) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e740) at 0x00000127ABE90B88> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79d9920 text="mental ray State Shaders" toolTip="mental ray State Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90B48> mental ray State Shaders
+                                    <PySide2.QtCore.QObject(0x127a816b9e0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f280) at 0x00000127ABE90E88> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79dbc90 text="mental ray Misc. Shaders" toolTip="mental ray Misc. Shaders" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90988> mental ray Misc. Shaders
+                                    <PySide2.QtCore.QObject(0x127a816ce20) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f410) at 0x00000127ABE90C48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79dabf0 text="mental ray Layers" toolTip="mental ray Layers" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90E48> mental ray Layers
+                                    <PySide2.QtCore.QObject(0x127a816b0e0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e600) at 0x00000127ABE90E08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79db980 text="Shading Nodes" toolTip="Shading Nodes" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90748> Shading Nodes
+                                    <PySide2.QtCore.QObject(0x127a816cf40) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e510) at 0x00000127ABE90848> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79da950 text="Not In Render Layers" toolTip="Not In Render Layers" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90BC8> Not In Render Layers
+                                    <PySide2.QtCore.QObject(0x127a816bef0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f320) at 0x00000127ABE90B08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79db750 text="In Render Layers" toolTip="In Render Layers" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90AC8> In Render Layers
+                                    <PySide2.QtCore.QObject(0x127a816b3b0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f5a0) at 0x00000127ABE90A48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79ddac0 text="Not In Selected Render Layers" toolTip="Not In Selected Render Layers" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE909C8> Not In Selected Render Layers
+                                    <PySide2.QtCore.QObject(0x127a816cfd0) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ef60) at 0x00000127ABE90A08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79dd5f0 text="In Selected Render Layers" toolTip="In Selected Render Layers" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90C08> In Selected Render Layers
+                                    <PySide2.QtCore.QObject(0x127a816b560) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e7e0) at 0x00000127ABE90F08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79dc8d0 text="MASH" toolTip="MASH" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE90FC8> MASH
+                                    <PySide2.QtCore.QObject(0x127a816b830) at 0x00000127ABE90948> 
+                                <PySide2.QtWidgets.QWidget(0x127a848e970) at 0x00000127ABE90F88> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818d860 text="Attributes" toolTip="Attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EF48> Attributes
+                            <PySide2.QtWidgets.QWidget(0x127a848c760) at 0x00000127ABE8E288> 
+                            <PySide2.QtWidgets.QMenu(0x127a84ae6e0, name="FilterUIAttributeFilterSubMenu") at 0x00000127ABE8E348> 
+                                <PySide2.QtWidgets.QAction(0x127a81b8c20 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F088> 
+                                <PySide2.QtCore.QObject(0x127a81b8e20) at 0x00000127ABE8F188> 
+                                <PySide2.QtCore.QObject(0x127a7c99a80) at 0x00000127ABE8F288> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79ddc80 text="Clear Below" toolTip="Turn off all attributes entries" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F7C8> Clear Below
+                                    <PySide2.QtCore.QObject(0x127a816e5c0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ec40) at 0x00000127ABE8F6C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79deaf0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FE08> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f0f0) at 0x00000127ABE8F3C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79df260 text="Hidden" toolTip="Hidden" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> Hidden
+                                    <PySide2.QtCore.QObject(0x127a816e800) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84901d0) at 0x00000127ABE8F048> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79ddf20 text="Driven by Anim Curve" toolTip="Driven by Anim Curve" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F308> Driven by Anim Curve
+                                    <PySide2.QtCore.QObject(0x127a816e770) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8490220) at 0x00000127ABE8F348> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79de8c0 text="Driven by Expression" toolTip="View->Show Results in Graph Editor must be on to see curves driven by expressions" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F588> Driven by Expression
+                                    <PySide2.QtCore.QObject(0x127a816e020) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84902c0) at 0x00000127ABE8F488> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79debd0 text="Driven by Driven Key" toolTip="Driven by Driven Key" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F608> Driven by Driven Key
+                                    <PySide2.QtCore.QObject(0x127a816f190) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848f7d0) at 0x00000127ABE8F448> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79dfb90 text="Keyable" toolTip="Keyable" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Keyable
+                                    <PySide2.QtCore.QObject(0x127a816e890) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848faa0) at 0x00000127ABE8F548> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e0610 text="Scale" toolTip="Scale" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F848> Scale
+                                    <PySide2.QtCore.QObject(0x127a816e0b0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848faf0) at 0x00000127ABE8F708> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e0840 text="Rotate" toolTip="Rotate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F688> Rotate
+                                    <PySide2.QtCore.QObject(0x127a816f460) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8490400) at 0x00000127ABE8F788> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e04c0 text="Translate" toolTip="Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F8C8> Translate
+                                    <PySide2.QtCore.QObject(0x127a816e140) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848fb40) at 0x00000127ABE8F988> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e1e90 text="Scale Rotate Translate" toolTip="Scale Rotate Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F908> Scale Rotate Translate
+                                    <PySide2.QtCore.QObject(0x127a816e920) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848ff50) at 0x00000127ABE8FEC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e2750 text="User Defined" toolTip="User Defined" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FA88> User Defined
+                                    <PySide2.QtCore.QObject(0x127a816ea40) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84909f0) at 0x00000127ABE8FF08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e1c60 text="Published" toolTip="Published" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FF48> Published
+                                    <PySide2.QtCore.QObject(0x127a816d960) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a848fa50) at 0x00000127ABE8FC48> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a79e1800 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FD48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8490180) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818c980 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E248> 
+                            <PySide2.QtWidgets.QWidget(0x127a848c3a0) at 0x00000127ABE8E408> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818db00 text="Invert Shown" toolTip="Toggle between showing/removing" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E5C8> Invert Shown
+                                <PySide2.QtCore.QObject(0x127a8168110) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a848c9e0) at 0x00000127ABE8E708> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818eba0 text="Show All" toolTip="Show all items" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E548> Show All
+                                <PySide2.QtCore.QObject(0x127a81688f0) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a848c940) at 0x00000127ABE8E648> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818e900 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E948> 
+                            <PySide2.QtWidgets.QWidget(0x127a848cb20) at 0x00000127ABE8E788> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818f850 text="Show Selected Type(s)" toolTip="Show only items of the selected object or attribute type" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E888> Show Selected Type(s)
+                                <PySide2.QtCore.QObject(0x127a8167db0) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a848bef0) at 0x00000127ABE8E9C8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818f2a0 text="Select Attributes..." toolTip="Interactively select which attributes to show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EC48> Select Attributes...
+                                <PySide2.QtCore.QObject(0x127a8167150) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a848c3f0) at 0x00000127ABE8EA48> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818fc40 text="Create Entry..." toolTip="After showing selected type(s), add this as an entry to objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EB48> Create Entry...
+                                <PySide2.QtCore.QObject(0x127a8166cd0) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a848bc20) at 0x00000127ABE8EAC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818f540 text="Delete Entry..." toolTip="Delete a customized entry from objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EBC8> Delete Entry...
+                                <PySide2.QtCore.QObject(0x127a81675d0) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidget(0x127a8487ee0) at 0x00000127ABE8EF08> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818ee40 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EA08> 
+                            <PySide2.QtWidgets.QWidget(0x127a848ccb0) at 0x00000127ABE8EEC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a818f5b0 text="Show Auxiliary Nodes" toolTip="Toggle between showing/hiding auxiliary nodes (3D views are not affected)" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FB48> Show Auxiliary Nodes
+                                <PySide2.QtCore.QObject(0x127a8166c40) at 0x00000127ABE8FC88> 
+                            <PySide2.QtWidgets.QWidget(0x127a848cc10) at 0x00000127ABE8FBC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a8191680 text="Auxiliary Nodes..." toolTip="Add/Remove node types from auxiliary nodes list; nodes on this list are usually not visible" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FA48> Auxiliary Nodes...
+                                <PySide2.QtCore.QObject(0x127a8167780) at 0x00000127ABE8FC88> 
+                            <PySide2.QtWidgets.QWidget(0x127a848c440) at 0x00000127ABE8F208> 
+                            <PySide2.QtCore.QObject(0x127a7c996c0) at 0x00000127ABE8FFC8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a79e1b10 text="Show" toolTip="Show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E588> Show
+                        <PySide2.QtWidgets.QWidget(0x127a848b900) at 0x00000127ABE8ED08> 
+                        <PySide2.QtWidgets.QMenu(0x127a84b34e0, name="menuItem17157") at 0x00000127ABE8EFC8> 
+                            <PySide2.QtWidgets.QAction(0x127a81c2a60 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EE48> 
+                            <PySide2.QtCore.QObject(0x127a81c2ae0) at 0x00000127ABE8ECC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e3ef0 text="Objects" toolTip="Objects" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EDC8> Objects
+                            <PySide2.QtWidgets.QWidget(0x127a848fe60) at 0x00000127ABE8E448> 
+                            <PySide2.QtWidgets.QMenu(0x127a84b3660, name="FilterUIObjectFilterSubMenu") at 0x00000127ABE8E0C8> 
+                                <PySide2.QtWidgets.QAction(0x127a81c29c0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FC88> 
+                                <PySide2.QtCore.QObject(0x127a81c2b40) at 0x00000127ABE8F088> 
+                                <PySide2.QtCore.QObject(0x127a7c98c20) at 0x00000127ABE8FCC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e40b0 text="Attributes" toolTip="Attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EF48> Attributes
+                            <PySide2.QtWidgets.QWidget(0x127a8490590) at 0x00000127ABE8E288> 
+                            <PySide2.QtWidgets.QMenu(0x127a84b3aa0, name="FilterUIAttributeFilterSubMenu") at 0x00000127ABE8E348> 
+                                <PySide2.QtWidgets.QAction(0x127a81c3460 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FCC8> 
+                                <PySide2.QtCore.QObject(0x127a81c36e0) at 0x00000127ABE8F188> 
+                                <PySide2.QtCore.QObject(0x127a7c9a700) at 0x00000127ABE8FC88> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aaa860 text="Clear Below" toolTip="Turn off all attributes entries" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F088> Clear Below
+                                    <PySide2.QtCore.QObject(0x127a8172820) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493880) at 0x00000127ABE8F288> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aabdd0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F7C8> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493970) at 0x00000127ABE8F6C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aab890 text="Hidden" toolTip="Hidden" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FE08> Hidden
+                                    <PySide2.QtCore.QObject(0x127a8173990) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493790) at 0x00000127ABE8F3C8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aab4a0 text="Driven by Anim Curve" toolTip="Driven by Anim Curve" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> Driven by Anim Curve
+                                    <PySide2.QtCore.QObject(0x127a8172940) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493fb0) at 0x00000127ABE8F048> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aacd90 text="Driven by Expression" toolTip="View->Show Results in Graph Editor must be on to see curves driven by expressions" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F308> Driven by Expression
+                                    <PySide2.QtCore.QObject(0x127a8173cf0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493740) at 0x00000127ABE8F348> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aac1c0 text="Driven by Driven Key" toolTip="Driven by Driven Key" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F588> Driven by Driven Key
+                                    <PySide2.QtCore.QObject(0x127a8173900) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493e20) at 0x00000127ABE8F488> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aad490 text="Keyable" toolTip="Keyable" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F608> Keyable
+                                    <PySide2.QtCore.QObject(0x127a81728b0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84937e0) at 0x00000127ABE8F448> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aaea70 text="Scale" toolTip="Scale" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Scale
+                                    <PySide2.QtCore.QObject(0x127a8172b80) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84934c0) at 0x00000127ABE8F548> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aae220 text="Rotate" toolTip="Rotate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F848> Rotate
+                                    <PySide2.QtCore.QObject(0x127a8173fc0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8494640) at 0x00000127ABE8F708> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aae990 text="Translate" toolTip="Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F688> Translate
+                                    <PySide2.QtCore.QObject(0x127a8174f80) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493e70) at 0x00000127ABE8F788> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7ab0830 text="Scale Rotate Translate" toolTip="Scale Rotate Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F8C8> Scale Rotate Translate
+                                    <PySide2.QtCore.QObject(0x127a8174d40) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493ec0) at 0x00000127ABE8F988> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aaf480 text="User Defined" toolTip="User Defined" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F908> User Defined
+                                    <PySide2.QtCore.QObject(0x127a8174dd0) at 0x00000127ABE8FE48> 
+                                <PySide2.QtWidgets.QWidget(0x127a84942d0) at 0x00000127ABE8FEC8> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7aaf800 text="Published" toolTip="Published" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FA88> Published
+                                    <PySide2.QtCore.QObject(0x127a81745f0) at 0x0000012741675408> 
+                                <PySide2.QtWidgets.QWidget(0x127a8493510) at 0x00000127ABE8FF08> 
+                                <PySide2.QtWidgets.QWidgetAction(0x127a7ab04b0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FF48> 
+                                <PySide2.QtWidgets.QWidget(0x127a8494410) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e47b0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E248> 
+                            <PySide2.QtWidgets.QWidget(0x127a8490630) at 0x00000127ABE8E408> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e3630 text="Invert Shown" toolTip="Toggle between showing/removing" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E5C8> Invert Shown
+                                <PySide2.QtCore.QObject(0x127a816f730) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848fdc0) at 0x00000127ABE8E708> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e6030 text="Show All" toolTip="Show all items" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E548> Show All
+                                <PySide2.QtCore.QObject(0x127a816dde0) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848fff0) at 0x00000127ABE8E648> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e5e00 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E948> 
+                            <PySide2.QtWidgets.QWidget(0x127a8490720) at 0x00000127ABE8E788> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e5af0 text="Show Selected Type(s)" toolTip="Show only items of the selected object or attribute type" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E888> Show Selected Type(s)
+                                <PySide2.QtCore.QObject(0x127a816de70) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848f8c0) at 0x00000127ABE8E9C8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e5000 text="Select Attributes..." toolTip="Interactively select which attributes to show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EC48> Select Attributes...
+                                <PySide2.QtCore.QObject(0x127a816d8d0) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848f870) at 0x00000127ABE8EA48> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e4e40 text="Create Entry..." toolTip="After showing selected type(s), add this as an entry to objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EB48> Create Entry...
+                                <PySide2.QtCore.QObject(0x127a816ef50) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a84908b0) at 0x00000127ABE8EAC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e5b60 text="Delete Entry..." toolTip="Delete a customized entry from objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EBC8> Delete Entry...
+                                <PySide2.QtCore.QObject(0x127a816ee30) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848fc80) at 0x00000127ABE8EF08> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e51c0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EA08> 
+                            <PySide2.QtWidgets.QWidget(0x127a84905e0) at 0x00000127ABE8EEC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e6260 text="Show Auxiliary Nodes" toolTip="Toggle between showing/hiding auxiliary nodes (3D views are not affected)" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FFC8> Show Auxiliary Nodes
+                                <PySide2.QtCore.QObject(0x127a816c0a0) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848feb0) at 0x00000127ABE8FAC8> 
+                            <PySide2.QtWidgets.QWidgetAction(0x127a79e7b50 text="Auxiliary Nodes..." toolTip="Add/Remove node types from auxiliary nodes list; nodes on this list are usually not visible" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FB48> Auxiliary Nodes...
+                                <PySide2.QtCore.QObject(0x127a816f3d0) at 0x00000127ABE8FC48> 
+                            <PySide2.QtWidgets.QWidget(0x127a848fa00) at 0x00000127ABE8FBC8> 
+                            <PySide2.QtCore.QObject(0x127a7c99620) at 0x00000127ABE8FA48> 
+                <PySide2.QtWidgets.QSplitterHandle(0x127a84a5960, name="qt_splithandle_outlinerPanel47Secondary") at 0x00000127ABE89B08> 
+        <PySide2.QtWidgets.QWidget(0x1279927d4e0, name="FilterField") at 0x00000127ABE89688> 
+            <PySide2.QtWidgets.QHBoxLayout(0x127a8481e00) at 0x00000127ABE897C8> 
+            <PySide2.QtWidgets.QLineEdit(0x127a7d44110) at 0x00000127ABE891C8> 
+                <PySide2.QtCore.QObject(0x127ad74cbf0) at 0x00000127ABE89148> 
+                <PySide2.QtCore.QObject(0x127a7c63710) at 0x00000127ABE89EC8> 
+                <PySide2.QtWidgets.QRubberBand(0x127a84a4460) at 0x00000127ABE89BC8> 
+                <PySide2.QtWidgets.QPushButton(0x127a808a400) at 0x00000127ABE89988> 
+                    <PySide2.QtCore.QTimer(0x127a808a438) at 0x00000127ABE8EB08> 
+                    <PySide2.QtWidgets.QWidget(0x12798fc6020) at 0x00000127ABE8EFC8> 
+                        <PySide2.QtWidgets.QLabel(0x127a84a4e20) at 0x00000127ABE8E8C8> 
+                        <PySide2.QtWidgets.QLabel(0x127a84a4360) at 0x00000127ABE8E7C8> 
+                        <PySide2.QtWidgets.QHBoxLayout(0x127a80acf80) at 0x00000127ABE8E188> 
+                <PySide2.QtWidgets.QPushButton(0x127a808af00) at 0x00000127ABE8E388> 
+                    <PySide2.QtCore.QTimer(0x127a808af38) at 0x00000127ABE8EFC8> 
+                    <PySide2.QtWidgets.QWidget(0x12798fc38f0) at 0x00000127ABE8ED48> 
+                        <PySide2.QtWidgets.QLabel(0x127a84a43a0) at 0x00000127ABE8E088> 
+                        <PySide2.QtWidgets.QLabel(0x127a84a4720) at 0x00000127ABE8E8C8> 
+                        <PySide2.QtWidgets.QHBoxLayout(0x127a80acfe0) at 0x00000127ABE8E7C8> 
+                    <PySide2.QtWidgets.QActionGroup(0x127a7c7cdf0) at 0x00000127ABE8EB08> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cd0f0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E7C8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80ce510 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E688> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80ce2e0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E088> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cec80 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E8C8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cd1d0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E308> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80ce890 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E588> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cdcc0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ED08> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cdd30 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EE48> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cd390 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ECC8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cd400 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EDC8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80d0570 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E448> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80d07a0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E0C8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cecf0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EF48> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80d0180 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E288> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cf700 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E348> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cf690 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E248> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cf9a0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E408> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80d01f0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E5C8> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cfaf0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E708> 
+                        <PySide2.QtWidgets.QWidgetAction(0x127a80cf1c0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E548> 
+                <PySide2.QtCore.QObject(0x12726d1def0) at 0x00000127ABE8E3C8> 
+                <PySide2.QtCore.QObject(0x1279929c5f0) at 0x00000127ABE8E508> 
+            <PySide2.QtWidgets.QMenu(0x127a84a42e0) at 0x00000127ABE89648> 
+                <PySide2.QtWidgets.QAction(0x127a7c7ca50 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89B08> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cb5d0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89148> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cc600 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89EC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cc1a0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89BC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ccbb0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89988> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ccfa0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E508> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ccc20 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E808> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cc980 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E388> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cc050 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E3C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cbd40 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EB08> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cc6e0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E188> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cb4f0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EFC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cb6b0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ED48> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ccde0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E548> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cd080 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E648> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cca60 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E7C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ccb40 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E688> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cb790 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E088> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cb9c0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E8C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80ceac0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E308> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a80cdf60 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E588> 
+        <PySide2.QtWidgets.QPushButton(0x127a8089280, name="FilterStatusControl") at 0x00000127ABE899C8> 
+            <PySide2.QtCore.QTimer(0x127a80892b8) at 0x00000127ABE89648> 
+            <PySide2.QtWidgets.QWidget(0x12798fc4270) at 0x00000127ABE89B88> 
+                <PySide2.QtWidgets.QLabel(0x127a84a43e0) at 0x00000127ABE89B08> 
+                <PySide2.QtWidgets.QLabel(0x127a84a44e0) at 0x00000127ABE89148> 
+                <PySide2.QtWidgets.QHBoxLayout(0x127a80ae1b0) at 0x00000127ABE89EC8> 
+            <PySide2.QtCore.QObject(0x127a7d431e0) at 0x00000127ABE897C8> 
+        <PySide2.QtWidgets.QWidget(0x127a7d41410) at 0x00000127ABE89D88> 
+            <PySide2.QtWidgets.QHBoxLayout(0x127a8482300) at 0x00000127ABE897C8> 
+            <PySide2.QtWidgets.QComboBox(0x127a7c62f30) at 0x00000127ABE891C8> 
+                <PySide2.QtGui.QStandardItemModel(0x127a7c7dc50) at 0x00000127ABE89EC8> 
+                <PySide2.QtWidgets.QLabel(0x127a84a4c20) at 0x00000127ABE89BC8> 
+                <PySide2.QtWidgets.QFrame(0x127a801de30) at 0x00000127ABE89B08> 
+                    <PySide2.QtWidgets.QBoxLayout(0x127a80ae5d0) at 0x00000127ABE89988> 
+                    <PySide2.QtWidgets.QListView(0x127a84a46a0) at 0x00000127ABE8E588> 
+                        <PySide2.QtWidgets.QWidget(0x127a84a4760, name="qt_scrollarea_viewport") at 0x00000127ABE8E508> 
+                        <PySide2.QtWidgets.QWidget(0x127a8482f30, name="qt_scrollarea_hcontainer") at 0x00000127ABE8E808> 
+                            <PySide2.QtWidgets.QScrollBar(0x127a84a4a60) at 0x00000127ABE8EFC8> 
+                            <PySide2.QtWidgets.QBoxLayout(0x127a80ad940) at 0x00000127ABE8ED48> 
+                        <PySide2.QtWidgets.QWidget(0x127a84829e0, name="qt_scrollarea_vcontainer") at 0x00000127ABE8E388> 
+                            <PySide2.QtWidgets.QScrollBar(0x127a84a4da0) at 0x00000127ABE8ED48> 
+                            <PySide2.QtWidgets.QBoxLayout(0x127a80adee0) at 0x00000127ABE8E548> 
+                        <PySide2.QtCore.QItemSelectionModel(0x127a7c7e5b0) at 0x00000127ABE8E3C8> 
+                        <PySide2.QtWidgets.QItemDelegate(0x127a7c7e750) at 0x00000127ABE8EB08> 
+            <PySide2.QtWidgets.QPushButton(0x127a84a5260) at 0x00000127ABE89648> 
+    <PySide2.QtWidgets.QMenuBar(0x127a84a4160, name="outlinerPanel47") at 0x00000127ABE89F48> 
+        <PySide2.QtWidgets.QToolButton(0x127a84a4f60, name="qt_menubar_ext_button") at 0x00000127ABE89D88> 
+        <PySide2.QtWidgets.QMenu(0x127a84a6a20, name="Show") at 0x00000127ABE89448> 
+            <PySide2.QtWidgets.QAction(0x127a7c7fa70 text="Display" toolTip="Display" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89408> Display
+            <PySide2.QtCore.QObject(0x127a7c7fd70) at 0x00000127ABE89648> 
+            <PySide2.QtCore.QObject(0x127a801ed30) at 0x00000127ABE89B88> 
+            <PySide2.QtWidgets.QWidgetAction(0x1270638d740 text="DAG Objects Only" toolTip="DAG Objects Only" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE897C8> DAG Objects Only
+                <PySide2.QtCore.QObject(0x127a7d48520) at 0x00000127ABE8F108> 
+            <PySide2.QtWidgets.QWidget(0x127a8483390) at 0x00000127ABE891C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8a7fc40 text="Shapes" toolTip="Shapes" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89B08> Shapes
+                <PySide2.QtCore.QObject(0x127a7d485b0) at 0x00000127ABE8F108> 
+            <PySide2.QtWidgets.QWidget(0x127a8483750) at 0x00000127ABE89148> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7bb4cb0 text="Assigned Materials" toolTip="Assigned Materials" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89EC8> Assigned Materials
+                <PySide2.QtCore.QObject(0x127a7d48ac0) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84839d0) at 0x00000127ABE89BC8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7b9f700 text="Time Editor" toolTip="Time Editor" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89988> Time Editor
+                <PySide2.QtCore.QObject(0x127a7d49720) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8483f20) at 0x00000127ABE8E588> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba0570 text="Reference Nodes" toolTip="Reference Nodes" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ED08> Reference Nodes
+                <PySide2.QtCore.QObject(0x127a7d48d00) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84834d0) at 0x00000127ABE8EB08> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba0500 text="Reference Members" toolTip="Reference Members" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E188> Reference Members
+                <PySide2.QtCore.QObject(0x127a7d494e0) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8484380) at 0x00000127ABE8E508> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7b9f0e0 text="Attributes (Channels)" toolTip="Attributes (Channels)" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E808> Attributes (Channels)
+                <PySide2.QtCore.QObject(0x127a7d474d0) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8484330) at 0x00000127ABE8E388> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba1140 text="Set Members" toolTip="Set Members" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E3C8> Set Members
+                <PySide2.QtCore.QObject(0x127a7d48d90) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8483660) at 0x00000127ABE8E548> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba2480 text="Connected" toolTip="Connected" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EFC8> Connected
+                <PySide2.QtCore.QObject(0x127a7d47950) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84833e0) at 0x00000127ABE8ED48> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba0d50 text="Show Namespace" toolTip="Show Namespace" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E648> Show Namespace
+                <PySide2.QtCore.QObject(0x127a7d49180) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84841a0) at 0x00000127ABE8E7C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba1fb0 text="Ignore 'Hidden In Outliner'" toolTip="Ignore 'Hidden In Outliner'" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E688> Ignore 'Hidden In Outliner'
+                <PySide2.QtCore.QObject(0x127a7d47a70) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8483c50) at 0x00000127ABE8E088> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba3050 text="Ignore 'Use Outliner Color'" toolTip="Ignore 'Use Outliner Color'" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E8C8> Ignore 'Use Outliner Color'
+                <PySide2.QtCore.QObject(0x127a7d49b10) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8483b10) at 0x00000127ABE8E308> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba26b0 text="Show Mute Information" toolTip="Show Mute Information" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EE48> Show Mute Information
+                <PySide2.QtCore.QObject(0x127a7d49de0) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8483930) at 0x00000127ABE8ECC8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba34b0 text="UFE start" toolTip="UFE start" menuRole=TextHeuristicRole visible=false) at 0x00000127ABE8EDC8> UFE start
+            <PySide2.QtWidgets.QWidget(0x127a8483e30) at 0x00000127ABE8E448> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba3b40 text="UFE end" toolTip="UFE end" menuRole=TextHeuristicRole visible=false) at 0x00000127ABE8E0C8> UFE end
+            <PySide2.QtWidgets.QWidget(0x127a8484100) at 0x00000127ABE8EF48> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba4da0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E288> 
+            <PySide2.QtWidgets.QWidget(0x127a8483ca0) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba55f0 text="Organize by Layer" toolTip="Organize by Layer" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E248> Organize by Layer
+                <PySide2.QtCore.QObject(0x127a7d49570) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84846f0) at 0x00000127ABE8E408> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba50b0 text="Organize by Clip" toolTip="Organize by Clip" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E5C8> Organize by Clip
+                <PySide2.QtCore.QObject(0x127a7d48370) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a84850a0) at 0x00000127ABE8E708> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba5270 text="Auto-expand Layers" toolTip="Auto-expand Layers" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E948> Auto-expand Layers
+                <PySide2.QtCore.QObject(0x127a7d49d50) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidget(0x127a8484740) at 0x00000127ABE8E788> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba68c0 text="Window Layout" toolTip="Split the layout of the Outliner window horizontally or vertically. New in MAYA 2022." menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E888> Window Layout
+            <PySide2.QtWidgets.QWidget(0x127a8483b60) at 0x00000127ABE8E9C8> 
+            <PySide2.QtWidgets.QMenu(0x127a84a7fe0, name="menuItem16960") at 0x00000127ABE8EC48> 
+                <PySide2.QtWidgets.QAction(0x127a7c823b0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> 
+                <PySide2.QtCore.QObject(0x127a7c82510) at 0x00000127ABE8F308> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c825f0, name = "radioMenuItemCollection398") at 0x00000127ABE8F348> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7ba7180 text="Split Horizontally" toolTip="Split Horizontally" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F588> Split Horizontally
+                    <PySide2.QtCore.QObject(0x127a7d49ba0) at 0x00000127ABE8F548> 
+                <PySide2.QtWidgets.QWidget(0x127a8485280) at 0x00000127ABE8F488> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7ba6a10 text="Split Vertically" toolTip="Split Vertically" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F608> Split Vertically
+                    <PySide2.QtCore.QObject(0x127a7d2d520) at 0x00000127ABE8F548> 
+                <PySide2.QtWidgets.QWidget(0x127a8485140) at 0x00000127ABE8F448> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba8760 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EA48> 
+            <PySide2.QtWidgets.QWidget(0x127a8484470) at 0x00000127ABE8EB48> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba93a0 text="Advanced Asset Contents" toolTip="Advanced Asset Contents" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EAC8> Advanced Asset Contents
+            <PySide2.QtWidgets.QWidget(0x127a8485000) at 0x00000127ABE8EBC8> 
+            <PySide2.QtWidgets.QMenu(0x127a84a7420, name="menuItem16962") at 0x00000127ABE8EF08> 
+                <PySide2.QtWidgets.QAction(0x127a7c83810 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F448> 
+                <PySide2.QtCore.QObject(0x127a7c83870) at 0x00000127ABE8F4C8> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c837f0, name = "radioMenuItemCollection399") at 0x00000127ABE8F048> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7ba9330 text="Under Asset" toolTip="Under Asset" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> Under Asset
+                    <PySide2.QtCore.QObject(0x127a7d40cc0) at 0x00000127ABE8F788> 
+                <PySide2.QtWidgets.QWidget(0x127a8484a10) at 0x00000127ABE8F308> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7ba8b50 text="Under Parent" toolTip="Under Parent" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F348> Under Parent
+                    <PySide2.QtCore.QObject(0x127a7d44a10) at 0x00000127ABE8F788> 
+                <PySide2.QtWidgets.QWidget(0x127a84851e0) at 0x00000127ABE8F588> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7baa050 text="Both" toolTip="Both" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F488> Both
+                    <PySide2.QtCore.QObject(0x127a7d430c0) at 0x00000127ABE8F788> 
+                <PySide2.QtWidgets.QWidget(0x127a8485500) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7baabb0 text="None" toolTip="None" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F548> None
+                    <PySide2.QtCore.QObject(0x127a7d43a50) at 0x00000127ABE8F788> 
+                <PySide2.QtWidgets.QWidget(0x127a8485320) at 0x00000127ABE8F848> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7ba9e90 text="Channel Names" toolTip="Channel Names" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EA08> Channel Names
+            <PySide2.QtWidgets.QWidget(0x127a84845b0) at 0x00000127ABE8EEC8> 
+            <PySide2.QtWidgets.QMenu(0x127a84a7460, name="menuItem16963") at 0x00000127ABE8FA48> 
+                <PySide2.QtWidgets.QAction(0x127a7c84090 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F848> 
+                <PySide2.QtCore.QObject(0x127a7c840d0) at 0x00000127ABE8F708> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c84130, name = "radioMenuItemCollection400") at 0x00000127ABE8F448> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bac740 text="Nice" toolTip="Nice" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Nice
+                    <PySide2.QtCore.QObject(0x127a7d441a0) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a8484bf0) at 0x00000127ABE8F048> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bab630 text="Long" toolTip="Long" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> Long
+                    <PySide2.QtCore.QObject(0x127a7d46000) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a8484ce0) at 0x00000127ABE8F308> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7babf60 text="Short" toolTip="Short" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F348> Short
+                    <PySide2.QtCore.QObject(0x127a7d46240) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a84846a0) at 0x00000127ABE8F588> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7badee0 text="Sort Order" toolTip="Sort Order" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F208> Sort Order
+            <PySide2.QtWidgets.QWidget(0x127a8484880) at 0x00000127ABE8FFC8> 
+            <PySide2.QtWidgets.QMenu(0x127a84a8d20, name="menuItem16964") at 0x00000127ABE8FAC8> 
+                <PySide2.QtWidgets.QAction(0x127a7c847f0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F488> 
+                <PySide2.QtCore.QObject(0x127a7c84810) at 0x00000127ABE8F848> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c84690, name = "radioMenuItemCollection401") at 0x00000127ABE8F708> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bae8f0 text="Scene Hierarchy" toolTip="Scene Hierarchy" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F448> Scene Hierarchy
+                    <PySide2.QtCore.QObject(0x127a7d46510) at 0x00000127ABE8F348> 
+                <PySide2.QtWidgets.QWidget(0x127a8485730) at 0x00000127ABE8F4C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bad770 text="Alphabetical Within Type" toolTip="Alphabetical Within Type" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F048> Alphabetical Within Type
+                    <PySide2.QtCore.QObject(0x127a8c450a0) at 0x00000127ABE8F348> 
+                <PySide2.QtWidgets.QWidget(0x127a84868b0) at 0x00000127ABE8F108> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7bb0170 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FB48> 
+            <PySide2.QtWidgets.QWidget(0x127a8484f60) at 0x00000127ABE8FBC8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7bafc30 text="Attribute Order" toolTip="Attribute Order" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FC48> Attribute Order
+            <PySide2.QtWidgets.QWidget(0x127a8484b00) at 0x00000127ABE8FD48> 
+            <PySide2.QtWidgets.QMenu(0x127a84a8160, name="menuItem16966") at 0x00000127ABE8FCC8> 
+                <PySide2.QtWidgets.QAction(0x127a7c84fd0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F108> 
+                <PySide2.QtCore.QObject(0x127a7c84bb0) at 0x00000127ABE8F308> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c84c10, name = "radioMenuItemCollection402") at 0x00000127ABE8F588> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7baf920 text="Default" toolTip="Default" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F488> Default
+                    <PySide2.QtCore.QObject(0x127a8c449e0) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a8485af0) at 0x00000127ABE8F848> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7baf5a0 text="Alphabetical, ascend" toolTip="Alphabetical, ascend" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F708> Alphabetical, ascend
+                    <PySide2.QtCore.QObject(0x127a8c451c0) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a8486130) at 0x00000127ABE8F448> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bb1130 text="Alphabetical, descend" toolTip="Alphabetical, descend" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Alphabetical, descend
+                    <PySide2.QtCore.QObject(0x127a8c45250) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidget(0x127a8485d70) at 0x00000127ABE8F048> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7bb1590 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F188> 
+            <PySide2.QtWidgets.QWidget(0x127a8485d20) at 0x00000127ABE8FC88> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a7bb0720 text="Animation Layers Filter" toolTip="Animation Layers Filter" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F088> Animation Layers Filter
+            <PySide2.QtWidgets.QWidget(0x127a8485a50) at 0x00000127ABE8F288> 
+            <PySide2.QtWidgets.QMenu(0x127a84a8420, name="menuItem16968") at 0x00000127ABE8F7C8> 
+                <PySide2.QtWidgets.QAction(0x127a7c85a90 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F048> 
+                <PySide2.QtCore.QObject(0x127a7c86150) at 0x00000127ABE8F348> 
+                <PySide2.QtWidgets.QActionGroup(0x127a7c85e50, name = "radioMenuItemCollection403") at 0x00000127ABE8F108> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bb34a0 text="From Layer Editor Show Options" toolTip="From Layer Editor Show Options" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F308> From Layer Editor Show Options
+                    <PySide2.QtCore.QObject(0x127a8c44f80) at 0x00000127ABE8FA88> 
+                <PySide2.QtWidgets.QWidget(0x127a8486b30) at 0x00000127ABE8F588> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bb3cf0 text="All Affecting" toolTip="All Affecting" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F488> All Affecting
+                    <PySide2.QtCore.QObject(0x127a8c43f30) at 0x00000127ABE8FA88> 
+                <PySide2.QtWidgets.QWidget(0x127a8485e60) at 0x00000127ABE8F848> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7bb2a20 text="Active" toolTip="Active" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F708> Active
+                    <PySide2.QtCore.QObject(0x127a8c45010) at 0x00000127ABE8FF08> 
+                <PySide2.QtWidgets.QWidget(0x127a84867c0) at 0x00000127ABE8F448> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a7d6f1f0 text="Selected" toolTip="Selected" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F4C8> Selected
+                    <PySide2.QtCore.QObject(0x127a8c43510) at 0x00000127ABE8FF08> 
+                <PySide2.QtWidgets.QWidget(0x127a8485820) at 0x00000127ABE8F608> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a790f1c0 text="Active and Selected" toolTip="Active and Selected" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F548> Active and Selected
+                    <PySide2.QtCore.QObject(0x127a8c43630) at 0x00000127ABE8FF08> 
+                <PySide2.QtWidgets.QWidget(0x127a8486040) at 0x00000127ABE8F788> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a84d5c60 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F688> 
+                <PySide2.QtWidgets.QWidget(0x127a8485c80) at 0x00000127ABE8F8C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a84d5790 text="Show Layer Weight" toolTip="Show Layer Weight" checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F988> Show Layer Weight
+                    <PySide2.QtCore.QObject(0x127a8c44710) at 0x00000127ABE8FF08> 
+                <PySide2.QtWidgets.QWidget(0x127a8486590) at 0x00000127ABE8F908> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d4d80 text="Render Setup Filter" toolTip="Render Setup Filter" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8F6C8> Render Setup Filter
+                <PySide2.QtCore.QObject(0x127a8c440e0) at 0x00000127ABE8F908> 
+            <PySide2.QtWidgets.QWidget(0x127a8486a40) at 0x00000127ABE8FE08> 
+        <PySide2.QtWidgets.QMenu(0x127a84a9ae0, name="menu241") at 0x00000127ABE89748> 
+            <PySide2.QtWidgets.QAction(0x127a7c870b0 text="Show" toolTip="Show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89408> Show
+            <PySide2.QtCore.QObject(0x127a7c86c90) at 0x00000127ABE89648> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d67c0 text="Objects" toolTip="Objects" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89B88> Objects
+            <PySide2.QtWidgets.QWidget(0x127a8485aa0) at 0x00000127ABE897C8> 
+            <PySide2.QtWidgets.QMenu(0x127a84a99e0, name="FilterUIObjectFilterSubMenu") at 0x00000127ABE891C8> 
+                <PySide2.QtWidgets.QAction(0x127a7c86d10 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EF48> 
+                <PySide2.QtCore.QObject(0x127a7c87070) at 0x00000127ABE8E288> 
+                <PySide2.QtCore.QObject(0x127a801f370) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d6f30 text="Attributes" toolTip="Attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89B08> Attributes
+            <PySide2.QtWidgets.QWidget(0x127a8487d50) at 0x00000127ABE89148> 
+            <PySide2.QtWidgets.QMenu(0x127a84aa020, name="FilterUIAttributeFilterSubMenu") at 0x00000127ABE89EC8> 
+                <PySide2.QtWidgets.QAction(0x127a7c87750 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E348> 
+                <PySide2.QtCore.QObject(0x127a7c87450) at 0x00000127ABE8E248> 
+                <PySide2.QtCore.QObject(0x127a8020090) at 0x00000127ABE8EF48> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a84d3500 text="Clear Below" toolTip="Turn off all attributes entries" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E288> Clear Below
+                    <PySide2.QtCore.QObject(0x127a8165c80) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a8489c90) at 0x00000127ABE8E408> 
+                <PySide2.QtWidgets.QWidgetAction(0x1271cf84080 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E5C8> 
+                <PySide2.QtWidgets.QWidget(0x127a8489510) at 0x00000127ABE8E708> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8183530 text="Hidden" toolTip="Hidden" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E948> Hidden
+                    <PySide2.QtCore.QObject(0x127a8166580) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a8489f60) at 0x00000127ABE8E788> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8182500 text="Driven by Anim Curve" toolTip="Driven by Anim Curve" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E888> Driven by Anim Curve
+                    <PySide2.QtCore.QObject(0x127a8164d50) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a8489d80) at 0x00000127ABE8E9C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8182ab0 text="Driven by Expression" toolTip="View->Show Results in Graph Editor must be on to see curves driven by expressions" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EC48> Driven by Expression
+                    <PySide2.QtCore.QObject(0x127a8165f50) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a8489650) at 0x00000127ABE8EA48> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8182d50 text="Driven by Driven Key" toolTip="Driven by Driven Key" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EB48> Driven by Driven Key
+                    <PySide2.QtCore.QObject(0x127a81656e0) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848aaf0) at 0x00000127ABE8EAC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a81857c0 text="Keyable" toolTip="Keyable" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EBC8> Keyable
+                    <PySide2.QtCore.QObject(0x127a8164de0) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a8489ce0) at 0x00000127ABE8EF08> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a81858a0 text="Scale" toolTip="Scale" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EA08> Scale
+                    <PySide2.QtCore.QObject(0x127a8164f90) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848aeb0) at 0x00000127ABE8EEC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8184db0 text="Rotate" toolTip="Rotate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FE08> Rotate
+                    <PySide2.QtCore.QObject(0x127a8167a50) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848a8c0) at 0x00000127ABE8F3C8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8183df0 text="Translate" toolTip="Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FA48> Translate
+                    <PySide2.QtCore.QObject(0x127a8166970) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848aff0) at 0x00000127ABE8F208> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8184fe0 text="Scale Rotate Translate" toolTip="Scale Rotate Translate" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FFC8> Scale Rotate Translate
+                    <PySide2.QtCore.QObject(0x127a81668e0) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848b180) at 0x00000127ABE8FAC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8186390 text="User Defined" toolTip="User Defined" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FB48> User Defined
+                    <PySide2.QtCore.QObject(0x127a8166a00) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848b2c0) at 0x00000127ABE8FBC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a81859f0 text="Published" toolTip="Published" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FC48> Published
+                    <PySide2.QtCore.QObject(0x127a8167c90) at 0x00000127ABE8F088> 
+                <PySide2.QtWidgets.QWidget(0x127a848b9f0) at 0x00000127ABE8FD48> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8186710 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8FCC8> 
+                <PySide2.QtWidgets.QWidget(0x127a848af00) at 0x00000127ABE8F188> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d6910 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89BC8> 
+            <PySide2.QtWidgets.QWidget(0x127a8486720) at 0x00000127ABE89988> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d6980 text="Invert Shown" toolTip="Toggle between showing/removing" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E588> Invert Shown
+                <PySide2.QtCore.QObject(0x127a8c47140) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487080) at 0x00000127ABE8ED08> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d6de0 text="Show All" toolTip="Show all items" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EB08> Show All
+                <PySide2.QtCore.QObject(0x127a8c467b0) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a84871c0) at 0x00000127ABE8E188> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d6e50 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E508> 
+            <PySide2.QtWidgets.QWidget(0x127a8487a80) at 0x00000127ABE8E808> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d9230 text="Show Selected Type(s)" toolTip="Show only items of the selected object or attribute type" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E388> Show Selected Type(s)
+                <PySide2.QtCore.QObject(0x127a8c45a30) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8485870) at 0x00000127ABE8E3C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d8660 text="Select Attributes..." toolTip="Interactively select which attributes to show" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E548> Select Attributes...
+                <PySide2.QtCore.QObject(0x127a8c47020) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487f30) at 0x00000127ABE8EFC8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d86d0 text="Create Entry..." toolTip="After showing selected type(s), add this as an entry to objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ED48> Create Entry...
+                <PySide2.QtCore.QObject(0x127a8c471d0) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487990) at 0x00000127ABE8E648> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d9cb0 text="Delete Entry..." toolTip="Delete a customized entry from objects or attributes" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E7C8> Delete Entry...
+                <PySide2.QtCore.QObject(0x127a8c46ba0) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487ad0) at 0x00000127ABE8E688> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d8f20 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E088> 
+            <PySide2.QtWidgets.QWidget(0x127a8487440) at 0x00000127ABE8E8C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d95b0 text="Show Auxiliary Nodes" toolTip="Toggle between showing/hiding auxiliary nodes (3D views are not affected)" checked=false menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E308> Show Auxiliary Nodes
+                <PySide2.QtCore.QObject(0x127a8c46f00) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487d00) at 0x00000127ABE8EE48> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a84d8eb0 text="Auxiliary Nodes..." toolTip="Add/Remove node types from auxiliary nodes list; nodes on this list are usually not visible" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ECC8> Auxiliary Nodes...
+                <PySide2.QtCore.QObject(0x127a8c456d0) at 0x00000127ABE8E348> 
+            <PySide2.QtWidgets.QWidget(0x127a8487bc0) at 0x00000127ABE8EDC8> 
+            <PySide2.QtCore.QObject(0x127a8020770) at 0x00000127ABE8E448> 
+        <PySide2.QtWidgets.QMenu(0x127a84af120, name="HelpMenu") at 0x00000127ABE89508> 
+            <PySide2.QtWidgets.QAction(0x127a81b6660 text="Help" toolTip="Help" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89408> Help
+            <PySide2.QtCore.QObject(0x127a81b6aa0) at 0x00000127ABE89648> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8187200 text="Search" toolTip="Search for tools, commands, or scene objects. (Ctrl+F). New in MAYA 2022." menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89B88> Search
+                <PySide2.QtCore.QObject(0x127a8167b70) at 0x00000127ABE8E308> 
+            <PySide2.QtWidgets.QWidget(0x127a848b1d0) at 0x00000127ABE897C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8188ee0 text="Find Menu" toolTip="Finds menu items containing the words you type" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE891C8> Find Menu
+                <PySide2.QtCore.QObject(0x127a8167300) at 0x00000127ABE8E308> 
+            <PySide2.QtWidgets.QWidget(0x127a848ab40) at 0x00000127ABE89B08> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a81884d0 text="Maya Help" toolTip="Opens an online table of contents in an HTML browser" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89148> Maya Help
+                <PySide2.QtCore.QObject(0x127a8168230) at 0x00000127ABE8E308> 
+            <PySide2.QtWidgets.QWidget(0x127a848ba40) at 0x00000127ABE89EC8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8188fc0 text="What's New" toolTip="What's New" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE89BC8> What's New
+            <PySide2.QtWidgets.QWidget(0x127a848adc0) at 0x00000127ABE89988> 
+            <PySide2.QtWidgets.QMenu(0x127a84ae5a0, name="menuItem17059") at 0x00000127ABE8E448> 
+                <PySide2.QtWidgets.QAction(0x127a81b6c40 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EE48> 
+                <PySide2.QtCore.QObject(0x127a81b7120) at 0x00000127ABE8ECC8> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a81879e0 text="List of What's New" toolTip="Browse through the new features in this version" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EDC8> List of What's New
+                    <PySide2.QtCore.QObject(0x127a81678a0) at 0x00000127ABE8E708> 
+                <PySide2.QtWidgets.QWidget(0x127a848b3b0) at 0x00000127ABE8E348> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8188b60 text="Highlight What's New" toolTip="Highlight features that are new in this release. New in MAYA 2022." checked=true menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E248> Highlight What's New
+                    <PySide2.QtCore.QObject(0x127a8167930) at 0x00000127ABE8E708> 
+                <PySide2.QtWidgets.QWidget(0x127a848afa0) at 0x00000127ABE8EF48> 
+                <PySide2.QtWidgets.QWidgetAction(0x127a8189260 text="menuItem17061" toolTip="Set and save What's New highlight preferences" menuRole=TextHeuristicRole visible=false) at 0x00000127ABE8E288> menuItem17061
+                    <PySide2.QtCore.QObject(0x127a8167660) at 0x00000127ABE8E708> 
+                <PySide2.QtWidgets.QWidget(0x127a848b4f0) at 0x00000127ABE8E408> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8189730 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E0C8> 
+            <PySide2.QtWidgets.QWidget(0x127a848a7d0) at 0x00000127ABE8E588> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a818a290 text="Help on Outliner" toolTip="Help on Outliner" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8ED08> Help on Outliner
+                <PySide2.QtCore.QObject(0x127a81681a0) at 0x00000127ABE8E408> 
+            <PySide2.QtWidgets.QWidget(0x127a848b860) at 0x00000127ABE8EB08> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a81899d0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E188> 
+            <PySide2.QtWidgets.QWidget(0x127a848aa50) at 0x00000127ABE8E508> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a8189810 text="MEL Command Reference" toolTip="Opens the MEL command listing in an HTML browser" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E808> MEL Command Reference
+                <PySide2.QtCore.QObject(0x127a8166bb0) at 0x00000127ABE8E5C8> 
+            <PySide2.QtWidgets.QWidget(0x127a848b770) at 0x00000127ABE8E388> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a818a920 text="Python Command Reference" toolTip="Opens the Python command listing in an HTML browser" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E3C8> Python Command Reference
+                <PySide2.QtCore.QObject(0x127a8168350) at 0x00000127ABE8E5C8> 
+            <PySide2.QtWidgets.QWidget(0x127a848bae0) at 0x00000127ABE8E548> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a818b720 text="Node and Attribute Reference" toolTip="Opens the node and attribute listing in an HTML browser" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8EFC8> Node and Attribute Reference
+                <PySide2.QtCore.QObject(0x127a8168500) at 0x00000127ABE8E5C8> 
+            <PySide2.QtWidgets.QWidget(0x127a848bb30) at 0x00000127ABE8ED48> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a818baa0 text="" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E648> 
+            <PySide2.QtWidgets.QWidget(0x127a848a910) at 0x00000127ABE8E7C8> 
+            <PySide2.QtWidgets.QWidgetAction(0x127a818bb10 text="Maya Home Page" toolTip="Opens Maya Home Page" menuRole=TextHeuristicRole visible=true) at 0x00000127ABE8E688> Maya Home Page
+                <PySide2.QtCore.QObject(0x127a8166f10) at 0x00000127ABE8E5C8> 
+            <PySide2.QtWidgets.QWidget(0x127a848ac30) at 0x00000127ABE8E088> 
