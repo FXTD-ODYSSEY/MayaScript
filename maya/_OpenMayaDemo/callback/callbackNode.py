@@ -1,14 +1,29 @@
 # -*- coding: utf-8 -*-
 """
 https://sonictk.github.io/maya_node_callback_example/
+Callback Node for dynamic update value without connections
+
+__MAYA_CALLBACK_NAME__ | default is `__callback__`
+customize the callback function name 
 """
 
-from __future__ import absolute_import, division, print_function
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
-import sys
+import os
+import ast
+import imp
+from collections import defaultdict
+from collections import OrderedDict
+from string import Template
+
 from maya import cmds
 from maya import OpenMaya
-from maya import OpenMayaMPx
+from pymel.api import plugins
+from pymel import core as pm
+
+import six
 
 __author__ = "timmyliang"
 __email__ = "820472580@qq.com"
@@ -17,6 +32,8 @@ __date__ = "2021-11-07 22:10:58"
 PLUGIN_NAME = "callbackNode"
 __file__ = globals().get("__file__")
 __file__ = __file__ or cmds.pluginInfo(PLUGIN_NAME, q=1, p=1)
+DIR = os.path.dirname(os.path.abspath(__file__))
+nestdict = lambda: defaultdict(nestdict)
 
 
 class CallbackNodeAttrMixin(object):
@@ -28,14 +45,14 @@ class CallbackNodeAttrMixin(object):
     outputs = OpenMaya.MObject()
 
     @classmethod
-    def initializer(cls):
+    def initialize(cls):
 
         eAttr = OpenMaya.MFnEnumAttribute()
         msgAttr = OpenMaya.MFnMessageAttribute()
         cAttr = OpenMaya.MFnCompoundAttribute()
         tAttr = OpenMaya.MFnTypedAttribute()
 
-        cls.enable = eAttr.create("enable", "e", 0)
+        cls.enable = eAttr.create("enable", "e", 1)
         eAttr.addField("off", 0)
         eAttr.addField("on", 1)
         eAttr.setKeyable(1)
@@ -56,89 +73,179 @@ class CallbackNodeAttrMixin(object):
         msgAttr.setWritable(1)
         msgAttr.setStorable(1)
 
-        cls.group = cAttr.create("callbackGroup", "cg")
+        cls.group = cAttr.create("group", "g")
         cAttr.addChild(cls.enable)
         cAttr.addChild(cls.script)
         cAttr.addChild(cls.inputs)
         cAttr.addChild(cls.outputs)
         cAttr.setArray(1)
+
         cls.addAttribute(cls.group)
 
 
-# Node definition
-class CallbackNode(OpenMayaMPx.MPxNode, CallbackNodeAttrMixin):
-    name = PLUGIN_NAME
-    node_id = OpenMaya.MTypeId(0x00991)
+class CallbackNodelogicMixin(object):
+    @staticmethod
+    def is_valid_python(code):
+        """
+        https://stackoverflow.com/a/11854793
+        """
+        try:
+            ast.parse(code)
+        except SyntaxError:
+            return False
+        return True
 
-    # def compute(self, plug, dataBlock):
-    #     print(plug,plug.name())
-    #     if plug == self.output:
-    #         # - Get a handle to the input attribute that we will need for the
-    #         # - computation. If the value is being supplied via a connection
-    #         # - in the dependency graph, then this call will cause all upstream
-    #         # - connections to be evaluated so that the correct value is supplied.
-    #         inputData = dataBlock.inputValue(self.input)
+    def on_script_updated(self, msg, plug, other_plug=None, data=None):
 
-    #         # - Read the input value from the handle.
-    #         result = inputData.asFloat()
+        is_setattr = msg & OpenMaya.MNodeMessage.kAttributeSet
+        if plug.attribute() != self.script and msg and not is_setattr:
+            return
 
-    #         # - Get a handle on the aOutput attribute
-    #         outputHandle = dataBlock.outputValue(self.output)
+        grp = plug.parent()
+        index = grp.logicalIndex()
+        script = plug.asString()
+        if not script:
+            return
 
-    #         # - Set the new output value to the handle.
-    #         outputHandle.setFloat(result * 2)
-    #         dataBlock.setClean(plug)
-    #     return OpenMaya.kUnknownParameter
+        module_name = "__CallbackCache[%s]__" % index
 
-    def __init__(self):
-        super(CallbackNode, self).__init__()
-        print("__init__")
+        envs = os.environ.copy()
+        envs.update({"__file__": __file__, "__dir__": DIR})
+        path = Template(script).substitute(envs)
+        path = os.path.abspath(path)
+        module = None
+        if os.path.isfile(path):
+            module = imp.load_source(module_name, path)
+        elif self.is_valid_python(script):
+            module = imp.new_module(module_name)
+            six.exec_(script, module.__dict__)
+
+        if module:
+            self.cache[index] = module
+        else:
+            OpenMaya.MGlobal.displayWarning("`%s` not valid" % plug.name())
+
+
+class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.DependNode):
+    call_name = os.getenv("__MAYA_CALLBACK_NAME__") or "__callback__"
+    _name = PLUGIN_NAME
+    # _typeId = OpenMaya.MTypeId(0x00991)
 
     def postConstructor(self):
-        print("postConstructor")
+        self.cache = {}
+        self.plug_cache = nestdict()
+        self.is_connection_change = False
+
+        obj = self.thisMObject()
+        OpenMaya.MNodeMessage.addAttributeChangedCallback(obj, self.on_script_updated)
 
     def setDependentsDirty(self, plug, plug_array):
-        # TODO 测试
-        print("setDependentsDirty", plug, plug_array)
-        return super(CallbackNode, self).setDependentsDirty(plug, plug_array)
+        # TODO 同步不够精确
+        # if self.is_connection_change:
+        #     self.is_connection_change = False
+        #     return
 
-    @classmethod
-    def creator(cls):
-        return OpenMayaMPx.asMPxPtr(cls())
+        # NOTE refresh message attribute
+        plug_name = plug.name()
+        cmds.dgdirty(plug_name, c=1)
+
+        attribute = plug.attribute()
+        if attribute in [self.enable, self.outputs]:
+            return
+        elif attribute == self.script:
+            return self.on_script_updated(0, plug)
+
+        assert plug.isElement(), "unknown plug updated"
+        grp = plug.array().parent()
+        index = grp.logicalIndex()
+        is_enable = grp.child(self.enable).asBool()
+        module = self.cache.get(index)
+        scirpt_plug_name = grp.child(self.script).name()
+        callback = getattr(module, self.call_name, None)
+        plug_grp = self.plug_cache.get(index)
+        try:
+            assert is_enable
+            assert module, "`%s` not valid" % scirpt_plug_name
+            assert callable(callback), "`%s` -> `%s` method not exists" % (
+                scirpt_plug_name,
+                self.call_name,
+            )
+            inputs = plug_grp["inputs"]
+            assert inputs, "`%s` is empty" % grp.child(self.inputs).name()
+            outputs = plug_grp["outputs"]
+            assert outputs, "`%s` is empty" % grp.child(self.outputs).name()
+
+        except AssertionError as e:
+            msg = str(e)
+            msg and OpenMaya.MGlobal.displayWarning(msg)
+            return
+
+        callback(plug_grp)
+
+    def connectionMade(self, plug, otherPlug, src):
+        self.is_connection_change = True
+        attribute = plug.attribute()
+        is_inputs = attribute == self.inputs
+        is_outputs = attribute == self.outputs
+        if is_inputs or is_outputs:
+            grp = plug.array().parent()
+            grp_index = grp.logicalIndex()
+            category = "inputs" if is_inputs else "outputs"
+            index = plug.logicalIndex()
+            self.plug_cache[grp_index][category][index] = otherPlug.name()
+
+        # print("connectionMade", plug.name(), otherPlug.name(), src)
+        return super(CallbackNode, self).connectionMade(plug, otherPlug, src)
+
+    def connectionBroken(self, plug, otherPlug, src):
+        self.is_connection_change = True
+        attribute = plug.attribute()
+        is_inputs = attribute == self.inputs
+        is_outputs = attribute == self.outputs
+        if is_inputs or is_outputs:
+            grp = plug.array().parent()
+            grp_index = grp.logicalIndex()
+            category = "inputs" if is_inputs else "outputs"
+            index = plug.logicalIndex()
+            self.plug_cache[grp_index][category].pop(index, None)
+
+        # print("connectionBroken", plug.name(), otherPlug.name(), src)
+        return super(CallbackNode, self).connectionBroken(plug, otherPlug, src)
 
 
-# Initialize the script plug-in
 def initializePlugin(mobject):
-    mplugin = OpenMayaMPx.MFnPlugin(mobject)
-    try:
-        mplugin.registerNode(
-            CallbackNode.name,
-            CallbackNode.node_id,
-            CallbackNode.creator,
-            CallbackNode.initializer,
-        )
-    except:
-        sys.stderr.write("Failed to register node: %s" % CallbackNode.name)
-        raise
+    CallbackNode.register(mobject)
 
 
-# Uninitialize the script plug-in
 def uninitializePlugin(mobject):
-    mplugin = OpenMayaMPx.MFnPlugin(mobject)
-    try:
-        mplugin.deregisterNode(CallbackNode.node_id)
-    except:
-        sys.stderr.write("Failed to deregister node: %s" % CallbackNode.name)
-        raise
+    CallbackNode.deregister(mobject)
 
 
 if __name__ == "__main__":
+    from textwrap import dedent
+
     cmds.delete(cmds.ls(type=PLUGIN_NAME))
-    # cmds.delete(cmds.ls(type="floatConstant"))
+    cmds.delete(cmds.ls(type="floatConstant"))
     cmds.flushUndo()
     if cmds.pluginInfo(PLUGIN_NAME, q=1, loaded=1):
         cmds.unloadPlugin(PLUGIN_NAME)
     cmds.loadPlugin(__file__)
 
-    v_node = cmds.createNode(PLUGIN_NAME)
-
+    node = cmds.createNode(PLUGIN_NAME)
+    float_constant = cmds.createNode("floatConstant")
+    cmds.connectAttr(float_constant + ".outFloat", node + ".g[0].i[0]", f=1)
+    float_constant = cmds.createNode("floatConstant")
+    cmds.connectAttr(float_constant + ".inFloat", node + ".g[0].o[0]", f=1)
+    code = dedent(
+        """
+        import pymel.core as pm
+        def __callback__(data):
+            inputs = {i:pm.PyNode(attr) for i,attr in data["inputs"].items()}
+            outputs = {i:pm.PyNode(attr) for i,attr in data["outputs"].items()}
+            src = inputs[0]
+            dst = outputs[0]
+            dst.set(src.get())
+        """
+    )
+    node = "callbackNode1"
+    cmds.setAttr(node + ".g[0].s", code, typ="string")

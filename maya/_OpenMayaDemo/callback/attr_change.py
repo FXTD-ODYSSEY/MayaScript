@@ -15,7 +15,7 @@ __date__ = "2021-11-18 15:13:14"
 import pymel.core as pm
 from maya import OpenMaya
 
-root = pm.PyNode("eye_C0_root")
+root = pm.PyNode("callbackNode1")
 attr_change_cb = OpenMaya.MNodeMessage.addAttributeChangedCallback
 
 
@@ -27,15 +27,19 @@ def change_call(msg, src, dst, data):
     
     flag = 0
     flags = [
-        "kConnectionMade",
-        "kConnectionBroken",
+        # "kConnectionMade",
+        # "kConnectionBroken",
+        # "kAttributeEval",
+        "kAttributeSet",
     ]
     for f in flags:
         flag |= getattr(OpenMaya.MNodeMessage, f)
 
-    if msg & flag:
-        data = root.ikrefarray_proxy.get()
-        root.ikrefarray.set(",".join({str(d) for d in data}))
+    
+    print(msg)
+    # if msg & flag:
+    #     data = root.ikrefarray_proxy.get()
+    #     root.ikrefarray.set(",".join({str(d) for d in data}))
 
 
 cb_id = attr_change_cb(root.__apimobject__(), change_call, root)
