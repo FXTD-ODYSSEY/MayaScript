@@ -3,7 +3,7 @@
 https://sonictk.github.io/maya_node_callback_example/
 Callback Node for dynamic update value without connections
 
-__MAYA_CALLBACK_NAME__ | default is `__callback__`
+__MAYA_CALLBACK_FUNC__ | default is `__callback__`
 customize the callback function name 
 """
 
@@ -11,11 +11,15 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
+__author__ = "timmyliang"
+__email__ = "820472580@qq.com"
+__date__ = "2021-11-07 22:10:58"
+
 import os
 import ast
 import imp
 from collections import defaultdict
-from collections import OrderedDict
+from functools import partial
 from string import Template
 
 from maya import cmds
@@ -25,15 +29,22 @@ from pymel import core as pm
 
 import six
 
-__author__ = "timmyliang"
-__email__ = "820472580@qq.com"
-__date__ = "2021-11-07 22:10:58"
 
 PLUGIN_NAME = "callbackNode"
 __file__ = globals().get("__file__")
 __file__ = __file__ or cmds.pluginInfo(PLUGIN_NAME, q=1, p=1)
 DIR = os.path.dirname(os.path.abspath(__file__))
 nestdict = lambda: defaultdict(nestdict)
+
+
+def ignore_undo_deco(func):
+    def wrapper(*args, **kwargs):
+        cmds.undoInfo(swf=0)
+        res = func(*args, **kwargs)
+        cmds.undoInfo(swf=1)
+        return res
+
+    return wrapper
 
 
 class CallbackNodeAttrMixin(object):
@@ -125,44 +136,13 @@ class CallbackNodelogicMixin(object):
         else:
             OpenMaya.MGlobal.displayWarning("`%s` not valid" % plug.name())
 
-
-class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.DependNode):
-    call_name = os.getenv("__MAYA_CALLBACK_NAME__") or "__callback__"
-    _name = PLUGIN_NAME
-    # _typeId = OpenMaya.MTypeId(0x00991)
-
-    def postConstructor(self):
-        self.cache = {}
-        self.plug_cache = nestdict()
-        self.is_connection_change = False
-
-        obj = self.thisMObject()
-        OpenMaya.MNodeMessage.addAttributeChangedCallback(obj, self.on_script_updated)
-
-    def setDependentsDirty(self, plug, plug_array):
-        # TODO 同步不够精确
-        # if self.is_connection_change:
-        #     self.is_connection_change = False
-        #     return
-
-        # NOTE refresh message attribute
-        plug_name = plug.name()
-        cmds.dgdirty(plug_name, c=1)
-
-        attribute = plug.attribute()
-        if attribute in [self.enable, self.outputs]:
-            return
-        elif attribute == self.script:
-            return self.on_script_updated(0, plug)
-
-        assert plug.isElement(), "unknown plug updated"
-        grp = plug.array().parent()
+    def eval_sync_grp(self, grp, call_type):
         index = grp.logicalIndex()
         is_enable = grp.child(self.enable).asBool()
         module = self.cache.get(index)
         scirpt_plug_name = grp.child(self.script).name()
         callback = getattr(module, self.call_name, None)
-        plug_grp = self.plug_cache.get(index)
+        plug_data = self.plug_cache.get(index)
         try:
             assert is_enable
             assert module, "`%s` not valid" % scirpt_plug_name
@@ -170,9 +150,9 @@ class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.Depend
                 scirpt_plug_name,
                 self.call_name,
             )
-            inputs = plug_grp["inputs"]
+            inputs = plug_data["inputs"]
             assert inputs, "`%s` is empty" % grp.child(self.inputs).name()
-            outputs = plug_grp["outputs"]
+            outputs = plug_data["outputs"]
             assert outputs, "`%s` is empty" % grp.child(self.outputs).name()
 
         except AssertionError as e:
@@ -180,10 +160,58 @@ class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.Depend
             msg and OpenMaya.MGlobal.displayWarning(msg)
             return
 
-        callback(plug_grp)
+        data = {}
+        data["inputs"] = [i for _, i in sorted(plug_data["inputs"].items())]
+        data["outputs"] = [o for _, o in sorted(plug_data["outputs"].items())]
+        data["type"] = call_type
+        # NOTE ignore undo run callback
+        cmds.evalDeferred(partial(ignore_undo_deco(callback), data))
+
+
+class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.DependNode):
+    call_name = os.getenv("__MAYA_CALLBACK_FUNC__") or "__callback__"
+    _name = PLUGIN_NAME
+    # _typeId = OpenMaya.MTypeId(0x00991)
+
+    def postConstructor(self):
+        self.cache = {}
+        self.plug_cache = nestdict()
+        self.is_connection_made = False
+        self.is_connection_broke = False
+
+        obj = self.thisMObject()
+        OpenMaya.MNodeMessage.addAttributeChangedCallback(obj, self.on_script_updated)
+
+    def setDependentsDirty(self, plug, plug_array):
+        data = {}
+        call_type = "eval"
+        filter_attrs = [self.enable]
+        if self.is_connection_made:
+            call_type = "make_connection"
+            self.is_connection_made = False
+        else:
+            filter_attrs.append(self.outputs)
+
+        if self.is_connection_broke:
+            call_type = "broke_connection"
+            self.is_connection_broke = False
+
+        # NOTE refresh message attribute
+        cmds.evalDeferred(partial(cmds.dgdirty, plug.name(), c=1))
+
+        attribute = plug.attribute()
+        if attribute in filter_attrs:
+            return
+        elif attribute == self.script:
+            return self.on_script_updated(0, plug)
+
+        assert plug.isElement(), "unknown plug updated"
+        grp = plug.array().parent()
+        if grp == self.group:
+            self.eval_sync_grp(grp, call_type)
 
     def connectionMade(self, plug, otherPlug, src):
-        self.is_connection_change = True
+        self.is_connection_made = True
         attribute = plug.attribute()
         is_inputs = attribute == self.inputs
         is_outputs = attribute == self.outputs
@@ -198,7 +226,7 @@ class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.Depend
         return super(CallbackNode, self).connectionMade(plug, otherPlug, src)
 
     def connectionBroken(self, plug, otherPlug, src):
-        self.is_connection_change = True
+        self.is_connection_broke = True
         attribute = plug.attribute()
         is_inputs = attribute == self.inputs
         is_outputs = attribute == self.outputs
@@ -240,11 +268,12 @@ if __name__ == "__main__":
         """
         import pymel.core as pm
         def __callback__(data):
-            inputs = {i:pm.PyNode(attr) for i,attr in data["inputs"].items()}
-            outputs = {i:pm.PyNode(attr) for i,attr in data["outputs"].items()}
-            src = inputs[0]
-            dst = outputs[0]
-            dst.set(src.get())
+            inputs = data["inputs"]
+            outputs = data["outputs"]
+            src = pm.PyNode(inputs[0])
+            dst = pm.PyNode(outputs[0])
+            val = src.get()
+            dst.set(val)
         """
     )
     node = "callbackNode1"
