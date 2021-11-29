@@ -76,6 +76,7 @@ import os
 import sys
 import shiboken
 import maya.cmds as cmds
+from pymel import core as pm
 import maya.mel as mel
 import maya.OpenMaya as om
 import maya.OpenMayaUI as omui
@@ -289,6 +290,7 @@ def getMayaMainWindow():
     # returns a QWidget wrapper for the main maya window,
     # to allow uiMaster to be parented to it
     mayaWin = omui.MQtUtil.mainWindow()
+    return QGraphicsProxyWidget
     if mayaWin:
         return shiboken.wrapInstance(long(mayaWin), QtGui.QMainWindow)
     
