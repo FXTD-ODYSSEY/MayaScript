@@ -13,16 +13,16 @@ __date__ = "2021-07-19 22:29:57"
 
 
 class MayaShowMixin(object):
-    def maya_show(self, win_name=""):
+    def show(self, win_name=""):
         from Qt import QtWidgets
         from pymel import core as pm
 
         win_name = win_name if win_name else self.__class__.__name__
         # NOTE 如果变量存在 就检查窗口多开
-        if pm.window(win_name, q=1, ex=1):
+        if pm.workspaceControl(win_name, q=1, ex=1):
             pm.deleteUI(win_name)
 
-        window = pm.window(win_name, title=self.windowTitle())
+        window = pm.workspaceControl(win_name, title=self.windowTitle())
 
         pm.showWindow(window)
         # NOTE 将Maya窗口转换成 Qt 组件

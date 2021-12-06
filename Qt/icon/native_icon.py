@@ -14,6 +14,8 @@ __date__ = '2020-07-18 23:29:36'
 import os
 from functools import partial
 from PySide2 import QtCore, QtWidgets, QtGui
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class IconWidget(QtWidgets.QWidget):
 
@@ -63,7 +65,9 @@ class IconWidget(QtWidgets.QWidget):
         cb.setText(text, mode=cb.Clipboard)
 
 def main():
-    app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication.instance()
+    if not app:
+        app = QtWidgets.QApplication([])
     widget = IconWidget()
     widget.show()
     app.exec_()
