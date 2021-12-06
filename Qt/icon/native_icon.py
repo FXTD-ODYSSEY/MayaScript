@@ -65,7 +65,9 @@ class IconWidget(QtWidgets.QWidget):
         cb.setText(text, mode=cb.Clipboard)
 
 def main():
-    app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication.instance()
+    if not app:
+        app = QtWidgets.QApplication([])
     widget = IconWidget()
     widget.show()
     app.exec_()
