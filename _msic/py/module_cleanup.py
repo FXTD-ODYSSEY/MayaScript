@@ -7,26 +7,20 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-import os
 import sys
+import sys
+import pkgutil
+from types import ModuleType
 
-
-def module_cleanup(module_name):
-    assert isinstance(module_name, str), "not support type %s" % type(module_name)
-    maya_folder = os.path.dirname(sys.executable)
-
-    module_dot = module_name + "."
-    packages = [p for p in sys.modules if p.startswith(module_dot)]
-    packages += [module_name]
-    for package in packages:
-        module = sys.modules.get(package)
-        # NOTE 过滤掉 Maya 内置模块
-        if (
-            module
-            and hasattr(module, "__file__")
-            and not module.__file__.startswith(maya_folder)
-        ):
-            del sys.modules[package]
+def module_cleanup(module):
+    if isinstance(module,str):
+        module = sys.modules.get(module)
+        if not module:
+            return
+    assert isinstance(module,ModuleType), "not support type %s" % type(module)
+    for _, mod, _ in pkgutil.walk_packages(module.__path__,module.__name__+"."):
+        print("remove %s" % mod)
+        sys.modules.pop(mod,None)
 
 
 if __name__ == "__main__":
