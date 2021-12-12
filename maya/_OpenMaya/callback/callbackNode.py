@@ -13,7 +13,7 @@ from __future__ import absolute_import
 
 __author__ = "timmyliang"
 __email__ = "820472580@qq.com"
-__date__ = "2021-11-07 22:10:58"
+__date__ = "2021-11-20 21:49:35"
 
 import os
 import ast
@@ -30,71 +30,14 @@ from pymel import core as pm
 import six
 
 
-PLUGIN_NAME = "callbackNode"
+PLUGIN_NAME = "CallbackNode"
 __file__ = globals().get("__file__")
 __file__ = __file__ or cmds.pluginInfo(PLUGIN_NAME, q=1, p=1)
 DIR = os.path.dirname(os.path.abspath(__file__))
 nestdict = lambda: defaultdict(nestdict)
 
 
-def ignore_undo_deco(func):
-    def wrapper(*args, **kwargs):
-        cmds.undoInfo(swf=0)
-        res = func(*args, **kwargs)
-        cmds.undoInfo(swf=1)
-        return res
-
-    return wrapper
-
-
-class CallbackNodeAttrMixin(object):
-
-    group = OpenMaya.MObject()
-    enable = OpenMaya.MObject()
-    script = OpenMaya.MObject()
-    inputs = OpenMaya.MObject()
-    outputs = OpenMaya.MObject()
-
-    @classmethod
-    def initialize(cls):
-
-        eAttr = OpenMaya.MFnEnumAttribute()
-        msgAttr = OpenMaya.MFnMessageAttribute()
-        cAttr = OpenMaya.MFnCompoundAttribute()
-        tAttr = OpenMaya.MFnTypedAttribute()
-
-        cls.enable = eAttr.create("enable", "e", 1)
-        eAttr.addField("off", 0)
-        eAttr.addField("on", 1)
-        eAttr.setKeyable(1)
-        eAttr.setWritable(1)
-
-        cls.script = tAttr.create("script", "s", OpenMaya.MFnData.kString)
-        tAttr.setWritable(1)
-
-        cls.inputs = msgAttr.create("inputs", "i")
-        msgAttr.setArray(1)
-        msgAttr.setKeyable(1)
-        msgAttr.setWritable(1)
-        msgAttr.setStorable(1)
-
-        cls.outputs = msgAttr.create("outputs", "o")
-        msgAttr.setArray(1)
-        msgAttr.setKeyable(1)
-        msgAttr.setWritable(1)
-        msgAttr.setStorable(1)
-
-        cls.group = cAttr.create("group", "g")
-        cAttr.addChild(cls.enable)
-        cAttr.addChild(cls.script)
-        cAttr.addChild(cls.inputs)
-        cAttr.addChild(cls.outputs)
-        cAttr.setArray(1)
-
-        cls.addAttribute(cls.group)
-
-
-class CallbackNodelogicMixin(object):
+class Util:
     @staticmethod
     def is_valid_python(code):
         """
@@ -106,6 +49,96 @@ class CallbackNodelogicMixin(object):
             return False
         return True
 
+    @staticmethod
+    def ignore_undo_deco(func):
+        def wrapper(*args, **kwargs):
+            cmds.undoInfo(swf=0)
+            res = func(*args, **kwargs)
+            cmds.undoInfo(swf=1)
+            return res
+
+        return wrapper
+
+
+class CallbackNodeAttrMixin(object):
+
+    enable = OpenMaya.MObject()
+    script = OpenMaya.MObject()
+    inputs = OpenMaya.MObject()
+    outputs = OpenMaya.MObject()
+    attribute_group = OpenMaya.MObject()
+
+    listen_title = OpenMaya.MObject()
+    listen_enable = OpenMaya.MObject()
+    listen_script = OpenMaya.MObject()
+    listen_inputs = OpenMaya.MObject()
+    listen_group = OpenMaya.MObject()
+
+    @classmethod
+    def initialize(cls):
+
+        eAttr = OpenMaya.MFnEnumAttribute()
+        msgAttr = OpenMaya.MFnMessageAttribute()
+        cAttr = OpenMaya.MFnCompoundAttribute()
+        tAttr = OpenMaya.MFnTypedAttribute()
+        kString = OpenMaya.MFnData.kString
+        cls.enable = eAttr.create("enable", "e", 1)
+        eAttr.addField("off", 0)
+        eAttr.addField("on", 1)
+        eAttr.setKeyable(1)
+        eAttr.setWritable(1)
+
+        cls.script = tAttr.create("script", "s", kString)
+        tAttr.setWritable(1)
+
+        cls.inputs = msgAttr.create("inputs", "i")
+        msgAttr.setArray(1)
+        msgAttr.setWritable(1)
+        msgAttr.setStorable(1)
+
+        cls.outputs = msgAttr.create("outputs", "o")
+        msgAttr.setArray(1)
+        msgAttr.setWritable(1)
+        msgAttr.setStorable(1)
+
+        cls.attribute_group = cAttr.create("attribute_group", "ag")
+        cAttr.addChild(cls.enable)
+        cAttr.addChild(cls.script)
+        cAttr.addChild(cls.inputs)
+        cAttr.addChild(cls.outputs)
+        cAttr.setArray(1)
+
+        # -----------------------------------------------------------
+
+        cls.listen_title = tAttr.create("listen_title", "lt", kString)
+        tAttr.setWritable(1)
+
+        cls.listen_enable = eAttr.create("listen_enable", "le", 1)
+        eAttr.addField("off", 0)
+        eAttr.addField("on", 1)
+        eAttr.setKeyable(1)
+        eAttr.setWritable(1)
+
+        cls.listen_script = tAttr.create("listen_script", "ls", kString)
+        tAttr.setWritable(1)
+
+        cls.listen_inputs = msgAttr.create("listen_inputs", "li")
+        msgAttr.setArray(1)
+        msgAttr.setWritable(1)
+        msgAttr.setStorable(1)
+
+        cls.listen_group = cAttr.create("listen_group", "lg")
+        cAttr.addChild(cls.listen_title)
+        cAttr.addChild(cls.listen_enable)
+        cAttr.addChild(cls.listen_script)
+        cAttr.addChild(cls.listen_inputs)
+        cAttr.setArray(1)
+
+        cls.addAttribute(cls.attribute_group)
+        cls.addAttribute(cls.listen_group)
+
+
+class CallbackNodeSyncMixin(object):
     def on_script_updated(self, msg, plug, other_plug=None, data=None):
 
         is_setattr = msg & OpenMaya.MNodeMessage.kAttributeSet
@@ -127,7 +160,7 @@ class CallbackNodelogicMixin(object):
         module = None
         if os.path.isfile(path):
             module = imp.load_source(module_name, path)
-        elif self.is_valid_python(script):
+        elif Util.is_valid_python(script):
             module = imp.new_module(module_name)
             six.exec_(script, module.__dict__)
 
@@ -156,8 +189,9 @@ class CallbackNodelogicMixin(object):
             assert outputs, "`%s` is empty" % grp.child(self.outputs).name()
 
         except AssertionError as e:
+            is_eval = call_type == "eval"
             msg = str(e)
-            msg and OpenMaya.MGlobal.displayWarning(msg)
+            is_eval and msg and OpenMaya.MGlobal.displayWarning(msg)
             return
 
         data = {}
@@ -165,10 +199,20 @@ class CallbackNodelogicMixin(object):
         data["outputs"] = [o for _, o in sorted(plug_data["outputs"].items())]
         data["type"] = call_type
         # NOTE ignore undo run callback
-        cmds.evalDeferred(partial(ignore_undo_deco(callback), data))
+        cmds.evalDeferred(partial(Util.ignore_undo_deco(callback), self, data))
 
 
-class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.DependNode):
+class CallbackNodeListenMixin(object):
+    def eval_listen_grp(self, grp, call_type):
+        pass
+
+
+class CallbackNode(
+    CallbackNodeAttrMixin,
+    CallbackNodeSyncMixin,
+    CallbackNodeListenMixin,
+    plugins.DependNode,
+):
     call_name = os.getenv("__MAYA_CALLBACK_FUNC__") or "__callback__"
     _name = PLUGIN_NAME
     # _typeId = OpenMaya.MTypeId(0x00991)
@@ -183,9 +227,8 @@ class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.Depend
         OpenMaya.MNodeMessage.addAttributeChangedCallback(obj, self.on_script_updated)
 
     def setDependentsDirty(self, plug, plug_array):
-        data = {}
         call_type = "eval"
-        filter_attrs = [self.enable]
+        filter_attrs = [self.enable, self.listen_enable]
         if self.is_connection_made:
             call_type = "make_connection"
             self.is_connection_made = False
@@ -205,10 +248,12 @@ class CallbackNode(CallbackNodeAttrMixin, CallbackNodelogicMixin, plugins.Depend
         elif attribute == self.script:
             return self.on_script_updated(0, plug)
 
-        assert plug.isElement(), "unknown plug updated"
-        grp = plug.array().parent()
-        if grp == self.group:
-            self.eval_sync_grp(grp, call_type)
+        if plug.isElement():
+            grp = plug.array().parent()
+            if grp == self.attribute_group:
+                self.eval_sync_grp(grp, call_type)
+            elif grp == self.listen_group:
+                self.eval_listen_grp(grp, call_type)
 
     def connectionMade(self, plug, otherPlug, src):
         self.is_connection_made = True
@@ -261,13 +306,13 @@ if __name__ == "__main__":
 
     node = cmds.createNode(PLUGIN_NAME)
     float_constant = cmds.createNode("floatConstant")
-    cmds.connectAttr(float_constant + ".outFloat", node + ".g[0].i[0]", f=1)
+    cmds.connectAttr(float_constant + ".outFloat", node + ".ag[0].i[0]", f=1)
     float_constant = cmds.createNode("floatConstant")
-    cmds.connectAttr(float_constant + ".inFloat", node + ".g[0].o[0]", f=1)
+    cmds.connectAttr(float_constant + ".inFloat", node + ".ag[0].o[0]", f=1)
     code = dedent(
         """
         import pymel.core as pm
-        def __callback__(data):
+        def __callback__(self,data):
             inputs = data["inputs"]
             outputs = data["outputs"]
             src = pm.PyNode(inputs[0])
@@ -277,4 +322,4 @@ if __name__ == "__main__":
         """
     )
     node = "callbackNode1"
-    cmds.setAttr(node + ".g[0].s", code, typ="string")
+    cmds.setAttr(node + ".ag[0].s", code, typ="string")
