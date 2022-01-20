@@ -8,6 +8,5 @@ import pymel.core as pm
 
 mesh_list = pm.ls(pm.pickWalk(d="down"),type="mesh")
 
-jnt_list = {jnt for mesh in mesh_list for skin in mesh.history(type="skinCluster") for jnt in skin.inputs(type="joint")}
-    
+jnt_list = {jnt for mesh in mesh_list for skin in mesh.history(type="skinCluster") for jnt in pm.skinCluster(skin, inf=1, q=1)}
 pm.select(jnt_list)
