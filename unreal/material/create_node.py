@@ -2,6 +2,8 @@
 """
 选中材质执行
 
+TODO: 原生 Python 不支持
+
 """
 
 # Import future modules
@@ -47,7 +49,9 @@ def main():
 
     # NOTES(timmyliang): 获取选中的资产
     assets = unreal.EditorUtilityLibrary.get_selected_assets()
-
+    
+    function_path = ""
+    material_function = unreal.load_asset(function_path)
     for material in assets:
         if not isinstance(material, unreal.Material):
             continue
@@ -64,9 +68,12 @@ def main():
             function_node = mat_lib.create_material_expression(
                 material, unreal.MaterialExpressionMaterialFunctionCall
             )
+            function_node.set_material_function(material_function)
+            
+            # TODO protected attribute | cannot get node pos 
             vector_node.get_editor_property("MaterialExpressionEditorX")
 
-            print(vector_node.get_editor_property("parameter_name"))
+            # print(vector_node.get_editor_property("parameter_name"))
 
         mat_lib.recompile_material(material)
         mat_lib.layout_material_expressions(material)
