@@ -46,22 +46,22 @@ line-length = 88
 target_version = ['py37']
 
 [tool.isort]
-add_imports = [
-  "from __future__ import absolute_import",
-  "from __future__ import division",
-  "from __future__ import print_function",
-]
-multi_line_output = 3
-atomic = true
-filter_files = true
-float_to_top = true
-include_trailing_comma = true
-known_first_party = "src"
-lines_after_imports = 2
-lines_between_types = 1
-profile = "black"
-src_paths = ["pyuiw", "tests"]
-use_parentheses = true
+# add_imports = [
+#   "from __future__ import absolute_import",
+#   "from __future__ import division",
+#   "from __future__ import print_function",
+# ]
+# atomic = true
+# filter_files = true
+# float_to_top = true
+# include_trailing_comma = true
+# known_first_party = "src"
+# lines_after_imports = 2
+# lines_between_types = 1
+# profile = "black"
+# src_paths = ["pyuiw", "tests"]
+# use_parentheses = true
+
 # Enforce import section headers.
 force_single_line = true
 force_sort_within_sections = true
@@ -101,73 +101,122 @@ commands = python scripts/deploy.py
 """
 
 
-[tool.flake8]
-max-returns = 2
-max-arguments = 4
-# Base flake8 configuration:
-# https://flake8.pycqa.org/en/latest/user/configuration.html
-format = "wemake"
-show-source = true
-statistics = false
-doctests = true
-
-# Plugins:
-max-complexity = 6
-max-line-length = 80
-
-# darglint configuration:
-# https://github.com/terrencepreilly/darglint
-strictness = "long"
-# docstring-style = "google"
-
-# Self settings:
-max-imports = 17
-inline-quotes = '"'
-# # Excluding some directories:
-# exclude = 
-#   .git
-#   __pycache__
-#   .venv
-#   .eggs
-#   *.egg
-#   dist
-
-
 [tool.flakehell]
-doctests = true
-enable_extensions = "G"
+exclude = [".git", ".tox", "__pycache__", "docs/conf.py", "docs/rst", "build", "dist", "venv", ".pybuilder", ".build"]
+baseline = ".flakehell_baseline"
 format = "colored"
 show_source = true
 statistics = false
+doctests = true
+enable_extensions = "G"
 
 accept_encodings = "utf-8"
 max_complexity = 6
-max_line_length = 80
-
-# baseline = ".flakehell_baseline"
-ignore = "D100, D104, D401, W504, RST303, RST304, DAR103, DAR203"
+# up to 88 allowed by bugbear B950
+max_line_length = 88
 
 [tool.flakehell.plugins]
 "flake8-*" = ["+*"]
-mccabe = ["+*"]
-nitpick = ["+*"]
-"pep8-naming" = ["+*"]
-pycodestyle = ["+*"]
-pyflakes = ["+*"]
-"wemake-python-styleguide" = ["+*"]
 
-[tool.mypy]
-allow_redefinition = false
-check_untyped_defs = true
-ignore_errors = false
-ignore_missing_imports = true
-implicit_reexport = false
-local_partial_types = true
-strict_optional = true
-strict_equality = true
-no_implicit_optional = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_unused_configs = true
-warn_unreachable = true
-warn_no_return = true
+# Disable checking for assert statements. We're using pytest and
+# have assert statements everywhere. We also want to use assert statements in
+# regular code sometimes (pyblish).
+# S101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+# We execute subprocesses in the users context and are therefor not
+# concerned about subprocesses being a security issue since a user can open
+# the processes themselves already.
+# S404: Consider possible security implications associated with subprocess module.
+# S602: subprocess popen with shell equals true
+# S603: subprocess without shell equals true
+# S604: any other function with shell equals true
+# S605: start process with a shell
+# S606: start process with no shell
+# S607: start process with partial path
+"flake8-bandit" = ["+*", "-S101", "-S404", "-S602", "-S603", "-S604", "-S605", "-S606", "-S607"]
+
+# Disable broken line checks because we use black which invalidates it.
+"flake8-broken-line" = ["-*"]
+
+# We like black and are allowing black to use a line length of 88.
+# The tl;dr is "it's like highway speed limits, we won't bother you
+# if you overdo it by a few km/h".
+"flake8-bugbear" = ["+*", "+B950"]
+
+# Disable check for trailing commas. We use black which takes care of this
+# for us.
+"flake8-commas" = ["-*"]
+
+# We don't have function type hints and therefor don't want to compare
+# function type hints to docstrings yet.
+# DAR103: The docstring parameter type doesn't match function.
+# DAR203: The docstring parameter type doesn't match function.
+"flake8-darglint" = ["+*", "-DAR103", "-DAR203"]
+
+# Wemake disables D100 and D104 but we do want docstrings in public modules
+# as well as packages. So we leave them enabled. Adding the comment here for
+# later reasoning.
+"flake8-docstrings" = ["+*"]
+
+# Wemake disables RST303 but we don't know where this would be a problem for
+# us, so we leave it enabled for now. Adding the comment here for later info.
+# RST201: Block quote ends without a blank line; unexpected unindent.
+# Not compatible with Google Python Style Docstrings. Disabling.
+# RST203: Definition list ends without a blank line; unexpected unindent.
+# Not compatible with Google Python Style Docstrings. Disabling.
+# RST301: Unexpected indentation.
+# Not compatible with Google Python Style Docstrings. Disabling.
+# Clashes with DAR001. DAR001 is more the style we want. Disabling.
+# RST304: Unknown interpreted text role "XXX".
+"flake8-rst-docstrings" = ["+*", "-RST201", "-RST203", "-RST301", "-RST304"]
+
+mccabe = ["+*"]
+"pep8-naming" = ["+*"]
+
+# black breaks lines and uses spaces before slices. We allow it do so.
+# E203: slice notation whitespace, invalid
+# E501: line length, handled by bugbear B950
+# E722: bare except, handled by bugbear B001
+# W503: bin op line break, invalid
+pycodestyle = ["+*", "-E203", "-E501", "-E722", "-W503"]
+
+pyflakes = ["+*"]
+
+# We have future imports and setuptools related logic in our __init__.py.
+# Disabling for now but it would be good to enable it after removing the
+# setuptools_scm related logic.
+# WPS323: WPS323 Found `%` string formatting
+# We don't want to use .format for logging strings, until we have figured out
+# a way how to separate logging strings (use % for now) from regular ones (use {})
+# WPS412: Found __init__.py module with logic
+# We require future imports because we run code in Python 2 and 3.
+# WPS422: Found future import: .
+# In a single interpreter environment nested imports do not make sense but
+# we are running in multiple versions of Python and require them.
+# WPS433: Found nested import
+# We don't know why subclassing from a built-in is a bad practice and would
+# only disable the warning if we want to do that. Disabling it globally for
+# consistencies sake.
+# WPS453: Found executable mismatch: file is executable but no shebang is present
+# We use binary entry points to have parity between Windows/Linux.
+# Our CI runner chokes on this because Python files are executable there.
+# WPS600: Found subclassing a builtin
+# We still use Python 2 and super() without arguments does not work here.
+# WPS608: Found incorrect `super()` call: remove arguments
+"wemake-python-styleguide" = ["+*", "-WPS323", "-WPS412", "-WPS422", "-WPS433", "-WPS453", "-WPS600", "-WPS608"]
+
+[tool.flakehell.exceptions."rezbuild.py"]
+# We currently do not have logging setup during building and have to disable
+# the warning about "print" not being appropriate here.
+"wemake-python-styleguide" = ["-WPS421"]
+
+[tool.flakehell.exceptions."**/*test_*.py"]
+# We do not mind not having arguments documented in docstrings in tests.
+"flake8-darglint" = ["-DAR101"]
+
+# WPS114: Found underscored name pattern: {}
+# We allow for numbers in function/method names in tests.
+# WPS118: Forbid long variable or module names.
+# We allow for long, descriptive names in tests.
+# WPS442: Found outer scope names shadowing
+# We use pytest and fixtures will result in WPS442. Disabling.
+"wemake-python-styleguide" = ["-WPS114", "-WPS118", "-WPS442"]

@@ -17,15 +17,22 @@ import unreal
 def main():
     sequence_list = [a for a in unreal.EditorUtilityLibrary.get_selected_assets() if isinstance(a,unreal.LevelSequence)]
     sequence = sequence_list[0]
-    binding = sequence.find_binding_by_name("CameraComponent")  # 拿到绑定
-    tracks = binding.find_tracks_by_type(unreal.MovieSceneFloatTrack)
-    track = tracks[0]
-    sections = track.get_sections()
-    section = sections[0]
-    section.set_range(101, 165)
-    channels = section.find_channels_by_type(unreal.MovieSceneScriptingFloatChannel)
-    tmp_channel = channels[0]
-    tmp_channel.add_key(unreal.FrameNumber(135), 0.5)
+    for binding in sequence.find_binding_by_name():
+        print(binding.get_child_possessables())
+        # print("binding: %s" % binding.get_name())
+        # parent = binding.get_parent()
+        # print("parent: %s" % parent.get_name())
+        
+        
+    # binding = sequence.find_binding_by_name("CameraComponent")  # 拿到绑定
+    # tracks = binding.find_tracks_by_type(unreal.MovieSceneFloatTrack)
+    # track = tracks[0]
+    # sections = track.get_sections()
+    # section = sections[0]
+    # section.set_range(101, 165)
+    # channels = section.find_channels_by_type(unreal.MovieSceneScriptingFloatChannel)
+    # tmp_channel = channels[0]
+    # tmp_channel.add_key(unreal.FrameNumber(135), 0.5)
 
     return
     
