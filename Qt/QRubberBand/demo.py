@@ -14,18 +14,20 @@ __email__ = '820472580@qq.com'
 __date__ = '2020-11-16 10:41:41'
 
 
-from PyQt4 import QtGui, QtCore
+from Qt import QtCore
+from Qt import QtWidgets
+from Qt import QtGui
 
-class Window(QtGui.QWidget):
-    def __init__(self):
-        QtGui.QWidget.__init__(self)
-        layout = QtGui.QVBoxLayout(self)
+class Window(QtWidgets.QWidget):
+    def __init__(self,*args, **kwargs):
+        super(Window, self).__init__(*args, **kwargs)
+        layout = QtWidgets.QVBoxLayout(self)
         layout.setMargin(15)
         layout.setSpacing(10)
         for text in 'One Two Three Four Five'.split():
-            layout.addWidget(QtGui.QPushButton(text, self))
-        self.rubberband = QtGui.QRubberBand(
-            QtGui.QRubberBand.Rectangle, self)
+            layout.addWidget(QtWidgets.QPushButton(text, self))
+        self.rubberband = QtWidgets.QRubberBand(
+            QtWidgets.QRubberBand.Rectangle, self)
         self.setMouseTracking(True)
 
     def mousePressEvent(self, event):
@@ -33,20 +35,20 @@ class Window(QtGui.QWidget):
         self.rubberband.setGeometry(
             QtCore.QRect(self.origin, QtCore.QSize()))
         self.rubberband.show()
-        QtGui.QWidget.mousePressEvent(self, event)
+        return super(Window, self).mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
         if self.rubberband.isVisible():
             self.rubberband.setGeometry(
                 QtCore.QRect(self.origin, event.pos()).normalized())
-        QtGui.QWidget.mouseMoveEvent(self, event)
+        return super(Window, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         if self.rubberband.isVisible():
             self.rubberband.hide()
             selected = []
             rect = self.rubberband.geometry()
-            for child in self.findChildren(QtGui.QPushButton):
+            for child in self.findChildren(QtWidgets.QPushButton):
                 if rect.intersects(child.geometry()):
                     selected.append(child)
             print ('Selection Contains:\n '),
@@ -55,12 +57,12 @@ class Window(QtGui.QWidget):
                     'Button: %s\n' % child.text() for child in selected))
             else:
                 print(' Nothing\n')
-        QtGui.QWidget.mouseReleaseEvent(self, event)
+        return super(Window, self).mouseReleaseEvent(event)
 
 if __name__ == '__main__':
 
     import sys
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     window = Window()
     window.show()
     sys.exit(app.exec_())

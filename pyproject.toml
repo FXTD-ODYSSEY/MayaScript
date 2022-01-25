@@ -1,8 +1,8 @@
 [tool.poetry]
+authors = ["timmyliang <timmyliang@tencent.com>"]
+description = ""
 name = "CodeBase"
 version = "0.1.0"
-description = ""
-authors = ["timmyliang <timmyliang@tencent.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -10,10 +10,8 @@ python = "^3.8"
 [tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-
+requires = ["poetry-core>=1.0.0"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -53,6 +51,7 @@ add_imports = [
   "from __future__ import division",
   "from __future__ import print_function",
 ]
+multi_line_output = 3
 atomic = true
 filter_files = true
 float_to_top = true
@@ -78,26 +77,97 @@ skip_glob = "*/docs/conf.py"
 legacy_tox_ini = """
 [tox]
 envlist = python2.7,echo
-isolated_build = True
+isolated_build = true
 skipsdist = true
 
 [testenv]
 deps = pytest >= 3.0.0, <4
 commands = pytest
 
-[testenv:install]
-deps = poetry
-commands =
-    poetry build
-    pip uninstall -y pyuiw
-    pip install dist/pyuiw-0.2.2-py3-none-any.whl
-    pyuiw -w f:/repo/pyuiw/tests/ui/basic.ui
 
-[testenv:run]
-deps = -rrequirements.txt
-commands = scripts/run.bat
+[testenv:cln]
+deps = pre-commit
+commands = pre-commit run --files {posargs:DEFAULTS}
+
+[testenv:lint]
+deps = 
+    flakehell
+    wemake-python-styleguide
+commands = flakehell lint {posargs:DEFAULTS}
 
 [testenv:deploy]
 deps = poetry
 commands = python scripts/deploy.py
 """
+
+
+[tool.flake8]
+max-returns = 2
+max-arguments = 4
+# Base flake8 configuration:
+# https://flake8.pycqa.org/en/latest/user/configuration.html
+format = "wemake"
+show-source = true
+statistics = false
+doctests = true
+
+# Plugins:
+max-complexity = 6
+max-line-length = 80
+
+# darglint configuration:
+# https://github.com/terrencepreilly/darglint
+strictness = "long"
+# docstring-style = "google"
+
+# Self settings:
+max-imports = 17
+inline-quotes = '"'
+# # Excluding some directories:
+# exclude = 
+#   .git
+#   __pycache__
+#   .venv
+#   .eggs
+#   *.egg
+#   dist
+
+
+[tool.flakehell]
+doctests = true
+enable_extensions = "G"
+format = "colored"
+show_source = true
+statistics = false
+
+accept_encodings = "utf-8"
+max_complexity = 6
+max_line_length = 80
+
+# baseline = ".flakehell_baseline"
+ignore = "D100, D104, D401, W504, RST303, RST304, DAR103, DAR203"
+
+[tool.flakehell.plugins]
+"flake8-*" = ["+*"]
+mccabe = ["+*"]
+nitpick = ["+*"]
+"pep8-naming" = ["+*"]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
+"wemake-python-styleguide" = ["+*"]
+
+[tool.mypy]
+allow_redefinition = false
+check_untyped_defs = true
+ignore_errors = false
+ignore_missing_imports = true
+implicit_reexport = false
+local_partial_types = true
+strict_optional = true
+strict_equality = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unreachable = true
+warn_no_return = true
