@@ -30,7 +30,8 @@ class PoseItem(Dict):
     _instances = weakref.WeakSet()
     
     def __attrs_post_init__(self):
-        self._instances.add(self)
+        print("init")
+        # self._instances.add(self)
     
     def __hash__(self):
         return id(self)
@@ -50,12 +51,14 @@ class PoseItemSchema(Schema):
 
 
 user = PoseItem(name="Monty")
+print(user)
 schema = PoseItemSchema()
-result = schema.dump(user)
-result = schema.load(result.data)
+result = schema.dump(user).data
+result = schema.load(result).data
 pprint(result)
 
 a = PoseItem("a")
 b = PoseItem("b")
+a.data = {'a':1}
 print(a)
 print(PoseItem._instances)
