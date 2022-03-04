@@ -20,42 +20,46 @@ from marshmallow import pprint
 
 # from six.moves.builtins import _
 
-@attr.s(eq=False)
-class PoseItem(Dict):
+
+@attr.s
+class PoseItemBase(Dict):
     name = attr.ib()
     parent = attr.ib(default=None)
     children = attr.ib(default=[])
     data = attr.ib(default={})
-    
-    _instances = weakref.WeakSet()
-    
-    def __attrs_post_init__(self):
-        self._instances.add(self)
-    
-    def __hash__(self):
-        return id(self)
+    # _instances = weakref.WeakSet()
+
+    # def __attrs_post_init__(self):
+    #     self._instances.add(self)
+
+    # def __hash__(self):
+    #     return id(self)
 
     # self.parent = None
     # self.children = []
     # self.name = self.get_unique_name(name)
     # self.data = {}
-    
-    
-    
+
+
+class PoseItem(PoseItemBase):
+    def __init__(self, *args, **kwargs):
+        super(PoseItem, self).__init__(*args, **kwargs)
+        print("__init__")
+
+
 class PoseItemSchema(Schema):
     # parent = fields()
     name = fields.Str()
     data = fields.Dict()
-    # children = fields.Nested()
+    # children = fields.Nested(PoseItemSchema())
 
 
 user = PoseItem(name="Monty")
 schema = PoseItemSchema()
 result = schema.dump(user)
-result = schema.load(result.data)
+result = schema.load(result)
 pprint(result)
 
 a = PoseItem("a")
 b = PoseItem("b")
 print(a)
-print(PoseItem._instances)
