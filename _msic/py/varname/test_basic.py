@@ -10,4 +10,3 @@ func = wrapped() # func == 'func'
 
 print([func])
 
-

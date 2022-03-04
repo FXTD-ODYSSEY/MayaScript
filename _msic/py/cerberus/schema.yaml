@@ -1,0 +1,19 @@
+pose_items:
+  type: list
+  required: True
+  schema:
+    type: dict
+    schema:
+      anyof:
+        - name:
+            type: string
+          data:
+            type: dict
+          relevant:
+            type: list
+            schema:
+              type: string
+          item_type:
+            type: string
+        - name:
+            type: string
