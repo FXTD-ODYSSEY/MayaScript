@@ -59,12 +59,13 @@ document = {
         },
     ],
 }
+print(schema_registry.get("adam_pose_children"))
 
 schema_registry.add(
     "adam_pose_children",
     schema,
 )
-
+print(schema_registry.get("adam_pose_children"))
 
 v = MyNormalizer(schema)
 

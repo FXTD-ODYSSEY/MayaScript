@@ -11,13 +11,12 @@ class MySpec:
     @hookspec(firstresult=True)
     def myhook(self, args):
         """My special little hook that you can customize."""
-        return type("WidgetDockMixin", (), {})
 
 
 class Plugin_1:
     """A hook implementation namespace."""
-``
-    @hookimpl
+
+    @hookimpl()
     def myhook(self, args):
         print("inside Plugin_1.myhook()")
         print(args)
@@ -29,11 +28,11 @@ class Plugin_1:
 class Plugin_2:
     """A 2nd hook implementation namespace."""
 
-    @hookimpl
+    @hookimpl()
     def myhook(self, args):
         print("inside Plugin_2.myhook()")
         print(args)
-        return None
+        return "123"
 
 
 # create a manager and add the spec
@@ -53,12 +52,8 @@ pm.register(Plugin_2())
 # is actually a MySpec instance. Without this
 # hint there really is no way for mypy to know
 # this.
-mixin = pm.hook.myhook(args=1)
-mixin_tuple = mixin if isinstance(mixin, tuple) else (mixin,)
-bases = (object,)  # noqa:WPS609
-mixin_tuple = tuple(set(mixin_tuple).difference(bases))
-print(mixin_tuple)
-
+res = pm.hook.myhook(args=1)
+print(res)
 # # this will now be caught by mypy
 # HOOK = MySpec()
 # module = sys.modules[__name__]
