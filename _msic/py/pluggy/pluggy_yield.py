@@ -8,29 +8,28 @@ hookimpl = pluggy.HookimplMarker("myproject")
 class MySpec:
     """A hook specification namespace."""
 
-    @hookspec(firstresult=True)
-    def myhook(self, args):
+    # @hookspec(firstresult=True)
+    @hookspec
+    def myhook(self, data):
         """My special little hook that you can customize."""
-        return type("WidgetDockMixin", (), {})
 
 
 class Plugin_1:
     """A hook implementation namespace."""
 
     @hookimpl
-    def myhook(self, args):
-        print("inside Plugin_1.myhook()")
-        print(args)
-        # return args
+    def myhook(self, data):
+        for i in data:
+            yield int(i) + 1
 
 
 class Plugin_2:
     """A 2nd hook implementation namespace."""
 
     @hookimpl
-    def myhook(self, args):
-        print("inside Plugin_2.myhook()")
-        print(args)
+    def myhook(self, data):
+        for i in data:
+            yield int(i) * 3
 
 
 # create a manager and add the spec
@@ -46,11 +45,9 @@ def callback(result):
 pm.register(Plugin_1())
 pm.register(Plugin_2())
 
-
-mixin = pm.hook.myhook(args=1)
-print(mixin)
-mixin_tuple = mixin if isinstance(mixin, tuple) else (mixin,)
-bases = (object,)  # noqa:WPS609
-mixin_tuple = tuple(set(mixin_tuple).difference(bases))
-print(mixin_tuple)
-
+print(pm.hook.myhook(data="123"))
+for num in  pm.hook.myhook(data="123"):
+    
+    for i in num:
+        print(i)
+          

@@ -67,14 +67,14 @@ class Settings:
     a = attr.ib()
 
 @attr.s(hash=False)
-class MayaService:
-    a = attr.ib()
+class DCCService:
+    cmds = attr.ib()
 
 
 class Container(Injector):
     a = 1
     settings = Settings
-    service = MayaService
+    service = DCCService
     plugin1 = Plugin1
 
 

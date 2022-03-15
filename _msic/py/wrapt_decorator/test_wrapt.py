@@ -19,14 +19,20 @@ import wrapt
 class Test(object):
 
     @wrapt.decorator
-    def deco(func,self,args,kwargs):
-        print(self,func)
+    def deco(func,instance,args,kwargs):
+        print(instance,func)
         print("validate",args)
         return func(*args,**kwargs)
 
     @deco
     def write(self,rel_item):
         print('write')
+        
+    @deco
+    @staticmethod
+    def write_static(rel_item):
+        print('write_static')
 
 test = Test()
 test.write('asd')
+test.write_static('asd')

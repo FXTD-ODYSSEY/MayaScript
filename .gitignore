@@ -12,3 +12,4 @@ dist/
 spec/
 
 _alogrithm/Hans Godard
+.pytest_cache

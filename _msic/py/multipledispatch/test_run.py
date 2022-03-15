@@ -1,3 +1,4 @@
+
 from multipledispatch import dispatch
 
 
@@ -34,11 +35,17 @@ print(res)
 res = add(1)
 print(res)
 
+class SpecialClass(object):
+    test = 1
 
 # res = map(lambda v:str(v),[1,2,3],[True,False])
 # print(res)
 
 class TestObject(object):
+        
+    @dispatch(SpecialClass)
+    def test(self,x):
+        print("SpecialClass")
         
     @dispatch(int)
     def test(self,x):
@@ -49,13 +56,14 @@ class TestObject(object):
         print("boolean")
     
     @dispatch(float)
-    @classmethod
-    def test(cls,x):
+    def test(self,x):
         print("float")
     
+inst = SpecialClass()
 
 test = TestObject()
+test.test(inst)
 test.test(1)
 test.test(True)
 test.test(1.0)
-    
+

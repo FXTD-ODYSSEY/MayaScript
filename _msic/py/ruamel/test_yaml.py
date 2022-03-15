@@ -2,6 +2,7 @@ import sys
 import yaml
 from ruamel.yaml import YAML,RoundTripDumper,RoundTripLoader
 
+from ruamel.yaml import dump
 
 yaml = YAML()
 
@@ -19,3 +20,6 @@ code['name']['asd'] = '123'
 code['y'] =123
 code['x'] =12
 yaml.dump(code, sys.stdout)
+print(code)
+res = dump(code)
+print(res)
