@@ -28,6 +28,8 @@ import os
 import contextlib
 
 import pymel.core as pm
+from maya import cmds
+from functools import partial
 
 from Qt import QtWidgets
 from Qt import QtGui
@@ -39,20 +41,6 @@ DIR, BASE = os.path.split(__file__)
 
 
 class MayaShowMixin(object):
-    @staticmethod
-    def maya_to_qt(name):
-        from Qt.QtCompat import wrapInstance
-        from maya import OpenMayaUI
-
-        # Maya -> QWidget
-        ptr = OpenMayaUI.MQtUtil.findControl(name)
-        if ptr is None:
-            ptr = OpenMayaUI.MQtUtil.findLayout(name)
-        if ptr is None:
-            ptr = OpenMayaUI.MQtUtil.findMenuItem(name)
-        if ptr is not None:
-            return wrapInstance(int(ptr), QtWidgets.QWidget)
-
     def maya_show(self, win_name=""):
         from Qt import QtWidgets
 
@@ -65,7 +53,7 @@ class MayaShowMixin(object):
 
         pm.showWindow(window)
         # NOTE 将Maya窗口转换成 Qt 组件
-        self.__maya_window__ = self.maya_to_qt(window)
+        self.__maya_window__ = pm.uitypes.toPySideObject(window)
         layout = QtWidgets.QVBoxLayout()
         self.__maya_window__.setLayout(layout)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -80,10 +68,11 @@ class NodeOutliner(QtWidgets.QWidget, MayaShowMixin):
     @classmethod
     @contextlib.contextmanager
     def get_widget(cls, widget_callback=None):
-        pm.window()
+        window = pm.window()
         pm.formLayout()
         p = widget_callback()
-        yield cls.maya_to_qt(p)
+        yield pm.uitypes.toPySideObject(p)
+        pm.deleteUI(window)
 
     def __init__(self):
         super(NodeOutliner, self).__init__()
@@ -91,9 +80,11 @@ class NodeOutliner(QtWidgets.QWidget, MayaShowMixin):
         ui_file = os.path.join(DIR, name + ".ui")
         loadUi(ui_file, self)
 
-        with self.get_widget(lambda: pm.scriptedPanel(typ="nodeEditorPanel")) as editor:
-            layout = self.Node_Editor.layout()
-            layout.addWidget(editor)
+        # with self.get_widget(
+        #     partial(pm.scriptedPanel, typ="nodeEditorPanel")
+        # ) as editor:
+        #     layout = self.Node_Editor.layout()
+        #     layout.addWidget(editor)
 
         with self.get_widget(pm.outlinerPanel) as outliner:
             layout = self.Outliner.layout()
@@ -101,14 +92,26 @@ class NodeOutliner(QtWidgets.QWidget, MayaShowMixin):
 
             window = outliner.window()
             view = window.findChild(QtWidgets.QListView)
-            proxy_model = view.model()
-            model = proxy_model.sourceModel()
-            print(model)
 
-            # window = outliner.window()
-            # for w in window.children():
-            #     if isinstance(w, QtWidgets.QWidget):
-            #         layout.addWidget(w)
+        label_name = "Adam Graph Editor"
+        window = pm.mel.tearOffRestorePanel(label_name,"graphEditor",True)
+        # panel = cmds.getPanel(withLabel=label_name)
+        # print(panel)
+        # editor = pm.uitypes.toPySideObject("{0}Window".format(panel)).window()
+        # layout = self.Node_Editor.layout()
+        # layout.addWidget(editor)
+        # print(editor.objectName())
+
+        with self.get_widget(
+            partial(
+                pm.animCurveEditor,
+                ru="interactive",
+                upd=1
+            )
+        ) as editor:
+            layout = self.Node_Editor.layout()
+            layout.addWidget(editor)
+            editor_name = editor.objectName()
 
 
 if __name__ == "__main__":

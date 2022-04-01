@@ -39,13 +39,13 @@ class IconWidget(QtWidgets.QWidget):
             index += 1
             ref = getattr(QtWidgets.QStyle,attr)
 
-            # # NOTE 保存图片到本地
-            # pixmap = style.standardIcon(ref).pixmap(32,32) if attr == "SP_LineEditClearButton" else style.standardPixmap(ref)
-            # icon_folder = os.path.join(DIR,"icon")
-            # if not os.path.exists(icon_folder):
-            #     os.makedirs(icon_folder)
-            # path = os.path.join(icon_folder,"%s.png" % attr)
-            # pixmap.save(path,"png")
+            # NOTE 保存图片到本地
+            pixmap = style.standardIcon(ref).pixmap(32,32) if attr == "SP_LineEditClearButton" else style.standardPixmap(ref)
+            icon_folder = os.path.join(DIR,"icon")
+            if not os.path.exists(icon_folder):
+                os.makedirs(icon_folder)
+            path = os.path.join(icon_folder,"%s.png" % attr)
+            pixmap.save(path,"png")
 
             icon = style.standardIcon(ref)
             button = QtWidgets.QPushButton()

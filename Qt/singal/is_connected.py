@@ -14,7 +14,7 @@ __date__ = "2021-12-25 23:50:40"
 from Qt import QtCore
 from Qt import QtGui
 from Qt import QtWidgets
-
+from dayu_widgets import qt
 
 def isSignalConnected(obj, name):
     """判断信号是否连接
@@ -24,10 +24,10 @@ def isSignalConnected(obj, name):
     meta = obj.metaObject()
     for i in range(meta.methodCount()):
         method = meta.method(i)
-        print(method.name())
-        print(method.typeName())
+        # print(method.name())
+        # print(method.typeName())
     index = meta.indexOfMethod(name)
-    print(index)
+    # print(index)
     if index > -1:
         method = obj.metaObject().method(index)
         if method:
@@ -60,9 +60,9 @@ class Window(QtWidgets.QWidget):
         # button2 clicked 是否连接: %s, %s
         """
             % (
-                self.isSignalConnected(self.button1, "clicked()"),
+                isSignalConnected(self.button1, "clicked()"),
                 self.button1.receivers("clicked") > 0,
-                self.isSignalConnected(self.button2, "clicked()"),
+                isSignalConnected(self.button2, "clicked()"),
                 self.button2.receivers("clicked") > 0,
             )
         )
@@ -71,7 +71,15 @@ class Window(QtWidgets.QWidget):
 if __name__ == "__main__":
     import sys
 
-    app = QtWidgets.QApplication(sys.argv)
-    w = Window()
-    w.show()
-    sys.exit(app.exec_())
+    with qt.application():
+            
+        test_action = QtWidgets.QAction()
+        receivers = test_action.receivers("triggered")
+        print(isSignalConnected(test_action,"triggered()"))
+        test_action.triggered.disconnect()
+        test_action.triggered.connect(lambda:print(123))
+        receivers = test_action.receivers("triggered")
+        print(isSignalConnected(test_action,"triggered()"))
+        print(test_action.triggered)
+        # w = Window()
+        # w.show()
