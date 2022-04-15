@@ -15,10 +15,7 @@ __date__ = '2022-03-25 11:03:15'
 
 # Import built-in modules
 from multiprocessing.dummy import Pool
-import os
-import shutil
 import subprocess
-import sys
 
 THREAD_COUNT = 8
 path = r'F:\lsr'

@@ -2,7 +2,7 @@ import attr
 from attr import validators
 from addict import Dict
 # from typing import data
-from six.moves import builtins
+# from six.moves import builtins
 
 @attr.s
 class Person(Dict):

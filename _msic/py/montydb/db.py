@@ -43,7 +43,7 @@ class DB(Dict):
 
 
 data = DB()
-print(data.asd_assemblyDefinitiond)
+# print(data.asd_assemblyDefinitiond)
 data.extra = extra
 
 x = data_collection.insert_one(data)
