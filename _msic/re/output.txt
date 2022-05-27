@@ -1,0 +1,245 @@
+UE工具开发参考资料
+-Ocarmihe
+# 开发规范
+	## 光子UE4项目C++编码规范
+http://km.oa.com/group/GZSGtechCT/articles/show/328550
+	## Epic Game代码规范
+https://docs.unrealengine.com/zh-CN/ProductionPipelines/DevelopmentSetup/CodingStandard/index.html
+	## Unreal style guide
+https://github.com/Allar/ue5-style-guide
+关于资产命名、蓝图相关代码结构规范的检查
+	# MarketPlace Guidelines
+https://www.unrealengine.com/en-US/marketplace-guidelines
+Unreal商店产品发行级内容标准
+
+# Extending Unreal Engine 
+	## Development of asset editor in Unreal Engine.
+https://easycomplex-tech.com/blog/Unreal-AssetEditor/
+https://easycomplex-tech.com/cnblog/Unreal-AssetEditor/
+比较详细的编辑器框架介绍，从如何创建一个资产到如何给资产编辑器添加各种常用模块
+（如节点图表、预览窗口），但是没有完整代码。
+
+	## FMX 2017: Extending Unreal Engine 4 with Plug-ins (Master Class)
+PPT:https://www.slideshare.net/GerkeMaxPreussner/fmx-2017-extending-unreal-engine-4-with-plugins-master-class
+      视频:https://learn.unrealengine.com/course/2504894?r=False&ts=637528445757941424
+官方分享:主要介绍了创建插件、Asset、AssetFactory、Module的内容。可略看
+
+	## Epic参考文档&链接
+	### Unreal Online Learning
+https://learn.unrealengine.com/home/dashboard
+Uneal引擎官方在线学习平台链接
+	### 大钊:C++进阶之路
+[第三方内容]
+	### Slate 
+https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/Slate/Architecture/index.html
+
+	## C++ Extending the Editor | Live Training | Unreal Engine
+https://www.youtube.com/watch?v=zg_VstBxDi8&t=4213s
+也是UE4工具开发参考，但是2015年时间比较久了。
+
+	## 工具开发相关博客
+	### JAN_WLOSOK:Editor plugins in UE4 #3 – Toolbar button	
+http://wlosok.cz
+介绍了一些建议插件模板和代码示例,给引擎添加快捷按钮
+(如MenuButton\Toolbar Button\)
+	### [UE4] Eric Zhang：Make tools in unreal4
+https://lxjk.github.io/2019/10/01/How-to-Make-Tools-in-U-E.html
+https://github.com/lxjk/ToolExample 
+比较详细的一篇工具开发博客，内容详实包含代码，同时还介绍了EditorMode（主要		用于Level关卡中的编辑功能）的开发
+	### YakSue:总结了很多编辑器扩展和节点图表和示例代码，很好的参考；
+https://blog.csdn.net/u013412391/category_10839272.html
+https://blog.csdn.net/u013412391/category_10839293.html
+	### HHH:关于PreviewScene预览窗口的补充部分介绍得比较详细
+https://blog.csdn.net/github_38111866/category_8894643.html
+	### 浮光:UE4编辑器扩展
+https://zhuanlan.zhihu.com/p/258968098
+对几个基类的概念和代码关系分析(UObject\AssetAction\Factory)
+	### [UE4]NeilWang:Editor Extention and Programming
+https://dawnarc.com/2018/12/ue4editor-extention-and-programming/
+	### Writing a custom asset editor FOR UNREAL ENGINE 4 - PART 1
+http://cairansteverink.nl/cairansteverink/blog/writing-a-custom-asset-editor-for-unreal-engine-4-part-1/
+创建一个Asset和空Editor，有完整代码参考；
+	### Factory
+https://blog.csdn.net/u013412391/article/details/107646900
+	### PreviewScene
+https://blog.csdn.net/github_38111866/article/details/105773368
+https://blog.csdn.net/u013412391/article/details/109258860?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&spm=1001.2101.3001.4242
+为项目添加预览窗口
+	### IDetailCustom
+https://zhuanlan.zhihu.com/p/135316945
+定制自定义属性样式，在开发Detail面板时比较常用的功能
+	### Adding New Asset Types to UE4
+https://gmpreussner.com/reference/adding-new-asset-types-to-ue4
+自定义Asset资产的显示风格和目录
+	### K2Node
+https://blog.csdn.net/u013507300/article/details/109165560
+如何自定义Pin
+	## 参考项目、github代码仓库
+	### 插件中间件开发Mutable：
+https://mutable.games/#page
+Doc:Mutable for UnrealEngine4
+https://work.anticto.com/w/mutable/unreal-engine-4/
+Node Reference:
+https://work.anticto.com/w/mutable/unreal-engine-4/user-documentation/nodes/
+	### SnowDrop节点编辑器Ubisoft：https://www.smartrecruiters.com/Ubisoft2/743999754125139-senior-system-programmer-snowdrop-?trid=4d32c519-f437-439a-ab4f-b3953c48d5c1
+	### Animated Texture with GIF Importer
+https://github.com/neil3d/UnrealAnimatedTexturePlugin
+Runtime\Editor 模块区分
+	### Nodes-Graph Develop
+https://github.com/flashpoint493/YetAnotherGraphPlugin
+https://github.com/Eragon-Brisingr/XD_GraphEditor_Template
+节点图表案例
+
+
+
+# Unreal Shader&Material
+	## Decal BP API
+https://docs.unrealengine.com/en-US/Resources/ContentExamples/Decals/index.html
+	## Dynamic Material Instance C++ Api
+https://docs.unrealengine.com/en-US/API/Runtime/Engine/Materials/UMaterialInstanceDynamic/index.html
+动态材质示例
+	## Dynamic Material Instance  BP Api
+https://docs.unrealengine.com/en-US/BlueprintAPI/Rendering/Material/CreateDynamicMaterialInstance/index.html
+	## Programmatically Create Material 
+https://isaratech.com/save-a-procedurally-generated-texture-as-a-new-asset/
+https://isaratech.com/ue4-programmatically-create-a-new-material-and-inner-nodes/
+https://zhuanlan.zhihu.com/p/45171840
+https://blog.csdn.net/mrbaolong/article/details/112548477
+程序化创建Material资产及其内部节点逻辑；用于基于UE4 Material Function批量制作新shader；
+	## Material Function library
+https://docs.unrealengine.com/en-US/RenderingAndGraphics/Materials/Functions/Reference/index.html
+
+# Unreal4 Build Tools
+	## UBT
+https://docs.unrealengine.com/en-US/ProductionPipelines/BuildTools/index.html
+	## Blueprint Compiler Internals I
+https://ikrima.dev/ue4guide/engine-programming/blueprints/bp-compiler-internals-1/
+	## Blueprint Compiler Overview
+https://docs.unrealengine.com/en-US/ProgrammingAndScripting/Blueprints/TechnicalGuide/Compiler/index.html
+	## FCK
+https://blog.csdn.net/Neil3D/article/details/103221164 
+https://www.ue4community.wiki/legacy/create-custom-k2-node-for-blueprint-zwuncdkq
+https://github.com/neil3d/UnrealCookBook/tree/master/MyBlueprintNode
+
+# Character Customizer
+	## https://www.unrealengine.com/marketplace/en-US/product/character-customizer
+	## 游戏角色实用技术杂谈(06/2021) v0.1 beta
+https://zhuanlan.zhihu.com/p/389079538
+	## 基于骨骼的捏脸系统
+https://buaaccj.github.io/2019/09/30/unreal%E4%B8%AD%E7%9A%84%E6%8D%8F%E8%84%B8%E7%B3%BB%E7%BB%9F/ 
+	## 参考项目
+	### Character Editor
+https://www.unrealengine.com/marketplace/en-US/product/character-editor
+	### Character Customization
+https://www.youtube.com/watch?v=5kjne-XPlUE
+	### Character Customizer v2 for UE4
+https://www.youtube.com/watch?v=SzBmwgHvpK4、
+	## 模块化换装:https://blog.csdn.net/luomogenhaoqi/article/details/88638068
+
+# Control Rig
+	## Animating with Control Rig
+https://www.youtube.com/watch?v=UyCziUcnqxM&t=5s
+https://www.youtube.com/watch?v=UyCziUcnqxM&t=8042s
+
+# UE4妆容系统
+	## render target
+	### render targets
+https://docs.unrealengine.com/zh-CN/RenderingAndGraphics/RenderTargets/index.html
+	### Creating Textures Using Blueprints and Render Targets
+https://docs.unrealengine.com/zh-CN/RenderingAndGraphics/RenderTargets/BlueprintRenderTargets/HowTo/CreatingTextures/index.html
+	### Unreal Engine 4 Tutorial: Painting With Render Targets
+https://www.raywenderlich.com/5246-unreal-engine-4-tutorial-painting-with-render-targets
+	### Fast Render Target Rendering in Unreal Engine 4
+https://www.froyok.fr/blog/2020-06-render-target-performances/page.html
+	### Blueprint Drawing to Render Targets Overview | Live Training | Unreal Engine
+https://www.youtube.com/watch?v=1Z-V1Buk6z8
+	### Introduction to Render Targets - Unreal Engine 4 Tech Art S03E02
+https://www.youtube.com/watch?v=LXduG19JFWg
+	### UE4 Importing and Exporting Render Targets (Save and Load) using Blueprints
+https://www.youtube.com/watch?v=bb_yw5Cvs6k
+
+# Skeleton Animation
+	## rbf
+原理：http://www.marcuskrautwurst.com/2017/12/rbf-node.html
+https://gumroad.com/jamesvsnowden/p/wtf-is-rbf
+实现例子：https://www.chadvernon.com/blog/rbf/
+https://vimeo.com/196583536
+	## PoseDrive Animation
+https://docs.unrealengine.com/en-US/AnimatingObjects/SkeletalMeshAnimation/AnimPose/PoseDriverNode/index.html
+（maya) http://www.braverabbit.com/braverabbit/tools/weightdriver/#1575623493759-e346cecf-75c6330d-2f0fb24f-beac
+	## 捏脸系统Git
+https://km.woa.com/search?q=%E6%8D%8F%E8%84%B8%E7%B3%BB%E7%BB%9F
+https://km.woa.com/group/29321/articles/show/450545?kmref=search&from_page=1&no=1
+	## 天刀角色整形美容技术揭秘
+https://km.woa.com/group/1556/articles/show/224768?kmref=search&from_page=1&no=10
+	## PSD
+	### 原理
+https://docs.google.com/presentation/d/1z41rXP8EJiWXmqhNKHkNqI9patuaI352f1tlqfBOO9c/htmlpresent
+	### Maya - PSD应用效果参考：
+https://www.youtube.com/watch?v=mxlRMAs_HJU
+	## Advanced Locomotion System V4
+https://www.unrealengine.com/marketplace/zh-CN/product/advanced-locomotion-system-v1
+	## (Tutorial) Unreal Engine Mesh Morpher - Create Morph Target From Mesh (Morph Through Meta Humans
+https://www.youtube.com/watch?v=kCpdVm2bWEI
+
+
+# UE4动画蓝图节点开发
+	## Create Custom Anim Node
+https://www.unrealengine.com/zh-CN/blog/creating-custom-animation-nodes?lang=zh-CN\
+	## 动画节点技术指南
+https://docs.unrealengine.com/4.26/zh-CN/AnimatingObjects/AnimationNodeTechnicalGuide/
+	## AnimNode
+https://dawnarc.com/2019/01/ue4transform-skeletal-bone-in-c-/
+	## AnimNode
+https://blog.csdn.net/weixin_30840573/article/details/99304022 
+https://forums.unrealengine.com/t/a-new-community-hosted-unreal-engine-wiki/141494
+
+# Debug
+World Context
+https://answers.unrealengine.com/questions/480818/how-to-use-getworld-from-uobject-correctly.html
+
+# Rendering
+UberBake System
+https://cs.dartmouth.edu/~wjarosz/publications/seyb20uberbake.html
+Unreal Rendering Part
+https://medium.com/@lordned/unreal-engine-4-rendering-overview-part-1-c47f2da65346
+
+# MateHuman Reference
+	## 官方文档
+https://docs.unrealengine.com/en-US/Resources/Showcases/MetaHumans/index.html
+	## Retargeting Animations onto a MetaHuman
+https://docs.unrealengine.com/en-US/Resources/Showcases/MetaHumans/RetargetingAnimationsOntoMetaHumans/index.html
+	## SkeletaMeshAnimation
+https://docs.unrealengine.com/en-US/AnimatingObjects/SkeletalMeshAnimation/index.html 
+	## Control Rig：Curve Driven Animation
+https://docs.unrealengine.com/en-US/AnimatingObjects/SkeletalMeshAnimation/AnimHowTo/CurveDrivenAnimation/index.html
+
+	## Animation How To's
+https://docs.unrealengine.com/en-US/AnimatingObjects/SkeletalMeshAnimation/AnimHowTo/index.html
+视频补充：
+	## Using Control Rig in Unreal Engine
+https://www.youtube.com/watch?v=y2WzNvJZk0E&t=382s 
+	## matehuman资产与动画移植倒自定义角色上：
+https://www.youtube.com/watch?v=qpIAgFAGfuU
+https://www.youtube.com/watch?v=h5W9noO_1QY
+https://www.youtube.com/watch?v=X3QILs0tkYs
+	## (Tutorial) Unreal Engine Mesh Morpher - Create Morph Target From Mesh (Morph Through Meta Humans)
+https://www.youtube.com/watch?v=_dXJJt7_p6g
+	## Physics
+https://documentation.help/NVIDIA-PhysX-SDK-Guide/RigidDynamics.html
+	## Unreal Optimization
+https://software.intel.com/content/www/us/en/develop/articles/unreal-engine-4-optimization-tutorial-part-3.html
+
+# Control Rig
+	## Animating with Control Rig in 4.26 | Inside Unreal
+https://www.youtube.com/watch?v=UyCziUcnqxM&t=7025s
+	## Using Control Rig in Unreal Engine
+https://www.youtube.com/watch?v=y2WzNvJZk0E&t=35s
+	## Using the MetaHuman Facial Rig in UE | Unreal Engine
+https://www.youtube.com/watch?v=GEpH3o44_58 
+	## Control Rig Tutorial - Part 01 - Animation In Unreal Engine 4 | Sonali Singh
+https://www.youtube.com/watch?v=nblqNp7XoWU&list=PLeW1HEiOW3AKGYm5bx9iGtN1vIy_2San9 
+	## Enhancing Animation with Control Rig | GDC 2019 | Unreal Engine
+https://www.youtube.com/watch?v=TYSdxW2WHcI&t=306s 
+
+

@@ -25,7 +25,7 @@ class RotateMe(QtWidgets.QLabel):
             endValue=360.0,
             duration=1000,
         )
-        self._animation.finished.connect(self._animation.start)
+        # self._animation.finished.connect(self._animation.start)
         self._animation.valueChanged.connect(self.on_valueChanged)
         
     def set_pixmap(self, pixmap):
@@ -37,6 +37,7 @@ class RotateMe(QtWidgets.QLabel):
             self._animation.start()
 
     def on_valueChanged(self, value):
+        print("value_change")
         t = QtGui.QTransform()
         t.rotate(value)
         self.setPixmap(self._pixmap.transformed(t))

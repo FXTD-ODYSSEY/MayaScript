@@ -100,7 +100,7 @@ deps = poetry
 commands = python scripts/deploy.py
 """
 
-
+    
 [tool.flakehell]
 exclude = [".git", ".tox", "__pycache__", "docs/conf.py", "docs/rst", "build", "dist", "venv", ".pybuilder", ".build"]
 baseline = ".flakehell_baseline"
