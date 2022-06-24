@@ -51,7 +51,7 @@ class MainWindow(QtWidgets.QWidget):
             downloader.start()
 
     def on_data_ready(self, data):
-        print data
+        print (data)
         self.list_widget.addItem(unicode(data))
 
 
