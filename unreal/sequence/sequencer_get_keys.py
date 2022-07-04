@@ -34,7 +34,6 @@ def main():
     # tmp_channel = channels[0]
     # tmp_channel.add_key(unreal.FrameNumber(135), 0.5)
 
-    return
     
     print(sequence_list)
     for sequence in sequence_list:
@@ -55,6 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# @maxjzhang(张军)
