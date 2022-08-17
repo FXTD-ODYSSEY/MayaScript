@@ -3,6 +3,8 @@
 write for kraken Qt import 
 https://github.com/hoorayfor3d/Kraken
 
+refactor QtGui to QtWidgets & QtGui
+
 """
 
 from __future__ import division

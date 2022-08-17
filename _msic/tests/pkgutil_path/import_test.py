@@ -11,3 +11,16 @@ from gg.maya import test_maya
 
 print(real)
 print(test_maya)
+
+import pkgutil
+import gg
+for finder,name,ispkg in pkgutil.walk_packages(gg.__path__,gg.__name__+'.'):
+    print(finder,name,ispkg)
+
+print('----------------------------------------')
+
+from setuptools import find_packages
+
+print(gg.__file__)
+print(find_packages(os.path.dirname(gg.__file__)))
+

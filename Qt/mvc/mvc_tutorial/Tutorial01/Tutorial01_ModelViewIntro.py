@@ -68,11 +68,10 @@ class PaletteListModel(QAbstractListModel):
 
               
         if role == Qt.DisplayRole:
-            
             row = index.row()
             value = self.__colors[row]
             
-            return value.name()
+            return value.name() + "asdas"
 
 
 
