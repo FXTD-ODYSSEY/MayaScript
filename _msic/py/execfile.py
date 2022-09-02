@@ -13,14 +13,14 @@ __date__ = '2021-09-27 16:22:21'
 
 SCRIPT_PATH = r"path"
 
-def execfile(filepath, globals=None, locals=None):
-    globals = {} if globals is None else globals
-    globals.update({
+def execfile(filepath, globals_dict=None, locals=None):
+    globals_dict = globals_dict or globals()
+    globals_dict.update({
         "__file__": filepath,
         "__name__": "__main__",
     })
     with open(filepath, 'rb') as file:
-        exec(compile(file.read(), filepath, 'exec'), globals, locals)
+        exec(compile(file.read(), filepath, 'exec'), globals_dict, locals)
 
 execfile(SCRIPT_PATH)
 
