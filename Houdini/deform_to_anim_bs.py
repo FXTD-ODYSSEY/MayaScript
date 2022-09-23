@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-
+convert fx to blendshape deform
 """
 
 from __future__ import division
