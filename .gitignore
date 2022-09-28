@@ -13,3 +13,4 @@ spec/
 
 _alogrithm/Hans Godard
 .pytest_cache
+.hypothesis
