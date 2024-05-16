@@ -1,0 +1,1320 @@
+{
+    "version": {
+        "end_offset": 36,
+        "num_properties": 1,
+        "len_properties": 5,
+        "key": "BaryVertexVersion",
+        "value": 1
+    },
+    "marker_count": {
+        "end_offset": 75,
+        "num_properties": 1,
+        "len_properties": 5,
+        "key": "BaryVertexMarkerCount",
+        "value": 14
+    },
+    "influence_data": {
+        "end_offset": 3444,
+        "num_properties": 312,
+        "len_properties": 3333,
+        "key": "BaryVertexInfluenceData",
+        "value": [
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.750459557316352
+                        },
+                        {
+                            "value": -11.958948370784443
+                        },
+                        {
+                            "value": 3.445966959410468
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.42583442129247473
+                        },
+                        {
+                            "value": 3.9951247233411786
+                        },
+                        {
+                            "value": 3.4459951940249995
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.1623745709657669
+                    },
+                    {
+                        "value": 0.8376254439353943
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.708850781027282
+                        },
+                        {
+                            "value": -11.899714050928218
+                        },
+                        {
+                            "value": 3.8546950830795685
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.48132169554461157
+                        },
+                        {
+                            "value": 3.9486364901554647
+                        },
+                        {
+                            "value": 3.8547224850450057
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.19059839844703674
+                    },
+                    {
+                        "value": 0.8094015717506409
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.44993992381999
+                        },
+                        {
+                            "value": -12.722402069992222
+                        },
+                        {
+                            "value": 3.990131907461179
+                        }
+                    ],
+                    [
+                        {
+                            "value": 0.3603798732739456
+                        },
+                        {
+                            "value": 3.760517152185521
+                        },
+                        {
+                            "value": 3.990159281448263
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.07959912717342377
+                    },
+                    {
+                        "value": 0.920400857925415
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 6.844349487425827
+                        },
+                        {
+                            "value": 1.925841721219674
+                        },
+                        {
+                            "value": 2.0171224523963422
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 7.161889702859266
+                        },
+                        {
+                            "value": 1.7900107978048347
+                        },
+                        {
+                            "value": 2.3649838750895125
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 7.608017878530241
+                        },
+                        {
+                            "value": 1.686857433490765
+                        },
+                        {
+                            "value": 1.8804307919100474
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 6.176345847781754
+                        },
+                        {
+                            "value": 2.2118375267316317
+                        },
+                        {
+                            "value": -3.5609597943372346
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999987483024597
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 6.548681071110863
+                        },
+                        {
+                            "value": 2.210948174306136
+                        },
+                        {
+                            "value": -2.722953806587837
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999998807907104
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 6.849270648711368
+                        },
+                        {
+                            "value": 2.099292337672387
+                        },
+                        {
+                            "value": -2.9998408578403435
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999998807907104
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.23560088560272
+                        },
+                        {
+                            "value": -11.94246482943999
+                        },
+                        {
+                            "value": -5.48426808338254
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.39854082431438975
+                        },
+                        {
+                            "value": 3.4807258528681126
+                        },
+                        {
+                            "value": -5.484240684386082
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.21169371902942657
+                    },
+                    {
+                        "value": 0.7883062958717346
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.641375477347268
+                        },
+                        {
+                            "value": -11.146688053562617
+                        },
+                        {
+                            "value": -4.877881292820247
+                        }
+                    ],
+                    [
+                        {
+                            "value": -1.225898874578597
+                        },
+                        {
+                            "value": 3.8174636136732136
+                        },
+                        {
+                            "value": -4.877853866248799
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.3695704936981201
+                    },
+                    {
+                        "value": 0.6304295063018799
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "RightToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 8.399731738185583
+                        },
+                        {
+                            "value": -12.02228239294893
+                        },
+                        {
+                            "value": -4.970482303942042
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.3329482615355275
+                        },
+                        {
+                            "value": 3.651041436625716
+                        },
+                        {
+                            "value": -4.970454907036448
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.1852550208568573
+                    },
+                    {
+                        "value": 0.8147449493408203
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.811152326642484
+                        },
+                        {
+                            "value": -2.0343051838413264
+                        },
+                        {
+                            "value": 2.9858252402671983
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.869513837863765
+                        },
+                        {
+                            "value": -1.4926019608893735
+                        },
+                        {
+                            "value": 3.154816544685006
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.698612533517396
+                        },
+                        {
+                            "value": -1.5060376152741783
+                        },
+                        {
+                            "value": 3.5245706303848134
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 10.276555708336192
+                        },
+                        {
+                            "value": 5.3261243974268915
+                        },
+                        {
+                            "value": 0.20912843481618282
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 10.30040166681645
+                        },
+                        {
+                            "value": 5.221205495538033
+                        },
+                        {
+                            "value": 1.002324041387947
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 10.444716667496431
+                        },
+                        {
+                            "value": 4.7918452391653314
+                        },
+                        {
+                            "value": 0.9260808234116453
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.784236290413798
+                        },
+                        {
+                            "value": -0.7169669607740641
+                        },
+                        {
+                            "value": -3.5401375853511237
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.798863687249398
+                        },
+                        {
+                            "value": -0.7005753609069514
+                        },
+                        {
+                            "value": -3.0093586468204165
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "RightFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": 9.746954925317285
+                        },
+                        {
+                            "value": -1.23489156237559
+                        },
+                        {
+                            "value": -2.9422878382085305
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.296848635714555
+                        },
+                        {
+                            "value": 12.462217398471267
+                        },
+                        {
+                            "value": -3.8782547150699527
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.11411967978673587
+                        },
+                        {
+                            "value": -3.5858885254869532
+                        },
+                        {
+                            "value": -3.878253107212661
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.09631922841072083
+                    },
+                    {
+                        "value": 0.9036808013916016
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.424580572940425
+                        },
+                        {
+                            "value": 11.54221062161183
+                        },
+                        {
+                            "value": -4.1685333306194385
+                        }
+                    ],
+                    [
+                        {
+                            "value": 0.8134104729986333
+                        },
+                        {
+                            "value": -3.635038994448567
+                        },
+                        {
+                            "value": -4.168531661320432
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.2610742151737213
+                    },
+                    {
+                        "value": 0.7389257550239563
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.416685955863473
+                        },
+                        {
+                            "value": 11.592319686500062
+                        },
+                        {
+                            "value": -3.745017369896142
+                        }
+                    ],
+                    [
+                        {
+                            "value": 0.7628120013117528
+                        },
+                        {
+                            "value": -3.6314277810654962
+                        },
+                        {
+                            "value": -3.7450157039457475
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.22637946903705597
+                    },
+                    {
+                        "value": 0.7736205458641052
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -6.46197940654781
+                        },
+                        {
+                            "value": -2.1453661612812134
+                        },
+                        {
+                            "value": -2.2220048784867172
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999998211860657
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -7.336451647226765
+                        },
+                        {
+                            "value": -1.8972144644344855
+                        },
+                        {
+                            "value": -2.1006187364513504
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999999403953552
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -6.775904758115184
+                        },
+                        {
+                            "value": -2.0365008949739756
+                        },
+                        {
+                            "value": -2.6087786595877436
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999997615814209
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -5.7079203467918465
+                        },
+                        {
+                            "value": -2.3223264393223415
+                        },
+                        {
+                            "value": 3.631989052673431
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999922513961792
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -6.438792163492357
+                        },
+                        {
+                            "value": -2.186505361813034
+                        },
+                        {
+                            "value": 3.104254159657337
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999989867210388
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -6.134756809799034
+                        },
+                        {
+                            "value": -2.2712105690588937
+                        },
+                        {
+                            "value": 2.7967822842152916
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.9999991059303284
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.05705979679801
+                        },
+                        {
+                            "value": 12.884286856104453
+                        },
+                        {
+                            "value": 4.948875984642584
+                        }
+                    ],
+                    [
+                        {
+                            "value": -0.5550264692727147
+                        },
+                        {
+                            "value": -3.3828047442256297
+                        },
+                        {
+                            "value": 4.948877563901087
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.07581973075866699
+                    },
+                    {
+                        "value": 0.924180269241333
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.311054391037837
+                        },
+                        {
+                            "value": 11.955762295950116
+                        },
+                        {
+                            "value": 4.958629335308796
+                        }
+                    ],
+                    [
+                        {
+                            "value": 0.39171197236076694
+                        },
+                        {
+                            "value": -3.557038594642534
+                        },
+                        {
+                            "value": 4.958630976861787
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.1924125850200653
+                    },
+                    {
+                        "value": 0.8075874447822571
+                    }
+                ]
+            },
+            {
+                "size": 2,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    },
+                    {
+                        "value": "LeftToeBase\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -8.19310707590823
+                        },
+                        {
+                            "value": 11.919501199922738
+                        },
+                        {
+                            "value": 5.455687144241658
+                        }
+                    ],
+                    [
+                        {
+                            "value": 0.4178268638612206
+                        },
+                        {
+                            "value": -3.4364382358394994
+                        },
+                        {
+                            "value": 5.455688787937147
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 0.2065758854150772
+                    },
+                    {
+                        "value": 0.793424129486084
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.630418514887317
+                        },
+                        {
+                            "value": 2.472704306356022
+                        },
+                        {
+                            "value": -2.6598768942295097
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.739887813403767
+                        },
+                        {
+                            "value": 2.0024027078299054
+                        },
+                        {
+                            "value": -3.1826400092221014
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.751878573970812
+                        },
+                        {
+                            "value": 1.9091056500257266
+                        },
+                        {
+                            "value": -2.793703230762266
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -10.278177824467784
+                        },
+                        {
+                            "value": -4.951202062355073
+                        },
+                        {
+                            "value": -0.3154013072275852
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -10.247906224034951
+                        },
+                        {
+                            "value": -4.445766774487718
+                        },
+                        {
+                            "value": -0.9910123178709629
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -10.309865689821445
+                        },
+                        {
+                            "value": -4.856998197261219
+                        },
+                        {
+                            "value": -1.075219170067042
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.768508797357565
+                        },
+                        {
+                            "value": 1.6821343587496658
+                        },
+                        {
+                            "value": 3.6048187003920606
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.84284642595935
+                        },
+                        {
+                            "value": 1.1518985401568318
+                        },
+                        {
+                            "value": 3.124577352317946
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            },
+            {
+                "size": 1,
+                "models": [
+                    {
+                        "value": "LeftFoot\u0000\u0001Model"
+                    }
+                ],
+                "bind_pos_list": [
+                    [
+                        {
+                            "value": -9.841986108404834
+                        },
+                        {
+                            "value": 1.1500732240844103
+                        },
+                        {
+                            "value": 3.608147556490847
+                        }
+                    ]
+                ],
+                "weights": [
+                    {
+                        "value": 1.0
+                    }
+                ]
+            }
+        ]
+    }
+}

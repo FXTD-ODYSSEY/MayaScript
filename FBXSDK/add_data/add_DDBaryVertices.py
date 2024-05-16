@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-
+Add BaryVertexModel custom mesh with FBXSDK.
 """
 
 # Import future modules
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
-__author__ = "timmyliang"
-__email__ = "820472580@qq.com"
-__date__ = "2022-10-20 15:53:30"
 
 # Import built-in modules
 from collections import defaultdict
@@ -19,13 +15,11 @@ from functools import partial
 import json
 import os
 import struct
-import math
-import attr
 
 # Import third-party modules
 import FbxCommon
+import attr
 from fbx import FbxActionDT
-from fbx import FbxVector4
 from fbx import FbxBlobDT
 from fbx import FbxBoolDT
 from fbx import FbxCharPtrDT
@@ -34,8 +28,6 @@ from fbx import FbxDouble3DT
 from fbx import FbxDoubleDT
 from fbx import FbxEnumDT
 from fbx import FbxIntDT
-from fbx import FbxMatrix
-from fbx import FbxAMatrix
 from fbx import FbxMesh
 from fbx import FbxNode
 from fbx import FbxProperty
@@ -49,7 +41,7 @@ ZERO_TRI = Triangle(0, 0, 0)
 NUM_BARY_VERTEX = 32
 
 
-@attr.s(hash=True)
+@attr.s
 class BinSerializer(object):
     value = attr.ib()
     c_fmt = ""
@@ -67,14 +59,18 @@ class BinSerializer(object):
         return other + self.to_bytes()
 
 
-@attr.s(hash=True)
+@attr.s
 class Int4(BinSerializer):
     value = attr.ib(type=int, default=0)
     c_fmt = "<i"
 
 
-@attr.s(hash=True)
+@attr.s
 class BinInt(BinSerializer):
+    """FBX Int Type.
+    https://code.blender.org/2013/08/fbx-binary-file-format-specification/#property-record-format
+    """
+
     value = attr.ib(type=int, default=0)
     c_fmt = "<i"
 
@@ -82,16 +78,33 @@ class BinInt(BinSerializer):
         return b"I" + struct.pack(self.c_fmt, self.value)
 
 
-@attr.s(hash=True)
+@attr.s
 class BinDouble(BinSerializer):
-    value = attr.ib(type=float, default=0)
+    """FBX Double Type.
+    https://code.blender.org/2013/08/fbx-binary-file-format-specification/#property-record-format
+    """
+
+    value = attr.ib(type=float, default=0.0)
     c_fmt = "d"
 
     def to_bytes(self):
         return b"D" + struct.pack(self.c_fmt, self.value)
 
 
-@attr.s(hash=True)
+@attr.s
+class BinString(BinSerializer):
+    """FBX String Type.
+    https://code.blender.org/2013/08/fbx-binary-file-format-specification/#property-record-format
+    """
+
+    value = attr.ib(type=str, default="")
+
+    def to_bytes(self):
+        value = self.value if isinstance(self.value, bytes) else self.value.encode()
+        return b"S" + Int4(len(value)) + value
+
+
+@attr.s
 class BinName(BinSerializer):
     value = attr.ib(type=str, default="")
     c_fmt = "b"
@@ -100,42 +113,35 @@ class BinName(BinSerializer):
         return struct.pack(self.c_fmt, len(self.value)) + self.value.encode()
 
 
-@attr.s(hash=True)
-class BinString(BinSerializer):
-    value = attr.ib(type=str, default="")
+@attr.s
+class BinFieldBase(BinSerializer):
+    """FBX Field Node.
+    https://code.blender.org/2013/08/fbx-binary-file-format-specification/#node-record-format
+    Need to provide `end_offset` `num_properties` `len_properties` for serialize.
+    """
 
-    def to_bytes(self):
-        value = self.value if isinstance(self.value, bytes) else self.value.encode()
-        return b"S" + Int4(len(value)) + value
-
-
-@attr.s(hash=True)
-class BinField(BinSerializer):
     end_offset = attr.ib(type=Int4, default=0, converter=Int4)
-    num_properties = attr.ib(type=Int4, default=1, converter=Int4)
-    len_properties = attr.ib(type=Int4, default=5, converter=Int4)
+    num_properties = attr.ib(type=Int4, default=0, converter=Int4)
+    len_properties = attr.ib(type=Int4, default=0, converter=Int4)
     key = attr.ib(type=BinName, factory=BinName, converter=BinName)
-    value = attr.ib(type=BinInt, factory=BinInt, converter=BinInt)
+    value = attr.ib(default=None)
 
     def to_bytes(self):
-        return b"".join(
-            [
-                self.end_offset.to_bytes(),
-                self.num_properties.to_bytes(),
-                self.len_properties.to_bytes(),
-                self.key.to_bytes(),
-                self.value.to_bytes(),
-            ]
-        )
+        bin_data = b""
+        for filed in attr.fields(self.__class__):
+            bin_data += getattr(self, filed.name)
+        return bin_data
 
     def __radd__(self, other):
         self.end_offset.set(len(other + self.to_bytes()))
         return other + self.to_bytes()
 
 
-@attr.s(hash=True)
-class BinFieldInt(BinField):
-    pass
+@attr.s
+class BinFieldInt(BinFieldBase):
+    num_properties = attr.ib(type=Int4, default=1, converter=Int4)
+    len_properties = attr.ib(type=Int4, default=5, converter=Int4)
+    value = attr.ib(type=BinInt, factory=BinInt, converter=BinInt)
 
 
 def build_tri_list(mesh):
@@ -151,21 +157,6 @@ def build_tri_list(mesh):
     return tri_list
 
 
-def build_skin_data(mesh):
-    skin_data = {}
-    skin = mesh.GetDeformer(0)
-    for cluster_index in range(skin.GetClusterCount()):
-        cluster = skin.GetCluster(cluster_index)
-        src_object = cluster.GetSrcObject()
-        skin_data[src_object.GetName()] = {
-            index: weight
-            for index, weight in zip(
-                cluster.GetControlPointIndices(), cluster.GetControlPointWeights()
-            )
-        }
-    return skin_data
-
-
 def create_property(root_prop, name, value_type, value=None):
     prop = FbxProperty.Create(root_prop, value_type, name)
     if value is not None:
@@ -173,274 +164,173 @@ def create_property(root_prop, name, value_type, value=None):
     return prop
 
 
-def det(matrix):
-    return (
-        matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
-        + matrix[0][1] * (matrix[1][2] * matrix[2][0] - matrix[1][0] * matrix[2][2])
-        + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0])
-    )
-
-
-def inverse_matrix(matrix):
-    dt = det(matrix)
-    if math.fabs(dt) < 1e-6:
-        return
-
-    dt1 = 1.0 / dt
-
-    inv_00 = (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * dt1
-    inv_01 = (matrix[0][2] * matrix[2][1] - matrix[0][1] * matrix[2][2]) * dt1
-    inv_02 = (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) * dt1
-
-    inv_10 = (matrix[1][2] * matrix[2][0] - matrix[1][0] * matrix[2][2]) * dt1
-    inv_11 = (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) * dt1
-    inv_12 = (matrix[0][2] * matrix[1][0] - matrix[0][0] * matrix[1][2]) * dt1
-
-    inv_20 = (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * dt1
-    inv_21 = (matrix[0][1] * matrix[2][0] - matrix[0][0] * matrix[2][1]) * dt1
-    inv_22 = (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * dt1
-
-    inv_30 = -(matrix[3][0] * inv_00 + matrix[3][1] * inv_10 + matrix[3][2] * inv_20)
-    inv_31 = -(matrix[3][0] * inv_01 + matrix[3][1] * inv_11 + matrix[3][2] * inv_21)
-    inv_32 = -(matrix[3][0] * inv_02 + matrix[3][1] * inv_12 + matrix[3][2] * inv_22)
-    return (
-        inv_00,
-        inv_01,
-        inv_02,
-        inv_10,
-        inv_11,
-        inv_12,
-        inv_20,
-        inv_21,
-        inv_22,
-        inv_30,
-        inv_31,
-        inv_32,
-    )
-
-
 def transform(vector, matrix):
-    if isinstance(matrix, FbxAMatrix):
-        x = (
-            vector[0] * matrix[0][0]
-            + vector[1] * matrix[1][0]
-            + vector[2] * matrix[2][0]
-            + matrix[3][0]
-        )
-        y = (
-            vector[0] * matrix[0][1]
-            + vector[1] * matrix[1][1]
-            + vector[2] * matrix[2][1]
-            + matrix[3][1]
-        )
-        z = (
-            vector[0] * matrix[0][2]
-            + vector[1] * matrix[1][2]
-            + vector[2] * matrix[2][2]
-            + matrix[3][2]
-        )
-    else:
-        x = (
-            vector[0] * matrix[0 * 3 + 0]
-            + vector[1] * matrix[1 * 3 + 0]
-            + vector[2] * matrix[2 * 3 + 0]
-            + matrix[3 * 3 + 0]
-        )
-        y = (
-            vector[0] * matrix[0 * 3 + 1]
-            + vector[1] * matrix[1 * 3 + 1]
-            + vector[2] * matrix[2 * 3 + 1]
-            + matrix[3 * 3 + 1]
-        )
-        z = (
-            vector[0] * matrix[0 * 3 + 2]
-            + vector[1] * matrix[1 * 3 + 2]
-            + vector[2] * matrix[2 * 3 + 2]
-            + matrix[3 * 3 + 2]
-        )
-    return (x, y, z)
+    return [
+        sum([vector[i] * matrix[i][index] for i in range(3)]) + matrix[3][index]
+        for index in range(3)
+    ]
 
 
-def main(fbx_path, json_path):
+def add_bary_vertex_model(fbx_path, json_path, output_path, node_name="M_shoes_geo"):
+    """Add MotionBuilder BaryVertex Model to mesh.
+
+    Args:
+        fbx_path (_type_): _description_
+        json_path (_type_): _description_
+        output_path (_type_): _description_
+        node_name (str, optional): _description_. Defaults to "M_shoes_geo".
+    """
     # NOTES(timmyliang): validate path
     assert os.path.exists(fbx_path)
     assert os.path.exists(json_path)
-
-    # NOTES(timmyliang): load json
-    with open(json_path, "r") as rf:
-        marker_data = json.load(rf)
 
     # NOTES(timmyliang): load fbx
     manager, scene = FbxCommon.InitializeSdkObjects()
     assert FbxCommon.LoadScene(manager, scene, fbx_path)
 
-    for i in range(scene.GetNodeCount()):
-        node = scene.GetNode(i)
-        if node.GetName() != "M_shoes_geo":
-            continue
+    # NOTES(timmyliang): load json
+    with open(json_path, "r") as rf:
+        marker_data = json.load(rf)
 
-        mesh = node.GetMesh()
-        tri_list = build_tri_list(mesh)
-        skin_data = build_skin_data(mesh)
+    node = scene.FindNodeByName(node_name)
+    assert node, "{0} not found".format(node_name)
 
-        # NOTES(timmyliang): add mesh
-        bary_node = FbxNode.Create(manager, "DDBaryVertices")
-        bary_mesh = FbxMesh.Create(manager, "DDBaryVertices_mesh")
-        bary_node.SetNodeAttribute(bary_mesh)
-        node.AddChild(bary_node)
+    mesh = node.GetMesh()
+    tri_list = build_tri_list(mesh)
 
-        add_property = partial(create_property, bary_node.RootProperty)
+    # NOTES(timmyliang): add mesh
+    bary_node = FbxNode.Create(manager, "DDBaryVertices")
+    bary_mesh = FbxMesh.Create(manager, "DDBaryVertices_mesh")
+    bary_node.SetNodeAttribute(bary_mesh)
+    node.AddChild(bary_node)
 
-        # NOTES(timmyliang): add property
-        # prop = bary_node.RootProperty.Find("ScalingMax")
-        # prop.IsValid() and prop.Destroy()
-        # TODO(timmyliang): ScalingMin not work
-        # bary_node.ScalingMaxX.Set(False)
-        # bary_node.ScalingMaxY.Set(False)
-        # bary_node.ScalingMaxZ.Set(False)
-        bary_node.ScalingMinX.Set(True)
-        bary_node.ScalingMinY.Set(True)
-        bary_node.ScalingMinZ.Set(True)
-        bary_node.ScalingMin.Set(FbxDouble3(1.0, 1.0, 1.0))
-        add_property("DefaultAttributeIndex", FbxIntDT)
-        add_property("MoBuSubTypeName", FbxCharPtrDT, FbxString("BaryVertexModel"))
-        add_property(
-            "MoBuObjectFullName", FbxCharPtrDT, FbxString("Model::DDBaryVertices")
-        )
-        add_property("MultiTake", FbxIntDT, 1)
-        add_property("DefaultKeyingGroup", FbxIntDT)
-        add_property("DefaultKeyingGroupEnum", FbxEnumDT)
-        add_property("ManipulationMode", FbxEnumDT)
-        add_property("ScalingPivotUpdateOffset", FbxDouble3DT)
-        add_property("SetPreferedAngle", FbxActionDT)
-        add_property("PivotsVisibility", FbxEnumDT, 1)
-        add_property("RotationLimitsVisibility", FbxBoolDT)
-        add_property("LocalTranslationRefVisibility", FbxBoolDT)
-        add_property("RotationRefVisibility", FbxBoolDT)
-        add_property("RotationAxisVisibility", FbxBoolDT)
-        add_property("ScalingRefVisibility", FbxBoolDT)
-        add_property("HierarchicalCenterVisibility", FbxBoolDT)
-        add_property("GeometricCenterVisibility", FbxBoolDT)
-        add_property("ReferentialSize", FbxDoubleDT, 12)
-        add_property("Pickable", FbxBoolDT, True)
-        add_property("Transformable", FbxBoolDT, True)
-        add_property("CullingMode", FbxEnumDT)
-        add_property("ShowTrajectories", FbxBoolDT)
-        add_property("MoBuRelationBlindData", FbxStringDT)
+    add_property = partial(create_property, bary_node.RootProperty)
 
+    # NOTES(timmyliang): add property
+    # TODO(timmyliang): ScalingMin not work
+    prop = bary_node.RootProperty.Find("ScalingMax")
+    prop.IsValid() and prop.Destroy()
+    add_property("ScalingMin", FbxDouble3DT, FbxDouble3(1.0, 1.0, 1.0))
+    add_property("DefaultAttributeIndex", FbxIntDT)
+    add_property("MoBuSubTypeName", FbxCharPtrDT, FbxString("BaryVertexModel"))
+    add_property("MoBuObjectFullName", FbxCharPtrDT, FbxString("Model::DDBaryVertices"))
+    add_property("MultiTake", FbxIntDT, 1)
+    add_property("DefaultKeyingGroup", FbxIntDT)
+    add_property("DefaultKeyingGroupEnum", FbxEnumDT)
+    add_property("ManipulationMode", FbxEnumDT)
+    add_property("ScalingPivotUpdateOffset", FbxDouble3DT)
+    add_property("SetPreferedAngle", FbxActionDT)
+    add_property("PivotsVisibility", FbxEnumDT, 1)
+    add_property("RotationLimitsVisibility", FbxBoolDT)
+    add_property("LocalTranslationRefVisibility", FbxBoolDT)
+    add_property("RotationRefVisibility", FbxBoolDT)
+    add_property("RotationAxisVisibility", FbxBoolDT)
+    add_property("ScalingRefVisibility", FbxBoolDT)
+    add_property("HierarchicalCenterVisibility", FbxBoolDT)
+    add_property("GeometricCenterVisibility", FbxBoolDT)
+    add_property("ReferentialSize", FbxDoubleDT, 12)
+    add_property("Pickable", FbxBoolDT, True)
+    add_property("Transformable", FbxBoolDT, True)
+    add_property("CullingMode", FbxEnumDT)
+    add_property("ShowTrajectories", FbxBoolDT)
+    add_property("MoBuRelationBlindData", FbxStringDT)
+
+    marker_itr = iter(marker_data)
+    influence_data = defaultdict(lambda: defaultdict(list))
+    skin = mesh.GetDeformer(0)
+    for index in range(NUM_BARY_VERTEX):
+        itr = iter(next(marker_itr, []))
+        tri_index = next(itr, None)
+        u_value = next(itr, 0)
+        v_value = next(itr, 0)
+        is_enable = bool(tri_index)
+
+        tri = tri_list[tri_index] if is_enable else ZERO_TRI
         # NOTES(timmyliang): add marker property
-        # vertics = mesh.GetControlPoints()
-        # count = mesh.GetControlPointsCount()
-        # print(count)
-        # print("vertics")
-        # print(vertics[5830])
-        add_property("Is Live", FbxBoolDT, True)
-        add_property("Is Source", FbxBoolDT, True)
-        marker_itr = iter(marker_data)
-        influence_data = defaultdict(lambda: defaultdict(list))
-        points = mesh.GetControlPoints()
-        for index in range(NUM_BARY_VERTEX):
-            itr = iter(next(marker_itr, []))
-            tri_index = next(itr, None)
-            u_value = next(itr, 0)
-            v_value = next(itr, 0)
-            is_enable = bool(tri_index)
+        add_property("MarkerA {0}".format(index), FbxIntDT, tri.A)
+        add_property("MarkerB {0}".format(index), FbxIntDT, tri.B)
+        add_property("MarkerC {0}".format(index), FbxIntDT, tri.C)
+        add_property("U {0}".format(index), FbxDoubleDT, u_value)
+        add_property("V {0}".format(index), FbxDoubleDT, v_value)
+        add_property("Enabled {0}".format(index), FbxBoolDT, is_enable)
+        if is_enable:
+            # NOTES(timmyliang): collect influence_data for bin data
+            for cluster_index in range(skin.GetClusterCount()):
+                cluster = skin.GetCluster(cluster_index)
+                verts = cluster.GetControlPointIndices()
+                for pt_index, vert_index in enumerate(verts):
+                    pos = mesh.GetControlPointAt(vert_index)
+                    for tri_index, tri_vert in enumerate([tri.A, tri.B, tri.C]):
+                        if tri_vert == vert_index:
+                            idx = index * 3 + tri_index
+                            joint = cluster.GetSrcObject()
+                            influence_data[idx]["joints"].append(joint.GetName())
 
-            tri = tri_list[tri_index] if is_enable else ZERO_TRI
-            add_property("MarkerA {0}".format(index), FbxIntDT, tri.A)
-            add_property("MarkerB {0}".format(index), FbxIntDT, tri.B)
-            add_property("MarkerC {0}".format(index), FbxIntDT, tri.C)
-            add_property("U {0}".format(index), FbxDoubleDT, u_value)
-            add_property("V {0}".format(index), FbxDoubleDT, v_value)
-            add_property("Enabled {0}".format(index), FbxBoolDT, is_enable)
-            if is_enable:
-                skin = mesh.GetDeformer(0)
-                print(index, "================================================")
-                for cluster_index in range(skin.GetClusterCount()):
-                    cluster = skin.GetCluster(cluster_index)
-                    verts = cluster.GetControlPointIndices()
-                    for pt_index, vert_index in enumerate(verts):
-                        pos = points[vert_index]
-                        for tri_index, tri_vert in enumerate([tri.A, tri.B, tri.C]):
-                            if tri_vert == vert_index:
-                                idx = index * 3 + tri_index
-                                print(idx)
-                                joint = cluster.GetSrcObject()
-                                influence_data[idx]["joints"].append(joint.GetName())
+                            matrix = joint.EvaluateGlobalTransform()
+                            bind_pos = transform(pos, matrix.Inverse())
+                            influence_data[idx]["bind_pos_list"].append(bind_pos)
 
-                                # TODO(timmyliang): bind_pos wrong
-                                matrix = joint.EvaluateGlobalTransform()
-                                # bind_pos = transform(pos, inverse_matrix(matrix))
-                                bind_pos = transform(pos, matrix.Inverse())
-                                bind_pos = list(bind_pos)[:3]
-                                influence_data[idx]["bind_pos_list"].append(bind_pos)
+                            weight = cluster.GetControlPointWeights()[pt_index]
+                            influence_data[idx]["weights"].append(weight)
 
-                                weight = cluster.GetControlPointWeights()[pt_index]
-                                influence_data[idx]["weights"].append(weight)
+    add_property("Is Live", FbxBoolDT, True)
+    add_property("Is Source", FbxBoolDT, True)
 
-                # for joint, vert_weight in skin_data.items():
-                #     for tri_index, vert_index in enumerate([tri.A, tri.B, tri.C]):
-                #         if vert_index not in vert_weight:
-                #             continue
-                #         idx = index * 3 + tri_index
-                #         influence_data[idx]["joints"].append(joint)
+    bin_data = b"\x70"
+    bin_data += BinFieldInt(key="BaryVertexVersion", value=1)
+    bin_data += BinFieldInt(key="BaryVertexMarkerCount", value=len(marker_data))
 
-                #         print(idx)
-                #         pos = points[vert_index]
-                #         matrix = node.EvaluateGlobalTransform()
-                #         bind_pos = transform(pos, matrix.Inverse())
-                #         influence_data[idx]["bind_pos_list"].append(bind_pos)
+    bin_influence_field = b""
+    bin_influence_field += BinName("BaryVertexInfluenceData")
+    property_offset = len(bin_influence_field)
 
-                #         weight = vert_weight[vert_index]
-                #         influence_data[idx]["weights"].append(weight)
-        influence_data = dict(sorted(influence_data.items()))
-        # NOTES(timmyliang): convert dump_data to fbx binary format
-        bin_data = b"\x70"
-        bin_data += BinFieldInt(key="BaryVertexVersion", value=1)
-        bin_data += BinFieldInt(key="BaryVertexMarkerCount", value=len(marker_data))
-        # NOTES(timmyliang): write BaryVertexInfluenceData end_offset ...
-        bin_data += b"\x74\x0D\x00\x00\x38\x01\x00\x00\x05\x0D\x00\x00"
-        bin_data += BinName("BaryVertexInfluenceData")
+    # NOTES(timmyliang): convert influence_data to fbx binary format
+    num_properties = 0
+    for vert_index, data in sorted(influence_data.items()):
+        joints = data["joints"]
+        num_properties += 1
+        bin_influence_field += BinInt(len(joints))
+        for joint in joints:
+            num_properties += 1
+            joint_name = joint.encode() + struct.pack(">h", 1) + b"Model"
+            bin_influence_field += BinString(joint_name)
 
-        for vert_index, data in influence_data.items():
-            joints = data["joints"]
-            bin_data += BinInt(len(joints))
-            for joint in joints:
-                bin_data += BinString(joint.encode() + struct.pack(">h", 1) + b"Model")
+        for bind_pos in data["bind_pos_list"]:
+            for axis_value in bind_pos:
+                num_properties += 1
+                bin_influence_field += BinDouble(axis_value)
 
-            for bind_pos in data["bind_pos_list"]:
-                for axis_value in bind_pos:
-                    bin_data += BinDouble(axis_value)
+        for weight in data["weights"]:
+            num_properties += 1
+            bin_influence_field += BinDouble(weight)
 
-            for weight in data["weights"]:
-                bin_data += BinDouble(weight)
+    # NOTES(timmyliang): 12 is Int4 * 3
+    end_offset = len(bin_data) + 12 + len(bin_influence_field)
+    len_properties = len(bin_influence_field) - property_offset
+    
+    # NOTES(timmyliang): https://code.blender.org/2013/08/fbx-binary-file-format-specification/#node-record-format
+    bin_data += Int4(end_offset)
+    bin_data += Int4(num_properties)
+    bin_data += Int4(len_properties)
+    bin_data += bin_influence_field
+    bin_data += b"\x00" * 13
 
-        bin_data += b"\x00" * 13
-        BLOB_STUB = b"*" * len(bin_data)
-        add_property("MoBuAttrBlindData", FbxBlobDT, FbxString(BLOB_STUB))
+    BLOB_STUB = b"*" * len(bin_data)
+    # NOTES(timmyliang): FBXSDK not support write blob data so I add a stub data for replacement
+    add_property("MoBuAttrBlindData", FbxBlobDT, FbxString(BLOB_STUB))
 
-    with open(os.path.join(DIR, "fbx2json.json"), "w") as wf:
-        json.dump(influence_data, wf, indent=4)
-
-    with open(os.path.join(DIR, "raw_py"), "wb") as wf:
-        wf.write(bin_data)
-
-    output_path = os.path.join(DIR, "test.fbx")
     FbxCommon.SaveScene(manager, scene, output_path, 0)
 
     # NOTES(timmyliang): write blob data
-    with open(output_path, "rb") as rf:
+    with open(output_path, "rb+") as rf:
         content = rf.read()
-
-    with open(output_path, "wb") as wf:
-        wf.write(content.replace(BLOB_STUB, bin_data))
-
-    # manager, scene = FbxCommon.InitializeSdkObjects()
-    # assert FbxCommon.LoadScene(manager, scene, output_path)
-    # FbxCommon.SaveScene(manager, scene, os.path.join(DIR, "test2.fbx"))
+        rf.seek(0)
+        rf.write(content.replace(BLOB_STUB, bin_data))
 
 
 if __name__ == "__main__":
-    fbx_path = r"D:\lumi\lumi_project\lumi_project_develop\Art\Assets\Actor\Daodao02\DaodaoFlat\Rigging\Live_Rig\Rig\Actor_Daodao02_DaodaoFlat_Mocap_Rig_ascii_fix.fbx"
+    fbx_path = r"D:\lumi\lumi_project\lumi_project_develop\Art\Assets\Actor\Daodao02\DaodaoFlat\Rigging\Live_Rig\Rig\Actor_Daodao02_DaodaoFlat_Mocap_Rig.fbx"
     json_path = r"D:\lumi\lumi_project\lumi_project_develop\Art\Live\Config\Templates\ShoesContact\Shoes_XueyiFlat.txt"
-    main(fbx_path, json_path)
+    output_path = os.path.join(DIR, "test.fbx")
+    add_bary_vertex_model(fbx_path, json_path, output_path)
+
